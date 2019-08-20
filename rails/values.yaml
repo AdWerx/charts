@@ -1,0 +1,86 @@
+nameOverride: ""
+fullnameOverride: ""
+
+environment: staging
+namespace: default
+
+image:
+  repository: jbielick/rails-demo
+  tag: 0.1.0
+  pullPolicy: IfNotPresent
+
+labels: # {}
+  # add to all templates?
+  app.kubernetes.io/part-of: rails
+
+# annotations:
+#   checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+
+ingress:
+  enabled: true
+  annotations:
+    ingress.gcp.kubernetes.io/pre-shared-cert: adwerx-wildcard5
+    kubernetes.io/ingress.global-static-ip-name: marketing-automation-production-ingress2
+
+web:
+  enabled: true
+  minReplicaCount: 2
+  maxReplicaCount: 3
+  service:
+    type: NodePort
+    port: 80
+  resources:
+    limits:
+      cpu: "1"
+      memory: 1.2Gi
+    requests:
+      cpu: "200m"
+      memory: 400Mi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+sidekiq:
+  enabled: true
+  minReplicaCount: 2
+  maxReplicaCount: 10
+  resources:
+    limits:
+      cpu: "1"
+      memory: 2Gi
+    requests:
+      cpu: "1"
+      memory: 1.5Gi
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+sneakers:
+  enabled: true
+  minReplicaCount: 2
+  maxReplicaCount: 5
+  resources:
+    limits:
+      cpu: "0.6"
+      memory: "756Mi"
+    requests:
+      cpu: "0.3"
+      memory: "512Mi"
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+
+sneakers:
+  enabled: true
+  minReplicaCount: 2
+  maxReplicaCount: 5
+  resources:
+    limits:
+      cpu: "0.6"
+      memory: "756Mi"
+    requests:
+      cpu: "0.3"
+      memory: "512Mi"
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
