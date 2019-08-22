@@ -1,0 +1,117 @@
+{{- range $procName, $spec := .Values.processes }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "rails.fullname" $ }}-{{ $procName }}
+  namespace: {{ $.Values.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "rails.fullname" $ }}-{{ $procName }}
+    helm.sh/chart: {{ include "rails.chart" $ }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/component: {{ $procName }}
+    app.kubernetes.io/part-of: {{ include "rails.fullname" $ }}
+    {{- with $.Values.labels }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  replicas: {{ default 1 $spec.replicas }}
+  strategy:
+    type: RollingUpdate
+    {{- with $spec.rollingUpdate }}
+    rollingUpdate:
+      {{- toYaml . | nindent 6 }}
+    {{- end }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "rails.name" $ }}-{{ $procName }}
+      app.kubernetes.io/instance: {{ $.Release.Name }}
+      app.kubernetes.io/component: {{ $procName }}
+  template:
+    metadata:
+      namespace: {{ $.Values.namespace }}
+      labels:
+        app.kubernetes.io/name: {{ include "rails.name" $ }}-{{ $procName }}
+        app.kubernetes.io/instance: {{ $.Release.Name }}
+        app.kubernetes.io/component: {{ $procName }}
+        app.kubernetes.io/part-of: {{ include "rails.fullname" $ }}
+        {{- with $.Values.labels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      containers:
+        - name: {{ $.Chart.Name }}
+          image: "{{ $.Values.image.repository }}:{{ $.Values.image.tag }}"
+          imagePullPolicy: {{ $.Values.image.pullPolicy }}
+          {{- with $spec.command }}
+          command:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $spec.ports }}
+          ports:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $spec.readinessProbe }}
+          readinessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $spec.livenessProbe }}
+          livenessProbe:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with $spec.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "rails.fullname" $ }}
+            - secretRef:
+                name: {{ include "rails.fullname" $ }}
+          env:
+          {{- if $.Values.postgresql.enabled }}
+            - name: RAILS_DB_USERNAME
+              value: {{ $.Values.postgresql.postgresqlUsername }}
+            - name: RAILS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Release.Name }}-postgresql
+                  key: postgresql-password
+          {{- end }}
+          {{- if $.Values.mysql.enabled }}
+            - name: RAILS_DB_USERNAME
+              value: {{ $.Values.mysql.mysqlUsername }}
+            - name: RAILS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Release.Name }}-mysql
+                  key: mysql-password
+          {{- end }}
+          {{- if $.Values.redis.enabled }}
+            - name: REDIS_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $.Release.Name }}-redis
+                  key: redis-password
+          {{- end }}
+          {{- with $spec.env }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+      {{- with $spec.volumes }}
+      volumes:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $spec.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $spec.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with $spec.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+---
+{{- end }}

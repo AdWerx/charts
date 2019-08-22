@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-setup
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  activeDeadlineSeconds: 60
+  template:
+    name: db-setup
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: db-setup
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          command:
+            - bundle
+            - exec
+            - rails
+            - db:setup

@@ -1,48 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "rails.fullname" . }}
+  name: {{ include "sidekiq.fullname" . }}
   namespace: {{ .Values.namespace }}
   labels:
-    app.kubernetes.io/name: {{ include "rails.name" . }}
-    helm.sh/chart: {{ include "rails.chart" . }}
+    app.kubernetes.io/name: {{ include "sidekiq.name" . }}
+    helm.sh/chart: {{ include "sidekiq.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- with .Values.labels }}
     {{- toYaml .Values.labels | nindent 4 }}
+    {{- end }}
 spec:
   replicas: {{ .Values.minReplicaCount }}
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "rails.name" . }}
+      app.kubernetes.io/name: {{ include "sidekiq.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       namespace: {{ .Values.namespace }}
       labels:
-        app.kubernetes.io/name: {{ include "rails.name" . }}
+        app.kubernetes.io/name: {{ include "sidekiq.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+        {{- with .Values.labels }}
         {{- toYaml .Values.labels | nindent 8 }}
+        {{- end }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http-rails
-              containerPort: 3000
-          readinessProbe:
-            httpGet:
-              path: /health_check
-              port: http-rails
-          livenessProbe:
-            exec:
-              command:
-                - bin/rails
+          command: ["bundle", "exec", "sidekiq"]
+          # livenessProbe:
           env:
             - name: DOGSTATSD_HOST_IP
               valueFrom:
@@ -57,29 +47,14 @@ spec:
                 name: env
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-        - name: nginx
-          image: us.gcr.io/adwerx-1175/marketing-automation/nginx:latest
-          ports:
-            - name: http
-              containerPort: 80
-          livenessProbe:
-            exec:
-              command:
-                - service
-                - nginx
-                - status
-          readinessProbe:
-            httpGet:
-              path: /health_check
-              port: http
-          resources:
-            requests:
-              cpu: 300m
-              memory: 100Mi
-      {{- with .Values.nodeSelector }}
+          lifecycle:
+            preStop:
+              exec:
+                command: ["bundle", "exec", "sidekiqctl", "stop", "tmp/sidekiq.pid"]
+    {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+    {{- end }}
     {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}

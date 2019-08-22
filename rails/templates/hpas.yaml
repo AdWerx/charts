@@ -1,0 +1,35 @@
+{{- range $procName, $spec := .Values.processes }}
+  {{- if $spec.autoscaling.enabled }}
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ include "rails.fullname" $ }}-{{ $procName }}
+  namespace: {{ $.Values.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ include "rails.name" $ }}
+    helm.sh/chart: {{ include "rails.chart" $ }}
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    app.kubernetes.io/managed-by: {{ $.Release.Service }}
+    app.kubernetes.io/component: {{ $procName }}
+    {{- with $.Values.labels }}
+      {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "rails.fullname" $ }}
+  minReplicas: {{ $spec.autoscaling.minReplicas }}
+  maxReplicas: {{ $spec.autoscaling.maxReplicas }}
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        targetAverageUtilization: {{ $spec.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        targetAverageUtilization: {{ $spec.autoscaling.targetMemoryUtilizationPercentage }}
+---
+  {{- end }}
+{{- end }}

@@ -1,7 +1,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: env
+  name: {{ include "rails.fullname" . }}
   namespace: {{ .Values.namespace }}
 data:
-  RAILS_ENV: {{ .Values.rails_env }}
+  {{- toYaml .Values.environment | nindent 2 }}
+  {{- if .Values.postgresql.enabled }}
+  RAILS_DB_HOST: {{ .Release.Name }}-postgresql
+  {{- end }}

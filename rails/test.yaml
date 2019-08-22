@@ -1,0 +1,128 @@
+nameOverride: ""
+fullnameOverride: ""
+
+namespace: default
+
+image:
+  repository: myapp
+  tag: 1.2.3
+  pullPolicy: IfNotPresent
+
+labels: {}
+
+# annotations:
+#   checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  path: /
+  hosts:
+    - chart-example.test
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.test
+
+processes:
+  web:
+    enabled: true
+    replicas: 1
+    command:
+      - bin/rails
+      - server
+      - -b 0.0.0.0
+    service:
+      type: ClusterIP
+      port: 80
+      targetPort: http
+    ports:
+      - name: http
+        containerPort: 3000
+    readinessProbe:
+      httpGet:
+        path: /
+        port: http
+    livenessProbe:
+      httpGet:
+        path: /
+        port: http
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 5
+      targetCPUUtilizationPercentage: 50
+      targetMemoryUtilizationPercentage: 50
+    resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    #   limits:
+    #     cpu: "1"
+    #     memory: 1.2Gi
+    #   requests:
+    #     cpu: "200m"
+    #     memory: 400Mi
+    nodeSelector: {}
+    tolerations: []
+    affinity: {}
+
+
+  web:
+
+    resources:
+      limits:
+        cpu: '1'
+        memory: '1.2Gi'
+      requests:
+        cpu: '200m'
+        memory: '400Mi'
+
+  sidekiq:
+    autoscaling:
+      enabled: true
+      minReplicaCount: 2
+      maxReplicaCount: 10
+      targetCPUUtilizationPercentage: 50
+      targetMemoryUtilizationPercentage: 50
+    resources:
+      limits:
+        cpu: "1"
+        memory: 2Gi
+      requests:
+        cpu: "1"
+        memory: 1.5Gi
+
+  sneakers:
+    command: ["bundle", "exec", "rake", "sneakers:work"]
+    autoscaling:
+      enabled: true
+      minReplicaCount: 2
+      maxReplicaCount: 5
+      targetCPUUtilizationPercentage: 50
+      targetMemoryUtilizationPercentage: 50
+    resources:
+      limits:
+        cpu: "0.6"
+        memory: "756Mi"
+      requests:
+        cpu: "0.3"
+        memory: "512Mi"
+
+  resque:
+    autoscaling:
+      enabled: true
+      minReplicaCount: 2
+      maxReplicaCount: 5
+      targetCPUUtilizationPercentage: 50
+      targetMemoryUtilizationPercentage: 50
+    resources:
+      limits:
+        cpu: "0.6"
+        memory: "756Mi"
+      requests:
+        cpu: "0.3"
+        memory: "512Mi"
