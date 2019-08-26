@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "awx.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "awx.name" . }}
+    helm.sh/chart: {{ include "awx.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "awx.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "awx.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: web
+          image: "{{ .Values.awx_web.image.repository }}:{{ .Values.awx_web.image.tag }}"
+          imagePullPolicy: {{ .Values.awx_web.image.pullPolicy }}
+          ports:
+            - containerPort: 8052
+              name: http
+          livenessProbe:
+            initialDelaySeconds: 5
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: /
+              port: http
+          volumeMounts:
+            - mountPath: /etc/tower
+              name: {{ include "awx.fullname" . }}
+          env:
+            - name: DATABASE_USER
+              value: {{ .Values.postgresql.postgresqlUsername }}
+            - name: DATABASE_NAME
+              value: {{ .Values.postgresql.postgresqlDatabase }}
+            - name: DATABASE_HOST
+              value: {{ .Release.Name }}-postgresql
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_PASSWORD
+              value: {{ .Values.postgresql.postgresqlPassword }}
+            - name: MEMCACHED_HOST
+              value: {{ .Release.Name }}-memcached
+            - name: RABBITMQ_HOST
+              value: {{ .Release.Name }}-rabbitmq
+
+        - name: task
+          image: "{{ .Values.awx_task.image.repository }}:{{ .Values.awx_task.image.tag }}"
+          imagePullPolicy: {{ .Values.awx_task.image.pullPolicy }}
+          command:
+            - /usr/bin/launch_awx_task.sh
+          volumeMounts:
+            - mountPath: /etc/tower
+              name: {{ include "awx.fullname" . }}
+          env:
+            - name: DATABASE_USER
+              value: {{ .Values.postgresql.postgresqlUsername }}
+            - name: DATABASE_NAME
+              value: {{ .Values.postgresql.postgresqlDatabase }}
+            - name: DATABASE_HOST
+              value: {{ .Release.Name }}-postgresql
+            - name: DATABASE_PORT
+              value: "5432"
+            - name: DATABASE_PASSWORD
+              value: {{ .Values.postgresql.postgresqlPassword }}
+            - name: MEMCACHED_HOST
+              value: {{ .Release.Name }}-memcached
+            - name: RABBITMQ_HOST
+              value: {{ .Release.Name }}-rabbitmq
+            - name: AWX_ADMIN_USER
+              value: {{ .Values.default_admin_user }}
+            - name: AWX_ADMIN_PASSWORD
+              value: {{ .Values.default_admin_password }}
+
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- if .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.nodeSelector | indent 8 }}
+    {{- end }}
+      volumes:
+        - name: {{ include "awx.fullname" . }}
+          configMap:
+            name: {{ include "awx.fullname" . }}
+            items:
+              - key: settings.py
+                path: settings.py
+              - key: secret_key
+                path: SECRET_KEY
