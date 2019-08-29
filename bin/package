@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -e
+
+chart=$1
+version=$(grep version "$chart/Chart.yaml" | awk '{ print $2 }')
+
+echo "packaging $chart:$version"
+
+helm package -d docs/ $chart
+
+helm repo index docs
+
+git add "docs/$chart-$version.tgz"
+git add docs/index.yaml
+
+git tag "$chart-v$version"
+
