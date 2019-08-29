@@ -30,6 +30,8 @@ service:
 
 ingress:
   enabled: false
+  # whether the default backend for this ingress should route to the awx service
+  defaultBackend: false
   # Used to create an Ingress record.
   hosts:
     - chart-example.local

@@ -24,9 +24,11 @@ spec:
       secretName: {{ .secretName }}
   {{- end }}
 {{- end }}
+{{- if .Values.ingress.defaultBackend }}
   backend:
     serviceName: {{ $fullName }}
     servicePort: http
+{{- end }}
   rules:
   {{- range .Values.ingress.hosts }}
     - host: {{ .host | quote }}
