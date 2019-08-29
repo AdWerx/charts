@@ -3,7 +3,7 @@ entries:
   awx:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-29T17:40:28.296884-04:00
+    created: 2019-08-29T17:44:06.028293-04:00
     description: Add chart for deploying distributed Ansible AWX application.
     digest: dcd98e5d6b7c276a416f38394afffa7ec315e784540d4ef489e9348565e22865
     maintainers:
@@ -15,11 +15,11 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-08-29T17:40:28.294125-04:00
+    created: 2019-08-29T17:44:06.025804-04:00
     description: Add chart for deploying distributed Ansible AWX application.
     digest: 684dcd6a6e30a4e827ce879be1cca19251bff2d97467c702f645b2727581196d
     name: awx
     urls:
     - awx-0.1.0.tgz
     version: 0.1.0
-generated: 2019-08-29T17:40:28.289765-04:00
+generated: 2019-08-29T17:44:06.021405-04:00
