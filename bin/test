@@ -6,5 +6,6 @@ chart="$1"
 
 cd "$chart"
 
+helm lint .
 [ -d test/unit ] && bats test/unit
-[ -d test/acceptance ] && bats test/acceptance
+# [ -d test/acceptance ] && bats test/acceptance
