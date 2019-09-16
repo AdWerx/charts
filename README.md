@@ -4,15 +4,25 @@ Helm charts created by [Adwerx Engineering](https://engineering.adwerx.com)
 
 ## Installing charts from this repo
 
-In order to install charts from this repository, you'll first need to add this repository.
+You can find our public charts in [Helm Hub](https://hub.helm.sh/charts/adwerx)
 
-Add the repo named `adwerx` with the command below:
+_Or_
+
+You'll first need to add the `adwerx` repository with the command below:
 
 ```bash
-helm repo add adwerx https://adwerx.github.io/charts
+helm repo add adwerx https://adwerx.github.io/charts/
+```
+
+You can now install charts like so:
+
+```bash
+helm install adwerx/awx --version 1.0.0
 ```
 
 ## Contributing
+
+Please review the CODE_OF_CONDUCT and REVIEW_GUIDELINES before contributing.
 
 ### Code of Conduct
 
