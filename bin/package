@@ -3,7 +3,20 @@
 set -e
 
 chart=$1
+
+if [ -z "$1" ]; then
+  echo 'please provide a chart to package'
+  exit 1
+fi
+
 version=$(grep version "$chart/Chart.yaml" | awk '{ print $2 }')
+
+echo "testing $chart:$version"
+
+cd "$chart"
+[ -d test/unit ] && bats test/unit
+[ -d test/acceptance ] && bats test/acceptance
+cd ..
 
 echo "packaging $chart:$version"
 
@@ -14,5 +27,10 @@ helm repo index docs
 git add "docs/$chart-$version.tgz"
 git add docs/index.yaml
 
-git tag "$chart-v$version"
+git commit -m "$chart $version package"
 
+git tag --force "$chart-v$version"
+
+echo ''
+echo 'you can now git push origin --tags'
+echo 'remember to add and commit the files in docs/ to publish to our helm repo'
