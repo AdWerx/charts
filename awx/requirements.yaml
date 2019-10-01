@@ -1,13 +1,15 @@
-dependencies:
-  - name: rabbitmq
-    version: 6.4.2
-    repository: https://kubernetes-charts.storage.googleapis.com/
-    condition: rabbitmq.enabled
-  - name: postgresql
-    version: 6.3.2
-    repository: https://kubernetes-charts.storage.googleapis.com/
-    condition: postgresql.enabled
-  - name: memcached
-    version: 2.9.0
-    repository: https://kubernetes-charts.storage.googleapis.com/
-    condition: memcached.enabled
+dependencies: []
+  # # unable to require these as they do not specify apps/v1 for statefulsets
+  # # see #2
+  # - name: rabbitmq
+  #   version: 6.4.2
+  #   repository: https://kubernetes-charts.storage.googleapis.com/
+  #   condition: rabbitmq.enabled
+  # - name: postgresql
+  #   version: 6.3.2
+  #   repository: https://kubernetes-charts.storage.googleapis.com/
+  #   condition: postgresql.enabled
+  # - name: memcached
+  #   version: 2.9.0
+  #   repository: https://kubernetes-charts.storage.googleapis.com/
+  #   condition: memcached.enabled
