@@ -3,7 +3,7 @@ entries:
   awx:
   - apiVersion: v1
     appVersion: 7.0.0
-    created: 2019-11-24T14:30:02.875479-05:00
+    created: 2019-11-24T15:00:32.746278-05:00
     description: Helm chart for deploying Ansible AWX
     digest: 2e3a5c35aad64d9906867d92da5f773e101063043df7089c3fa6b44f7c9944b1
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -25,7 +25,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: 7.0.0
-    created: 2019-11-24T14:30:02.871925-05:00
+    created: 2019-11-24T15:00:32.742637-05:00
     description: Helm chart for deploying Ansible AWX
     digest: c890978b3e4a349c71b9a3036e751cf2eca8e9f6394aa14bd810a6007e034afc
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -47,7 +47,7 @@ entries:
     version: 1.0.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-11-24T14:30:02.868632-05:00
+    created: 2019-11-24T15:00:32.739572-05:00
     description: Add chart for deploying distributed Ansible AWX application.
     digest: ab4bbb109d6edf55ace5121f6a52e7f5695046a2e148503e3ab2716e0644f3ea
     maintainers:
@@ -59,16 +59,30 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-11-24T14:30:02.865893-05:00
+    created: 2019-11-24T15:00:32.736957-05:00
     description: Add chart for deploying distributed Ansible AWX application.
     digest: 684dcd6a6e30a4e827ce879be1cca19251bff2d97467c702f645b2727581196d
     name: awx
     urls:
     - awx-0.1.0.tgz
     version: 0.1.0
+  consul:
+  - apiVersion: v1
+    created: 2019-11-24T15:00:32.747715-05:00
+    description: Install and configure Consul on Kubernetes.
+    digest: cefad904575d60574180fd95f5f9b2c1ccd836ac7e41e431275d2ada5fef17ee
+    home: https://www.consul.io
+    name: consul
+    sources:
+    - https://github.com/hashicorp/consul
+    - https://github.com/hashicorp/consul-helm
+    - https://github.com/hashicorp/consul-k8s
+    urls:
+    - consul-0.12.0.tgz
+    version: 0.12.0
   vault:
   - apiVersion: v1
-    created: 2019-11-24T14:30:02.876278-05:00
+    created: 2019-11-24T15:00:32.748814-05:00
     description: Install and configure Vault on Kubernetes.
     digest: 2842008cc18f269d5131e5c9cfcf45497ecf4413e12e96f22e758396bcbe75c4
     home: https://www.vaultproject.io
@@ -80,4 +94,4 @@ entries:
     urls:
     - vault-0.2.1.tgz
     version: 0.2.1
-generated: 2019-11-24T14:30:02.862074-05:00
+generated: 2019-11-24T15:00:32.733404-05:00
