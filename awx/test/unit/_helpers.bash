@@ -10,7 +10,7 @@ valuesPath() {
 template() {
   cd `chart_dir`
 
-  local file=$1
+  local file="$1"
   shift
 
   run_debug helm template -x "templates/$file.yaml" "$@" .

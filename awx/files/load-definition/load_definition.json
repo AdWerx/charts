@@ -1,0 +1,27 @@
+{
+  "users": [
+    {
+      "name": "{{ .Values.rabbitmq.rabbitmq.username",
+      "password": "{{ .Values.rabbitmq.rabbitmq.password }}",
+      "tags": "administrator"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "{{ .Values.rabbitmq.rabbitmq.username",
+      "vhost": "awx",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "vhosts": [{ "name": "awx" }],
+  "policies": [
+    {
+      "vhost": "awx",
+      "name": "ha-all",
+      "pattern": ".*",
+      "definition": { "ha-mode": "all", "ha-sync-mode": "automatic" }
+    }
+  ]
+}

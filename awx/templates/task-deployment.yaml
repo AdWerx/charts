@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "awx.fullname" . }}-task
+  labels:
+    app.kubernetes.io/name: {{ include "awx.name" . }}-task
+    helm.sh/chart: {{ include "awx.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.task.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "awx.name" . }}-task
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "awx.name" . }}-task
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: awx
+          image: "{{ .Values.task.image.repository }}:{{ .Values.task.image.tag }}"
+          imagePullPolicy: {{ .Values.task.image.pullPolicy }}
+          command:
+            - /usr/bin/launch_awx_task.sh
+          volumeMounts:
+{{ include "awx.volumeMounts" . | indent 12 }}
+          resources:
+{{ toYaml .Values.task.resources | indent 12 }}
+    {{- if .Values.task.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.task.nodeSelector | indent 8 }}
+    {{- end }}
+    {{- if .Values.task.affinity }}
+      affinity:
+{{ toYaml .Values.task.affinity | indent 8 }}
+    {{- end }}
+    {{- if .Values.task.tolerations }}
+      tolerations:
+{{ toYaml .Values.task.tolerations | indent 8 }}
+    {{- end }}
+      volumes:
+{{ include "awx.volumes" . | indent 8 }}

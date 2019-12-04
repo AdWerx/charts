@@ -1,20 +1,19 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "awx.fullname" . }}
+  name: {{ include "awx.fullname" . }}-settings
   labels:
     app.kubernetes.io/name: {{ include "awx.name" . }}
     helm.sh/chart: {{ include "awx.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
-  secret_key: "{{ .Values.secret_key }}"
   settings.py: |
     import os
     import socket
     ADMINS = ()
 
-    AWX_PROOT_ENABLED = False
+    AWX_PROOT_ENABLED = True
 
     # Automatically deprovision pods that go offline
     AWX_AUTO_DEPROVISION_INSTANCES = True
@@ -22,7 +21,7 @@ data:
     # SYSTEM_TASK_ABS_CPU =
     # SYSTEM_TASK_ABS_MEM =
 
-    #Autoprovisioning should replace this
+    # Autoprovisioning should replace this
     CLUSTER_HOST_ID = socket.gethostname()
     SYSTEM_UUID = '00000000-0000-0000-0000-000000000000'
 
@@ -71,32 +70,6 @@ data:
     LOGGING['handlers']['system_tracking_migrations'] = {'class': 'logging.NullHandler'}
     LOGGING['handlers']['management_playbooks'] = {'class': 'logging.NullHandler'}
 
-    DATABASES = {
-        'default': {
-            'ATOMIC_REQUESTS': True,
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': "{{ .Values.postgresql.postgresqlDatabase }}",
-            'USER': "{{ .Values.postgresql.postgresqlUsername }}",
-            'PASSWORD': "{{ .Values.postgresql.postgresqlPassword }}",
-            'HOST': "{{ .Release.Name }}-postgresql",
-            'PORT': "5432",
-        }
-    }
-
-    BROKER_URL = 'amqp://{}:{}@{}:{}/{}'.format(
-        "{{ .Values.rabbitmq.username }}",
-        "{{ .Values.rabbitmq.password }}",
-        "{{ .Release.Name }}-rabbitmq",
-        "{{ default "5672" .Values.rabbitmq.service.port }}",
-        "{{ default "awx" .Values.rabbitmq.vhost }}")
-
-    # asgi_amqp
-    CHANNEL_LAYERS = {
-        'default': {'BACKEND': 'asgi_amqp.AMQPChannelLayer',
-                    'ROUTING': 'awx.main.routing.channel_routing',
-                    'CONFIG': {'url': BROKER_URL}}
-    }
-
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
@@ -108,5 +81,4 @@ data:
     }
 
     USE_X_FORWARDED_PORT = True
-
-{{ .Values.awx_config | default "" | nindent 4 }}
+{{ .Values.extraConfiguration | default "" | nindent 4 }}
