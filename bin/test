@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+chart="$1"
+
+cd "$chart"
+
+[ -d test/unit ] && bats test/unit
+[ -d test/acceptance ] && bats test/acceptance

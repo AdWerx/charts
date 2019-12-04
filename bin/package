@@ -13,10 +13,7 @@ version=$(grep version "$chart/Chart.yaml" | awk '{ print $2 }')
 
 echo "testing $chart:$version"
 
-cd "$chart"
-[ -d test/unit ] && bats test/unit
-[ -d test/acceptance ] && bats test/acceptance
-cd ..
+bin/test "$chart"
 
 echo "packaging $chart:$version"
 
@@ -24,6 +21,7 @@ helm package -d docs/ $chart
 
 helm repo index docs
 
+git add "$chart/Chart.yaml"
 git add "docs/$chart-$version.tgz"
 git add docs/index.yaml
 
@@ -32,5 +30,4 @@ git commit -m "$chart $version package"
 git tag --force "$chart-v$version"
 
 echo ''
-echo 'you can now git push origin --tags'
-echo 'remember to add and commit the files in docs/ to publish to our helm repo'
+echo 'you can now git push origin master --tags'

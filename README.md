@@ -40,6 +40,10 @@ Our chart files are served from GitHub Pages. The `docs/` folder is served, so t
 
 To package a chart and update the `index.yaml`, you can use the `bin/package` script:
 
+First, ensure you've commited your changes to the chart and the chart is ready to publish. Then, bump the version in the `Chart.yaml` to the version you'd like to publish. Then use the `bin/package` script to run tests, package the chart, commit the package and version bump, and tag that commit with the chart and version.
+
 ```bash
 bin/publish {name}
 ```
+
+The last thing to do is to `git push origin master --tags` and after the github pages build, the chart will be available from our repository at https://adwerx.github.io/charts/index.yaml
