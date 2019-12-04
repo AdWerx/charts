@@ -10,6 +10,8 @@ if [ -z "$1" ]; then
 fi
 
 version=$(grep version "$chart/Chart.yaml" | awk '{ print $2 }')
+version="${version%\"}"
+version="${version#\"}"
 
 echo "testing $chart:$version"
 
