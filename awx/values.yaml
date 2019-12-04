@@ -4,18 +4,41 @@
 
 replicaCount: 1
 
-# awx_web & tasks are deployed in the same pod
-awx_web:
+# web & task containers are deployed in the same pod
+# in the future, this will be scaled separately
+web:
   image:
     repository: ansible/awx_web
     tag: 7.0.0
     pullPolicy: IfNotPresent
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #  cpu: "1"
+    #  memory: "1Gi"
+    # requests:
+    #  cpu: "1"
+    #  memory: "1Gi"
 
-awx_task:
+task:
   image:
     repository: ansible/awx_task
     tag: 7.0.0
     pullPolicy: IfNotPresent
+  resources: {}
+    # We usually recommend not to specify default resources and to leave this as a conscious
+    # choice for the user. This also increases chances charts run on environments with little
+    # resources, such as Minikube. If you do want to specify resources, uncomment the following
+    # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+    # limits:
+    #  cpu: "1.5"
+    #  memory: "2Gi"
+    # requests:
+    #  cpu: "1.5"
+    #  memory: "2Gi"
 
 secret_key: awxsecret
 default_admin_user: admin
@@ -25,7 +48,7 @@ deployment:
   annotations: {}
 
 service:
-  type: NodePort
+  type: ClusterIP
   port: 8080
 
 ingress:
@@ -44,7 +67,6 @@ ingress:
     #   hosts:
     #     - chart-example.local
 
-
 # Chart values https://github.com/helm/charts/blob/master/stable/memcached/values.yaml
 memcached:
   enabled: true
@@ -52,23 +74,19 @@ memcached:
 # Chart values https://github.com/helm/charts/blob/master/stable/rabbitmq/values.yaml
 rabbitmq:
   enabled: true
-  rabbitmq:
-    username: awx
-    password: awx
-    ## Configution file content https://www.rabbitmq.com/configure.html#configuration-files
-    configuration: |-
-        ## Clustering
-        cluster_formation.peer_discovery_backend  = rabbit_peer_discovery_k8s
-        cluster_formation.k8s.host = kubernetes.default.svc.cluster.local
-        cluster_formation.node_cleanup.interval = 10
-        cluster_formation.node_cleanup.only_log_warning = false
-        cluster_partition_handling = autoheal
-        ## queue master locator
-        queue_master_locator=min-masters
-        ## enable guest user
-        loopback_users.guest = false
-        ## awx vhost
-        default_vhost = awx
+  username: awx
+  password: awx
+  ## Configution file content https://www.rabbitmq.com/configure.html#configuration-files
+  configuration: |-
+    cluster_formation.peer_discovery_backend  = rabbit_peer_discovery_k8s
+    cluster_formation.k8s.host = kubernetes.default.svc.cluster.local
+    cluster_formation.node_cleanup.interval = 10
+    cluster_formation.node_cleanup.only_log_warning = false
+    cluster_partition_handling = autoheal
+
+    queue_master_locator=min-masters
+    loopback_users.guest = false
+    default_vhost = awx
 
 # Chart values https://github.com/helm/charts/blob/master/stable/postgresql/values.yaml
 postgresql:
@@ -85,20 +103,6 @@ postgresql:
   metrics:
     enabled: false
 
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #  cpu: 100m
-  #  memory: 128Mi
-  # requests:
-  #  cpu: 100m
-  #  memory: 128Mi
-
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}

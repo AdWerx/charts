@@ -84,8 +84,8 @@ data:
     }
 
     BROKER_URL = 'amqp://{}:{}@{}:{}/{}'.format(
-        "{{ .Values.rabbitmq.rabbitmq.username }}",
-        "{{ .Values.rabbitmq.rabbitmq.password }}",
+        "{{ .Values.rabbitmq.username }}",
+        "{{ .Values.rabbitmq.password }}",
         "{{ .Release.Name }}-rabbitmq",
         "{{ default "5672" .Values.rabbitmq.service.port }}",
         "{{ default "awx" .Values.rabbitmq.vhost }}")

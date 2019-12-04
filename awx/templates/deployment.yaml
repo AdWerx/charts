@@ -21,8 +21,8 @@ spec:
     spec:
       containers:
         - name: web
-          image: "{{ .Values.awx_web.image.repository }}:{{ .Values.awx_web.image.tag }}"
-          imagePullPolicy: {{ .Values.awx_web.image.pullPolicy }}
+          image: "{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
+          imagePullPolicy: {{ .Values.web.image.pullPolicy }}
           ports:
             - containerPort: 8052
               name: http
@@ -54,10 +54,12 @@ spec:
               value: {{ .Release.Name }}-memcached
             - name: RABBITMQ_HOST
               value: {{ .Release.Name }}-rabbitmq
+          resources:
+{{ toYaml .Values.web.resources | indent 12 }}
 
         - name: task
-          image: "{{ .Values.awx_task.image.repository }}:{{ .Values.awx_task.image.tag }}"
-          imagePullPolicy: {{ .Values.awx_task.image.pullPolicy }}
+          image: "{{ .Values.task.image.repository }}:{{ .Values.task.image.tag }}"
+          imagePullPolicy: {{ .Values.task.image.pullPolicy }}
           command:
             - /usr/bin/launch_awx_task.sh
           volumeMounts:
@@ -84,7 +86,7 @@ spec:
               value: {{ .Values.default_admin_password }}
 
           resources:
-{{ toYaml .Values.resources | indent 12 }}
+{{ toYaml .Values.task.resources | indent 12 }}
     {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
