@@ -3,7 +3,29 @@ entries:
   awx:
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2019-12-04T16:40:32.586141-05:00
+    created: 2019-12-04T17:08:50.76412-05:00
+    description: Helm chart for deploying Ansible AWX
+    digest: 6e70b257c52c18edaa9ec457b696d10a8f35ca700c8543c56aa3d6d353456002
+    home: https://github.com/AdWerx/charts/tree/master/awx
+    icon: https://adwerx-public.s3.amazonaws.com/awx.png
+    keywords:
+    - ansible
+    - awx
+    - tower
+    - devops
+    - automation
+    maintainers:
+    - name: Josh Bielick
+      url: https://github.com/jbielick
+    name: awx
+    sources:
+    - https://github.com/AdWerx/charts
+    urls:
+    - awx-2.0.1.tgz
+    version: 2.0.1
+  - apiVersion: v1
+    appVersion: 8.0.0
+    created: 2019-12-04T17:08:50.76096-05:00
     description: Helm chart for deploying Ansible AWX
     digest: 66c8e54c3b7750b04c0cd910401f0fd5fb9cafbd1fef947cffb3272151a8618b
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -25,7 +47,7 @@ entries:
     version: 2.0.0
   - apiVersion: v1
     appVersion: 7.0.0
-    created: 2019-12-04T16:40:32.583889-05:00
+    created: 2019-12-04T17:08:50.75735-05:00
     description: Helm chart for deploying Ansible AWX
     digest: 712916a97bc19e9eef06cfa7df018dffcf6c9a75fd29a6f76329a42554c5b746
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -47,7 +69,7 @@ entries:
     version: 2.0.0-rc1
   - apiVersion: v1
     appVersion: 7.0.0
-    created: 2019-12-04T16:40:32.580857-05:00
+    created: 2019-12-04T17:08:50.754111-05:00
     description: Helm chart for deploying Ansible AWX
     digest: 2e3a5c35aad64d9906867d92da5f773e101063043df7089c3fa6b44f7c9944b1
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -69,7 +91,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: 7.0.0
-    created: 2019-12-04T16:40:32.576799-05:00
+    created: 2019-12-04T17:08:50.750197-05:00
     description: Helm chart for deploying Ansible AWX
     digest: c890978b3e4a349c71b9a3036e751cf2eca8e9f6394aa14bd810a6007e034afc
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -91,7 +113,7 @@ entries:
     version: 1.0.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-12-04T16:40:32.573711-05:00
+    created: 2019-12-04T17:08:50.747093-05:00
     description: Add chart for deploying distributed Ansible AWX application.
     digest: ab4bbb109d6edf55ace5121f6a52e7f5695046a2e148503e3ab2716e0644f3ea
     maintainers:
@@ -103,7 +125,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2019-12-04T16:40:32.571352-05:00
+    created: 2019-12-04T17:08:50.744504-05:00
     description: Add chart for deploying distributed Ansible AWX application.
     digest: 684dcd6a6e30a4e827ce879be1cca19251bff2d97467c702f645b2727581196d
     name: awx
@@ -112,7 +134,7 @@ entries:
     version: 0.1.0
   consul:
   - apiVersion: v1
-    created: 2019-12-04T16:40:32.588096-05:00
+    created: 2019-12-04T17:08:50.765895-05:00
     description: Install and configure Consul on Kubernetes.
     digest: cefad904575d60574180fd95f5f9b2c1ccd836ac7e41e431275d2ada5fef17ee
     home: https://www.consul.io
@@ -126,7 +148,7 @@ entries:
     version: 0.12.0
   vault:
   - apiVersion: v1
-    created: 2019-12-04T16:40:32.589399-05:00
+    created: 2019-12-04T17:08:50.767013-05:00
     description: Install and configure Vault on Kubernetes.
     digest: 2842008cc18f269d5131e5c9cfcf45497ecf4413e12e96f22e758396bcbe75c4
     home: https://www.vaultproject.io
@@ -138,4 +160,4 @@ entries:
     urls:
     - vault-0.2.1.tgz
     version: 0.2.1
-generated: 2019-12-04T16:40:32.567583-05:00
+generated: 2019-12-04T17:08:50.739557-05:00
