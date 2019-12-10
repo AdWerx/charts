@@ -1,0 +1,198 @@
+# nameOverride: ""
+# fullnameOverride: ""
+
+global:
+  faktory: {}
+## Optionally specify an array of imagePullSecrets.
+## Secrets must be manually created in the namespace.
+## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+##
+#   imagePullSecrets:
+#     - myRegistryKeySecretName
+
+image:
+  registry: docker.io
+  repository: contribsys/faktory
+  tag: "1.1.0"
+  pullPolicy: IfNotPresent
+  ## Optionally specify an array of imagePullSecrets.
+  ## Secrets must already exist in the namespace.
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ##
+  # pullSecrets:
+  #   - myRegistryKeySecretName
+
+## Set a password for faktory using this variable or passwordExistingSecret
+##
+# password:
+
+## Use a key from an existing secret for the faktory password
+##
+# passwordExistingSecret:
+#   name:
+#   key:
+
+## Use this variable for your faktory license or use licenseExistingSecret
+##
+# license: ""
+
+## Use a key from an existing secret for the faktory pro license
+##
+# licenseExistingSecret:
+#   name:
+#   key:
+
+server: {}
+  ## Not implemented, please open an issue in adwerx/charts to request this feature
+  ## ref: https://github.com/contribsys/faktory/wiki/Pro-Redis-Gateway
+  ##
+  # redisGateway:
+    ## specify a port on localhost
+    # port: 16379
+    ## or socat listener configuration
+    # listener: TCP-LISTEN:16379,fork,bind=someiface,pf=ipv4,reuseaddr
+
+ui:
+  enabled: true
+  service:
+    type: ClusterIP
+    port: 7420
+  ingress:
+    enabled: false
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # cert-manager.io/cluster-issuer: letsencrypt
+    hosts: []
+      # - host: chart-example.local
+      #   paths: []
+    tls: []
+    #  - secretName: chart-example-tls
+    #    hosts:
+    #      - chart-example.local
+
+replicaCount: 1
+
+persistence:
+  enabled: true
+  # storageClass: "-"
+  # existingClaim: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 8Gi
+  annotations: {}
+
+## ! Please note that pods **will not** be automatically rolled out
+## upon deployment changes, you must delete the faktory pod for it to
+## be recreated. Choose `RollingUpdate` if you'd prefer for kubernetes
+## to replace the pod for you automatically--this will incur some downtime and
+## thus is not automated. If you're only changing the faktory configs, you need
+## not delete the pod—Faktory will hot reload the changes.
+##
+updateStrategy: OnDelete
+
+config:
+  ## For Faktory Pro cron jobs
+  ## ref: https://github.com/contribsys/faktory/wiki/Pro-Cron
+  ##
+  # cron.toml: |
+  #   [[cron]]
+  #     schedule = "*/5 * * * *"
+  #     [cron.job]
+  #       type = "FiveJob"
+  #       queue = "critical"
+  #       [cron.job.custom]
+  #         foo = "bar"
+
+  #   [[cron]]
+  #     schedule = "12 * * * *"
+  #     [cron.job]
+  #       type = "HourlyReport"
+  #       retry = 3
+
+  #   [[cron]]
+  #     schedule = "* * * * *"
+  #     [cron.job]
+  #       type = "EveryMinute"
+
+  ## For Faktory Pro statsd instrumentation
+  ## ref: https://github.com/contribsys/faktory/wiki/Pro-Metrics
+  ##
+  # metrics.toml: |
+  #   [statsd]
+  #   # required, location of the statsd server
+  #   location = "hostname:port"
+  #   # Prepend all metric names with this value, defaults to 'faktory.'
+  #   # If you have multiple Faktory servers for multiple apps reporting to
+  #   # the same statsd server you can use a multi-level namespace,
+  #   # e.g. "app1.faktory.", "app2.faktory." or use a tag below.
+  #   #namespace = "faktory."
+
+  #   # optional, DataDog-style tags to send with each metric.
+  #   # keep in mind that every tag is sent with every metric so keep tags short.
+  #   #tags = ["env:production", "region:us-east-1a"]
+
+  #   # Statsd client will buffer metrics for 100ms or until this size is reached.
+  #   # The default value of 15 tries to avoid UDP packet sizes larger than 1500 bytes.
+  #   # If your network supports jumbo UDP packets, you can increase this to ~50.
+  #   #bufferSize = 15
+
+  ## For Faktory Pro throttles
+  ## ref: https://github.com/contribsys/faktory/wiki/Ent-Throttling
+  ##
+  # throttles.toml: |
+  #   [throttles]
+  #   instagram = { concurrency = 4, timeout = 60 }
+  #   bulk = { worker = 5, timeout = 60 }
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  timeoutSeconds: 5
+  failureThreshold: 6
+  successThreshold: 1
+
+## key-value map of variables to define
+##
+extraEnv: {}
+
+resources: {}
+  ## Setting resource requests is highly recommended.
+  ##
+  # limits:
+  #   cpu: 500m
+  #   memory: 4Gi
+  # requests:
+  #   cpu: 300m
+  #   memory: 2Gi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+securityContext:
+  ## You may need the following settings to be able to write to the persistent
+  ## disk your cloud provider attaches for the PVC. If Faktory fails to start
+  ## with a permission error writing to disk in environments such as GKE,
+  ## this may solve the issue.
+  ##
+  # enabled: true
+  # fsGroup: 1001
+  # runAsUser: 1001
+  ## For the sidecar config-watcher container to signal Faktory server, it
+  ## must share process namespace
+  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/
+  ##
+  capabilities:
+    add:
+      - SYS_PTRACE
