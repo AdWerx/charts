@@ -1,9 +1,10 @@
 apiVersion: v1
 name: faktory
-version: "0.10.0"
+version: "0.10.1"
 appVersion: "1.1.0"
 description: A Helm chart for deploying Faktory
 home: https://github.com/contribsys/faktory
+icon: https://contribsys.com/images/faktory-logo.svg
 sources:
   - https://github.com/contribsys/faktory
   - https://github.com/AdWerx/charts/tree/master/faktory
