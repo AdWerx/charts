@@ -60,8 +60,10 @@ ingress:
   # whether the default backend for this ingress should route to the awx service
   defaultBackend: true
   # Used to create an Ingress record.
-  hosts:
-    - chart-example.local
+  hosts: []
+    # - host: chart-example.local
+    #   paths:
+    #     - "/"
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
