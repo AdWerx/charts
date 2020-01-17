@@ -38,6 +38,9 @@ spec:
           #     port: http
           volumeMounts:
 {{ include "awx.volumeMounts" . | indent 12 }}
+{{- if .Values.web.extraVolumeMounts }}
+{{ toYaml .Values.web.extraVolumeMounts | indent 12 }}
+{{- end }}
           resources:
 {{ toYaml .Values.web.resources | indent 12 }}
     {{- if .Values.web.nodeSelector }}
@@ -54,3 +57,6 @@ spec:
     {{- end }}
       volumes:
 {{ include "awx.volumes" . | indent 8 }}
+{{- if .Values.web.extraVolumes }}
+{{ toYaml .Values.web.extraVolumes | indent 8 }}
+{{- end }}
