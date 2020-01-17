@@ -3,11 +3,11 @@ entries:
   awx:
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2020-01-14T09:49:07.685656-05:00
+    created: 2020-01-17T17:09:03.761363-05:00
     description: AWX provides a web-based user interface, REST API, and task engine
       built on top of Ansible. It is the upstream project for Tower, a commercial
       derivative of AWX.
-    digest: 00b3b404149608f918c0f060bd363c1464b3caf2d1879ff6072e49998af754d0
+    digest: d8ca87c7c9586dbf894984240616cb11205259508869a2261d7781dc2caab1cf
     home: https://github.com/AdWerx/charts/tree/master/awx
     icon: https://adwerx-public.s3.amazonaws.com/awx.png
     keywords:
@@ -27,7 +27,7 @@ entries:
     version: 2.1.0
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2020-01-14T09:49:07.683359-05:00
+    created: 2020-01-17T17:09:03.758207-05:00
     description: Helm chart for deploying Ansible AWX
     digest: c4d1685e5d6adfa2020906ecb9e71432eb7f4cee4d05d6807c51f29fd4e93cac
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -49,7 +49,7 @@ entries:
     version: 2.0.3
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2020-01-14T09:49:07.68075-05:00
+    created: 2020-01-17T17:09:03.755471-05:00
     description: Helm chart for deploying Ansible AWX
     digest: 4b17fc577d6cfd39c95732d763e4d294246b5839ea8d4151c70e6d8f4da1d2f6
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -71,7 +71,7 @@ entries:
     version: 2.0.2
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2020-01-14T09:49:07.6775-05:00
+    created: 2020-01-17T17:09:03.752917-05:00
     description: Helm chart for deploying Ansible AWX
     digest: 6e70b257c52c18edaa9ec457b696d10a8f35ca700c8543c56aa3d6d353456002
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -93,7 +93,7 @@ entries:
     version: 2.0.1
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2020-01-14T09:49:07.674473-05:00
+    created: 2020-01-17T17:09:03.749754-05:00
     description: Helm chart for deploying Ansible AWX
     digest: 66c8e54c3b7750b04c0cd910401f0fd5fb9cafbd1fef947cffb3272151a8618b
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -115,7 +115,7 @@ entries:
     version: 2.0.0
   - apiVersion: v1
     appVersion: 7.0.0
-    created: 2020-01-14T09:49:07.67159-05:00
+    created: 2020-01-17T17:09:03.747054-05:00
     description: Helm chart for deploying Ansible AWX
     digest: 712916a97bc19e9eef06cfa7df018dffcf6c9a75fd29a6f76329a42554c5b746
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -137,7 +137,7 @@ entries:
     version: 2.0.0-rc1
   - apiVersion: v1
     appVersion: 7.0.0
-    created: 2020-01-14T09:49:07.668816-05:00
+    created: 2020-01-17T17:09:03.744308-05:00
     description: Helm chart for deploying Ansible AWX
     digest: 2e3a5c35aad64d9906867d92da5f773e101063043df7089c3fa6b44f7c9944b1
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -159,7 +159,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: 7.0.0
-    created: 2020-01-14T09:49:07.664954-05:00
+    created: 2020-01-17T17:09:03.740703-05:00
     description: Helm chart for deploying Ansible AWX
     digest: c890978b3e4a349c71b9a3036e751cf2eca8e9f6394aa14bd810a6007e034afc
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -181,7 +181,7 @@ entries:
     version: 1.0.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2020-01-14T09:49:07.661932-05:00
+    created: 2020-01-17T17:09:03.737726-05:00
     description: Add chart for deploying distributed Ansible AWX application.
     digest: ab4bbb109d6edf55ace5121f6a52e7f5695046a2e148503e3ab2716e0644f3ea
     maintainers:
@@ -193,7 +193,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2020-01-14T09:49:07.659294-05:00
+    created: 2020-01-17T17:09:03.735021-05:00
     description: Add chart for deploying distributed Ansible AWX application.
     digest: 684dcd6a6e30a4e827ce879be1cca19251bff2d97467c702f645b2727581196d
     name: awx
@@ -202,7 +202,7 @@ entries:
     version: 0.1.0
   consul:
   - apiVersion: v1
-    created: 2020-01-14T09:49:07.687998-05:00
+    created: 2020-01-17T17:09:03.763463-05:00
     description: Install and configure Consul on Kubernetes.
     digest: cefad904575d60574180fd95f5f9b2c1ccd836ac7e41e431275d2ada5fef17ee
     home: https://www.consul.io
@@ -217,7 +217,7 @@ entries:
   faktory:
   - apiVersion: v1
     appVersion: 1.1.0
-    created: 2020-01-14T09:49:07.689642-05:00
+    created: 2020-01-17T17:09:03.76519-05:00
     description: A Helm chart for deploying Faktory
     digest: 2bf5a8c5db66c14f0fd309e796d86ae4cc7519db78ac3461c48d460ba0258f60
     home: https://github.com/contribsys/faktory
@@ -233,7 +233,7 @@ entries:
     version: 0.10.1
   - apiVersion: v1
     appVersion: 1.1.0
-    created: 2020-01-14T09:49:07.688866-05:00
+    created: 2020-01-17T17:09:03.764381-05:00
     description: A Helm chart for deploying Faktory
     digest: e473b013b4992270f93e7649bbc678a503b6811b0fe79fbf1241156d44fb4458
     home: https://github.com/contribsys/faktory
@@ -248,7 +248,7 @@ entries:
     version: 0.10.0
   vault:
   - apiVersion: v1
-    created: 2020-01-14T09:49:07.690738-05:00
+    created: 2020-01-17T17:09:03.766253-05:00
     description: Install and configure Vault on Kubernetes.
     digest: 2842008cc18f269d5131e5c9cfcf45497ecf4413e12e96f22e758396bcbe75c4
     home: https://www.vaultproject.io
@@ -260,4 +260,4 @@ entries:
     urls:
     - vault-0.2.1.tgz
     version: 0.2.1
-generated: 2020-01-14T09:49:07.655092-05:00
+generated: 2020-01-17T17:09:03.730943-05:00
