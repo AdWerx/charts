@@ -19,8 +19,8 @@ web:
     # requests:
     #  cpu: "1"
     #  memory: "1Gi"
-  extraVolumes: {}
-  extraVolumeMounts: {}
+  extraVolumes: []
+  extraVolumeMounts: []
   nodeSelector: {}
   tolerations: []
   affinity: {}
