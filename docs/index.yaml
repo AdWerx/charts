@@ -3,7 +3,7 @@ entries:
   awx:
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2020-01-20T16:25:24.038962-05:00
+    created: "2020-04-01T11:01:42.972199-04:00"
     description: AWX provides a web-based user interface, REST API, and task engine
       built on top of Ansible. It is the upstream project for Tower, a commercial
       derivative of AWX.
@@ -27,7 +27,7 @@ entries:
     version: 2.2.1
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2020-01-20T16:25:24.036604-05:00
+    created: "2020-04-01T11:01:42.969451-04:00"
     description: AWX provides a web-based user interface, REST API, and task engine
       built on top of Ansible. It is the upstream project for Tower, a commercial
       derivative of AWX.
@@ -51,7 +51,7 @@ entries:
     version: 2.2.0
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2020-01-20T16:25:24.033798-05:00
+    created: "2020-04-01T11:01:42.966989-04:00"
     description: AWX provides a web-based user interface, REST API, and task engine
       built on top of Ansible. It is the upstream project for Tower, a commercial
       derivative of AWX.
@@ -75,7 +75,7 @@ entries:
     version: 2.1.0
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2020-01-20T16:25:24.029927-05:00
+    created: "2020-04-01T11:01:42.964449-04:00"
     description: Helm chart for deploying Ansible AWX
     digest: c4d1685e5d6adfa2020906ecb9e71432eb7f4cee4d05d6807c51f29fd4e93cac
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -97,7 +97,7 @@ entries:
     version: 2.0.3
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2020-01-20T16:25:24.026868-05:00
+    created: "2020-04-01T11:01:42.961266-04:00"
     description: Helm chart for deploying Ansible AWX
     digest: 4b17fc577d6cfd39c95732d763e4d294246b5839ea8d4151c70e6d8f4da1d2f6
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -119,7 +119,7 @@ entries:
     version: 2.0.2
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2020-01-20T16:25:24.023296-05:00
+    created: "2020-04-01T11:01:42.958262-04:00"
     description: Helm chart for deploying Ansible AWX
     digest: 6e70b257c52c18edaa9ec457b696d10a8f35ca700c8543c56aa3d6d353456002
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -141,7 +141,7 @@ entries:
     version: 2.0.1
   - apiVersion: v1
     appVersion: 8.0.0
-    created: 2020-01-20T16:25:24.020677-05:00
+    created: "2020-04-01T11:01:42.955707-04:00"
     description: Helm chart for deploying Ansible AWX
     digest: 66c8e54c3b7750b04c0cd910401f0fd5fb9cafbd1fef947cffb3272151a8618b
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -163,7 +163,7 @@ entries:
     version: 2.0.0
   - apiVersion: v1
     appVersion: 7.0.0
-    created: 2020-01-20T16:25:24.01805-05:00
+    created: "2020-04-01T11:01:42.953105-04:00"
     description: Helm chart for deploying Ansible AWX
     digest: 712916a97bc19e9eef06cfa7df018dffcf6c9a75fd29a6f76329a42554c5b746
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -185,7 +185,7 @@ entries:
     version: 2.0.0-rc1
   - apiVersion: v1
     appVersion: 7.0.0
-    created: 2020-01-20T16:25:24.015275-05:00
+    created: "2020-04-01T11:01:42.949501-04:00"
     description: Helm chart for deploying Ansible AWX
     digest: 2e3a5c35aad64d9906867d92da5f773e101063043df7089c3fa6b44f7c9944b1
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -207,7 +207,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: 7.0.0
-    created: 2020-01-20T16:25:24.010733-05:00
+    created: "2020-04-01T11:01:42.94581-04:00"
     description: Helm chart for deploying Ansible AWX
     digest: c890978b3e4a349c71b9a3036e751cf2eca8e9f6394aa14bd810a6007e034afc
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -229,7 +229,7 @@ entries:
     version: 1.0.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2020-01-20T16:25:24.007447-05:00
+    created: "2020-04-01T11:01:42.94301-04:00"
     description: Add chart for deploying distributed Ansible AWX application.
     digest: ab4bbb109d6edf55ace5121f6a52e7f5695046a2e148503e3ab2716e0644f3ea
     maintainers:
@@ -241,7 +241,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2020-01-20T16:25:24.004107-05:00
+    created: "2020-04-01T11:01:42.938691-04:00"
     description: Add chart for deploying distributed Ansible AWX application.
     digest: 684dcd6a6e30a4e827ce879be1cca19251bff2d97467c702f645b2727581196d
     name: awx
@@ -250,7 +250,7 @@ entries:
     version: 0.1.0
   consul:
   - apiVersion: v1
-    created: 2020-01-20T16:25:24.040734-05:00
+    created: "2020-04-01T11:01:42.973922-04:00"
     description: Install and configure Consul on Kubernetes.
     digest: cefad904575d60574180fd95f5f9b2c1ccd836ac7e41e431275d2ada5fef17ee
     home: https://www.consul.io
@@ -265,7 +265,23 @@ entries:
   faktory:
   - apiVersion: v1
     appVersion: 1.1.0
-    created: 2020-01-20T16:25:24.042832-05:00
+    created: "2020-04-01T11:01:42.975978-04:00"
+    description: A Helm chart for deploying Faktory
+    digest: cf0000c6ac57023ef700ce4a054ec73a09614af9279e4b10b40c16da6bc8f85e
+    home: https://github.com/contribsys/faktory
+    icon: https://contribsys.com/images/faktory-logo.svg
+    maintainers:
+    - name: jbielick
+    name: faktory
+    sources:
+    - https://github.com/contribsys/faktory
+    - https://github.com/AdWerx/charts/tree/master/faktory
+    urls:
+    - faktory-0.10.2.tgz
+    version: 0.10.2
+  - apiVersion: v1
+    appVersion: 1.1.0
+    created: "2020-04-01T11:01:42.975516-04:00"
     description: A Helm chart for deploying Faktory
     digest: 2bf5a8c5db66c14f0fd309e796d86ae4cc7519db78ac3461c48d460ba0258f60
     home: https://github.com/contribsys/faktory
@@ -281,7 +297,7 @@ entries:
     version: 0.10.1
   - apiVersion: v1
     appVersion: 1.1.0
-    created: 2020-01-20T16:25:24.041605-05:00
+    created: "2020-04-01T11:01:42.974712-04:00"
     description: A Helm chart for deploying Faktory
     digest: e473b013b4992270f93e7649bbc678a503b6811b0fe79fbf1241156d44fb4458
     home: https://github.com/contribsys/faktory
@@ -296,7 +312,7 @@ entries:
     version: 0.10.0
   vault:
   - apiVersion: v1
-    created: 2020-01-20T16:25:24.044226-05:00
+    created: "2020-04-01T11:01:42.977013-04:00"
     description: Install and configure Vault on Kubernetes.
     digest: 2842008cc18f269d5131e5c9cfcf45497ecf4413e12e96f22e758396bcbe75c4
     home: https://www.vaultproject.io
@@ -308,4 +324,4 @@ entries:
     urls:
     - vault-0.2.1.tgz
     version: 0.2.1
-generated: 2020-01-20T16:25:24.000712-05:00
+generated: "2020-04-01T11:01:42.935-04:00"
