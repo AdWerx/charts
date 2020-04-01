@@ -64,8 +64,7 @@ Parameter | Description | Default
 `ui.service.port` | UI service port for Faktory WebUI | `7420`
 `ui.ingress.enabled` | If true, an ingress will be created for the Faktory UI | `false`
 `ui.ingress.annotations` | Ingress annotations | `{}`
-`ui.ingress.path` | Ingress path | `/`
-`ui.ingress.hosts` | Ingress hostnames | `[]`
+`ui.ingress.hosts` | Ingress hostnames and paths. E.g. `[{ host: "example.com", path: "/faktory" }]` | `[]`
 `ui.ingress.tls` | Ingress TLS configuration | `[]`
 `extraEnv` | Key-value map of additional ENV variables to set on the Faktory container | `{}`
 `resources` | Resource requests and limits | `{}`
