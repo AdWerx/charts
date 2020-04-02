@@ -96,3 +96,10 @@ name="statefulset"
   get '.spec.template.spec.containers[1].volumeMounts[0].mountPath'
   [ "$got" = "/var/lib/faktory" ]
 }
+
+@test "$name: Uses apps/v1 api" {
+  template $name
+
+  get '.apiVersion'
+  [ "$got" = "apps/v1" ]
+}
