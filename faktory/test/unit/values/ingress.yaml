@@ -1,0 +1,7 @@
+ui:
+  ingress:
+    enabled: true
+    hosts:
+      - host: example.com
+        paths:
+          - /subpath

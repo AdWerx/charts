@@ -20,11 +20,11 @@ template() {
 
 run_debug() {
   run "$@"
-  echo -e "$output" | tee /dev/stderr
+  echo -e "$output"
 }
 
 get() {
   got=$(echo "$output" | yq -r $@)
-  $(echo "GET: $@ = $got" >> /dev/stderr)
+  $(echo "GET: $@ -> $got" >> /dev/stderr)
   echo "$got"
 }
