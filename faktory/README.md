@@ -100,3 +100,22 @@ Config changes are hot-reloaded by Faktory with a `SIGHUP` signal.
 Why not `inotify` watch for config changes?
 
 https://github.com/kubernetes/kubernetes/issues/24215
+
+## Examples
+
+### Expose Faktory Web UI on subpath
+
+If your cluster is using Nginx Ingress controller, then you can use [configuration snippet](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#configuration-snippet) to specify `X-Script-Name` header.
+
+```yaml
+ui:
+  ingress:
+    enabled: yes
+    hosts:
+      - host: example.com
+        paths:
+          - /faktory
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        proxy_set_header X-Script-Name /faktory;
+```
