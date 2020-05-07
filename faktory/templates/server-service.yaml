@@ -15,6 +15,11 @@ spec:
       name: server
       targetPort: server
       protocol: TCP
+{{- if and (.Values.metrics.enabled) (.Values.metrics.serviceMonitor.enabled) }}
+    - port: 9386
+      name: metrics
+      targetPort: metrics
+{{- end }}
   selector:
     app.kubernetes.io/name: {{ include "faktory.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}

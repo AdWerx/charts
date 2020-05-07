@@ -80,6 +80,10 @@ Parameter | Description | Default
 `metrics.image.repository` | Prometheus exporter sidecar image name | `envek/faktory_exporter`
 `metrics.image.repository` | Prometheus exporter sidecar image tag | `0.4.0`
 `metrics.image.pullPolicy` | Prometheus exporter sidecar image pull policy | `IfNotPresent`
+`metrics.serviceMonitor.enabled` | Enable creation of ServiceMonitor resource for automatic metrics discovery by Proemtheus operator | `false`
+`metrics.serviceMonitor.namespace` | Namespace to create Service Monitor in (if differs from chart's namespace) | _chart's namespace_
+`metrics.serviceMonitor.interval` | Metrics scrape interval | _Prometheus default_
+`metrics.serviceMonitor.selector` | Labels that should be present in service monitor to be discovered | `{}`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
