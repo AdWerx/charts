@@ -127,6 +127,27 @@ spec:
               mountPath: /etc/faktory/conf.d
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+{{- if .Values.metrics.enabled }}
+        - name: metrics-exporter
+          image: "{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}"
+          imagePullPolicy: {{ .Values.metrics.image.pullPolicy }}
+          ports:
+            - containerPort: 9386
+              name: metrics
+          env:
+            - name: FAKTORY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+{{- if .Values.passwordExistingSecret }}
+                  name: {{ .Values.passwordExistingSecret.name }}
+                  key: {{ .Values.passwordExistingSecret.key }}
+{{- else }}
+                  name: {{ include "faktory.fullname" . }}
+                  key: password
+{{- end }}
+            - name: FAKTORY_URL
+              value: tcp://:$(FAKTORY_PASSWORD)@localhost:7419
+{{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

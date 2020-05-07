@@ -196,3 +196,10 @@ securityContext:
   capabilities:
     add:
       - SYS_PTRACE
+
+metrics:
+  enabled: false
+  image:
+    repository: envek/faktory_exporter
+    tag: 0.4.1
+    pullPolicy: IfNotPresent
