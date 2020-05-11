@@ -196,3 +196,23 @@ securityContext:
   capabilities:
     add:
       - SYS_PTRACE
+
+metrics:
+  enabled: false
+  image:
+    repository: envek/faktory_exporter
+    tag: 0.4.1
+    pullPolicy: IfNotPresent
+  serviceMonitor:
+    enabled: false
+    ## Specify a namespace if needed
+    # namespace: monitoring
+    # fallback to the prometheus default unless specified
+    # interval: 10s
+    ## Set of labels that need to be present in ServiceMonitor to be discovered by Prometheus:
+    ## [Prometheus Selector Label](https://github.com/bitnami/charts/tree/master/bitnami/prometheus-operator#prometheus-operator-1)
+    ## [Kube Prometheus Selector Label](https://github.com/bitnami/charts/tree/master/bitnami/prometheus-operator#exporters)
+    ## E.g. if you use prometheus-operator:
+    # labels:
+    #   release: prometheus-operator
+    labels: {}
