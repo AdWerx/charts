@@ -78,7 +78,7 @@ Parameter | Description | Default
 `persistence.annotations` | Annotations for Persistent Volume Claim | `{}`
 `metrics.enabled` | Enable export of Prometheus metrics about Faktory instance state | `false`
 `metrics.image.repository` | Prometheus exporter sidecar image name | `envek/faktory_exporter`
-`metrics.image.repository` | Prometheus exporter sidecar image tag | `0.4.0`
+`metrics.image.tag` | Prometheus exporter sidecar image tag | `0.4.0`
 `metrics.image.pullPolicy` | Prometheus exporter sidecar image pull policy | `IfNotPresent`
 `metrics.serviceMonitor.enabled` | Enable creation of ServiceMonitor resource for automatic metrics discovery by Prometheus operator | `false`
 `metrics.serviceMonitor.namespace` | Namespace to create Service Monitor in (if differs from chart's namespace) | _chart's namespace_

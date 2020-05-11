@@ -15,7 +15,7 @@ name="statefulset"
   template $name
 
   get '.spec.template.spec.containers[1].image'
-  [ "$got" = "docker.io/contribsys/faktory:1.1.0" ]
+  [ "$got" = "docker.io/contribsys/faktory:1.4.0" ]
 }
 
 @test "$name: uses correct command" {
