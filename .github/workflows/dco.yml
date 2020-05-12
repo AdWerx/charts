@@ -1,0 +1,12 @@
+name: DCO check
+on: [pull_request]
+
+jobs:
+  dco_check:
+    runs-on: ubuntu-latest
+    name: DCO Check
+    steps:
+    - name: DCO Check
+      uses: tim-actions/dco@master
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
