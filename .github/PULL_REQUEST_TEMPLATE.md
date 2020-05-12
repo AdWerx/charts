@@ -1,9 +1,8 @@
 <!--
-Thank you for contributing to helm/charts. Before you submit this PR we'd like to
-make sure you are aware of our technical requirements and best practices:
+Thank you for contributing to our charts repo. Before you submit this PR we'd like to
+make sure you are aware of our contributing guide:
 
-* https://github.com/helm/charts/blob/master/CONTRIBUTING.md#technical-requirements
-* https://github.com/helm/helm/tree/master/docs/chart_best_practices
+* [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 For a quick overview across what we will look at reviewing your PR, please read
 our review guidelines:
@@ -19,10 +18,7 @@ anyways when it is merged. Thanks.
 
 For fast feedback, please @-mention maintainers that are listed in the Chart.yaml file.
 
-Please make sure you test your changes before you push them. Once pushed, a CircleCI
-will run across your changes and do some initial checks and linting. These checks run
-very quickly. Please check the results. We would like these checks to pass before we
-even continue reviewing your changes.
+Please make sure you test your changes before you push them.
 -->
 
 #### What this PR does / why we need it:
@@ -35,7 +31,7 @@ even continue reviewing your changes.
 
 #### Checklist
 [Place an '[x]' (no spaces) in all applicable fields. Please remove unrelated fields.]
-- [ ] [DCO](https://github.com/helm/charts/blob/master/CONTRIBUTING.md#sign-your-work) signed
-- [ ] Chart Version bumped
+- [ ] [Developer Certificate of Origin](./CONTRIBUTING.md#sign-your-work) signed
+- [ ] Chart Version bumped ([SEMVER 2](https://semver.org/))
 - [ ] Variables are documented in the README.md
-- [ ] Title of the PR starts with chart name (e.g. `[stable/chart]`)
+- [ ] Title of the PR starts with chart name (e.g. `[example]: Add service for feature xyz`)
