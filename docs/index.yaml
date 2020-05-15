@@ -274,20 +274,6 @@ entries:
     urls:
     - awx-0.1.0.tgz
     version: 0.1.0
-  consul:
-  - apiVersion: v1
-    created: "2020-05-15T17:30:12.457074-04:00"
-    description: Install and configure Consul on Kubernetes.
-    digest: cefad904575d60574180fd95f5f9b2c1ccd836ac7e41e431275d2ada5fef17ee
-    home: https://www.consul.io
-    name: consul
-    sources:
-    - https://github.com/hashicorp/consul
-    - https://github.com/hashicorp/consul-helm
-    - https://github.com/hashicorp/consul-k8s
-    urls:
-    - consul-0.12.0.tgz
-    version: 0.12.0
   faktory:
   - apiVersion: v1
     appVersion: 1.4.0
