@@ -25,6 +25,8 @@ Per the AWX documentation, if you choose to turn off Job Isolation you can do so
 > **Disabling bubblewrap support:**
 > To disable bubblewrap support for running jobs (playbook runs only), ensure you are  logged in as the Admin user and click on the settings gear settings in the upper right-hand corner. Click on the “Configure Tower” box, then click on the “Jobs” tab. Scroll down until you see “Enable Job Isolation” and change the radio button selection to “off”.
 
+[More information on the future of playbook isolation here](https://github.com/ansible/awx/issues/7060);
+
 ## Values
 
 [see values.yaml](./values.yaml)
