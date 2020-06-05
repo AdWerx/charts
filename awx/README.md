@@ -16,7 +16,7 @@ Install the chart:
 helm install adwerx/awx
 ```
 
-## Post-install
+## Job Isolation and Security Context
 
 Ansible AWX task runners employ a legacy process isolation for playbook runs (jobs) via [bubblewrap](https://github.com/containers/bubblewrap). The purpose of this isolation is [to restrict access to shared AWX subsystems, which could be multi-tenant](https://github.com/ansible/awx/pull/7188#issuecomment-636069719)—access the AWX task pod has and could be exploited. If you are not using AWX in a multi-tenant fashion and trust users writing playbooks to have full access to a Pod in your cluster, you may choose to disable bubblewrap. If you'd like to retain bubblewrap isolation on playbook runs in a kubernetes deployment, you'll need to run the AWX task pods with a priveleged security context (PR welcome).
 
