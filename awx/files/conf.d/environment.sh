@@ -1,6 +1,10 @@
 DATABASE_USER={{ .Values.postgresql.postgresqlUsername }}
 DATABASE_NAME={{ .Values.postgresql.postgresqlDatabase }}
-DATABASE_HOST={{ .Release.Name }}-postgresql
+{{- if .Values.postgresql.postgresqlHost }}
+DATABASE_HOST: {{ .Values.postgresql.postgresqlHost }}
+{{ else }}
+DATABASE_HOST: {{ .Release.Name }}-postgresql
+{{ end -}}
 DATABASE_PORT={{ .Values.postgresql.service.port }}
 DATABASE_PASSWORD={{ .Values.postgresql.postgresqlPassword }}
 DATABASE_ADMIN_PASSWORD={{ .Values.postgresql.postgresqlPassword }}
