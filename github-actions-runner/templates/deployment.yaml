@@ -1,0 +1,141 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "github-actions-runner.fullname" . }}
+  labels:
+    {{- include "github-actions-runner.labels" . | nindent 4 }}
+spec:
+  serviceName: {{ include "github-actions-runner.fullname" . }}
+{{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+{{- end }}
+  selector:
+    matchLabels:
+      {{- include "github-actions-runner.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+    {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+        # does this matter? You would only need new pods to get the new secret
+        # prob don't need it
+        # checksum/token: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+    {{- end }}
+      labels:
+        {{- include "github-actions-runner.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "github-actions-runner.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: configure
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          workingDir: /home/actions/runner-state
+          env:
+            - name: RUNNER_URL
+              value: {{ .Values.runner.url }}
+            - name: RUNNER_NAME
+              value: {{ .Values.runner.runner_name }}
+            - name: RUNNER_LABELS
+              value: {{ .Values.runner.runner_labels }}
+            - name: RUNNER_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "github-actions-runner.fullname" . }}
+                  key: runner_token
+          volumeMounts:
+            - name: state
+              mountPath: /home/actions/runner-state
+          command:
+            - /bin/bash
+            - -c
+            - |
+              set -eEuo pipefail
+
+              if [ ! -f /home/actions/runner-state/run.sh ]; then
+                cp -r /home/actions/runner/. /home/actions/runner-state
+              fi
+
+              if [ ! -f .runner ]; then
+                ./config.sh \
+                    --name "${RUNNER_NAME}" \
+                    --token "${RUNNER_TOKEN}" \
+                    --url "${RUNNER_URL}" \
+                    --labels "${RUNNER_LABELS}" \
+                    --work _work \
+                    --unattended \
+                    --replace
+              fi
+      containers:
+        - name: runner
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          workingDir: /home/actions/runner-state
+          # livenessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: state
+              mountPath: /home/actions/runner-state
+      volumes:
+{{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
+        - name: state
+          persistentVolumeClaim:
+{{- with .Values.persistence.existingClaim }}
+            claimName: {{ tpl . $ }}
+{{- end }}
+{{- else if not .Values.persistence.enabled }}
+        - name: state
+          emptyDir: {}
+{{- else if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
+{{- with .Values.persistence }}
+  volumeClaimTemplates:
+    - metadata:
+        name: state
+      {{- with .annotations }}
+        annotations:
+        {{- range $key, $value := . }}
+          {{ $key }}: {{ $value }}
+        {{- end }}
+      {{- end }}
+      spec:
+        accessModes:
+        {{- range .accessModes }}
+          - {{ . | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .size | quote }}
+        {{- if .storageClass -}}
+        {{- if (eq "-" .storageClass) -}}
+            {{- printf "storageClassName: \"\"" -}}
+        {{- else }}
+            {{- printf "storageClassName: %s" .storageClass -}}
+        {{- end }}
+        {{- end }}
+{{- end }}
+{{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
