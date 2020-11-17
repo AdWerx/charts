@@ -22,12 +22,23 @@ runner:
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
+
+# docker in docker
+dind:
+  enabled: false
+  image:
+    repository: docker
+    pullPolicy: IfNotPresent
+    tag: 19.03.13-dind
+  securityContext:
+    privileged: true
+  resources: {}
 
 persistence:
   # recommended so runners can stay registered and renew tokens automatically

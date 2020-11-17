@@ -59,9 +59,7 @@ spec:
             - |
               set -eEuo pipefail
 
-              if [ ! -f /home/actions/runner-state/run.sh ]; then
-                cp -r /home/actions/runner/. /home/actions/runner-state
-              fi
+              cp -r /home/actions/runner/. /home/actions/runner-state
 
               if [ ! -f .runner ]; then
                 ./config.sh \
@@ -79,53 +77,85 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- if .Values.debug }}
+          command: ["dumb-init", "--", "sleep", "10000"]
+          {{- end }}
           workingDir: /home/actions/runner-state
           # livenessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          #   exec:
+          #     exec: find _diag/ -type f -printf "%T@ %p\n" | sort -nr | head -1 | cut -f2 -d' ' | xargs tail -f
+          env:
+            {{- if .Values.dind.enabled }}
+            - name: DOCKER_HOST
+              value: tcp://localhost:2375
+            {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: state
               mountPath: /home/actions/runner-state
+            - name: workspace
+              mountPath: /home/actions/runner-state/_work
+        {{- if .Values.dind.enabled }}
+        - name: dind-daemon
+          image: "{{ .Values.dind.image.repository }}:{{ .Values.dind.image.tag }}"
+          imagePullPolicy: {{ .Values.dind.image.pullPolicy }}
+          env:
+            - name: DOCKER_TLS_CERTDIR
+              value: ""
+          resources:
+            {{- toYaml .Values.dind.resources | nindent 12 }}
+          securityContext:
+            {{- toYaml .Values.dind.securityContext | nindent 12 }}
+          volumeMounts:
+            - name: workspace
+              mountPath: /home/actions/runner-state/_work
+            - name: docker-graph-store
+              mountPath: /var/lib/docker
+        {{- end }}
       volumes:
+        {{- if .Values.dind.enabled }}
+        - name: docker-graph-store
+          emptyDir: {}
+        {{- end }}
+        - name: workspace
+          emptyDir: {}
 {{- if and .Values.persistence.enabled .Values.persistence.existingClaim }}
         - name: state
           persistentVolumeClaim:
-{{- with .Values.persistence.existingClaim }}
+            {{- with .Values.persistence.existingClaim }}
             claimName: {{ tpl . $ }}
-{{- end }}
+            {{- end }}
 {{- else if not .Values.persistence.enabled }}
         - name: state
           emptyDir: {}
 {{- else if and .Values.persistence.enabled (not .Values.persistence.existingClaim) }}
-{{- with .Values.persistence }}
+  {{- with .Values.persistence }}
   volumeClaimTemplates:
     - metadata:
         name: state
-      {{- with .annotations }}
+        {{- with .annotations }}
         annotations:
-        {{- range $key, $value := . }}
+          {{- range $key, $value := . }}
           {{ $key }}: {{ $value }}
+          {{- end }}
         {{- end }}
-      {{- end }}
       spec:
         accessModes:
-        {{- range .accessModes }}
+          {{- range .accessModes }}
           - {{ . | quote }}
-        {{- end }}
+          {{- end }}
         resources:
           requests:
             storage: {{ .size | quote }}
-        {{- if .storageClass -}}
-        {{- if (eq "-" .storageClass) -}}
+            {{- if .storageClass -}}
+            {{- if (eq "-" .storageClass) -}}
             {{- printf "storageClassName: \"\"" -}}
-        {{- else }}
+            {{- else }}
             {{- printf "storageClassName: %s" .storageClass -}}
-        {{- end }}
-        {{- end }}
-{{- end }}
+            {{- end }}
+            {{- end }}
+  {{- end }}
 {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:

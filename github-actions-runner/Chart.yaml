@@ -3,4 +3,4 @@ name: github-actions-runner
 description: Deploys self-hosted GitHub Action Runners
 type: application
 version: "0.8.0"
-appVersion: "2.274.2-8"
+appVersion: "2.274.2-20.04-4"
