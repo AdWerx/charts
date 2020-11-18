@@ -67,6 +67,10 @@ runner:
       value: tcp://dind.default.svc.cluster.local
 ```
 
+### Can I use my own docker image for the runner?
+
+Sure. The Dockerfile for the image used in this chart can be found [here](https://github.com/AdWerx/dockerfiles/tree/main/github-actions-runner). You can base your image on that one, or make sure that your custom image has a `WORKDIR` of `/home/actions/runner` and the actions runner package is installed there.
+
 ## Raison d'être (Reason for existence)
 
 There are existing GitHub Action Runner charts and/or images that exist that may be more useful.
