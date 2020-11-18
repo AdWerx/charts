@@ -1,0 +1,85 @@
+# Default values for github-actions-runner.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# -- If not using autoscaling, set the desired runner count
+replicaCount: 1
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+runner:
+  image:
+    repository: adwerx/github-actions-runner
+    # -- Default is the chart appVersion.
+    tag: ""
+    pullPolicy: IfNotPresent
+  # -- Set if you want custom runner names. Defaults to the pod name
+  name: ""
+  # -- Either `myorg` or `myorg/myrepo` for an organization-scoped runner or repo-scoped runner, respectively.
+  scope: ""
+  # -- The registration token obtained from GitHub's "Add new runner"
+  registrationToken: ""
+  # -- Optional labels for the runner to match against in your workflows
+  labels: ""
+  securityContext: {}
+  extraEnv: []
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+dind:
+  # -- If you'd like your runner to be docker-enabled and you understand and accept the security risks associated with a priveleged container running actions, enable here
+  enabled: false
+  image:
+    repository: docker
+    tag: 19.03.13-dind
+    pullPolicy: IfNotPresent
+  securityContext:
+    privileged: true
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+serviceAccount:
+  create: false
+  annotations: {}
+  # -- If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+persistence:
+  # -- Highly recommended so runners can retain their registration and renew tokens automatically
+  enabled: true
+  # storageClass: "-"
+  # existingClaim: ""
+  accessModes:
+    - ReadWriteOnce
+  size: 8Gi
+  annotations: {}
+
+podAnnotations: {}
+podManagementPolicy: "Parallel"
+podSecurityContext:
+  fsGroup: 1000
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 50
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

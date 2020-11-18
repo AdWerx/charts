@@ -2,10 +2,12 @@
 
 set -e
 
+helm_cmd="${HELM_COMMAND:-helm}"
+
 chart="$1"
 
 cd "$chart"
 
-helm lint .
+${helm_cmd} lint .
 [ -d test/unit ] && bats test/unit
 # [ -d test/acceptance ] && bats test/acceptance
