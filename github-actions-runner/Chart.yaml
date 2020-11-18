@@ -1,9 +1,9 @@
 apiVersion: v2
 name: github-actions-runner
 description: |
-  Deploys a [GitHub Actions self-hosted runner pool](https://github.com/actions/runner) allows
-  you to run your [GitHub Actions](https://github.com/features/actions) workflows on
-  your own infrastructure.
+  Deploys a StatefulSet of [GitHub Actions self-hosted runners](https://github.com/actions/runner)—
+  allowing you to run your [GitHub Actions](https://github.com/features/actions) workflows on your
+  own infrastructure.
 type: application
 version: "0.9.1"
 appVersion: "2.274.2-20.04-4"

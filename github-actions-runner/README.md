@@ -7,9 +7,9 @@ If you're looking at README.md.gotmpl, then you're in the right place.
 
 ![Version: 0.9.1](https://img.shields.io/badge/Version-0.9.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 2.274.2-20.04-4](https://img.shields.io/badge/AppVersion-2.274.2--20.04--4-informational?style=flat-square)
 
-Deploys a [GitHub Actions self-hosted runner pool](https://github.com/actions/runner) allows
-you to run your [GitHub Actions](https://github.com/features/actions) workflows on
-your own infrastructure.
+Deploys a StatefulSet of [GitHub Actions self-hosted runners](https://github.com/actions/runner)—
+allowing you to run your [GitHub Actions](https://github.com/features/actions) workflows on your
+own infrastructure.
 
 ## Requirements
 
