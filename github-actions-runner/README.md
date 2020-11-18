@@ -84,6 +84,14 @@ Use of this token for obtaining runner registration tokens requires `admin:org` 
 
 Instead of installing docker inside of the GitHub Actions Runner container itself, this runs a `docker:dind` sidecar and communicates over `localhost`. To share a filesystem and work with the runner workspace as expected, the workspace volume is mounted to both containers in the pod.
 
+### Why a StatefulSet?
+
+Runners are stateful! That is, they need a short-lived registration token in order to register themselves, but after that point, they store their own credentials on disk. To preserve the runner credentials on disk for each pod, we use a persistent volume claim per pod, so each pod can be rescheduled or restarted and when started, can authenticate by itself (without the registration token) and continue working.
+
+The token provided when using "add new runner" in the UI is a temporary registration token that can be used to register an actions runner. Once the runner is registered (using config.sh), it stores its own credentials locally. The registration token is short-lived (1 hour) and cannot be renewed. But after registration is complete, the runner should be able to continue to stay authenticated using its own credentials.
+
+So where does the runner store credentials? ./.runner, ./.credentials, etc, local to the run.sh and config.sh script. Because they're local to the scripts, we can't mount a volume on top of the scripts, so we copy the scripts to a volume directory and allow the registration credentials to be written alongside the scripts inside the volume. Thus, when the runner restarts, it doesn't need to re-register, it simply reconnects with existing credentials.
+
 ### Alternatives
 
 - [lazybit/actions-runner](https://github.com/lazybit-ch/actions-runner/tree/master/actions-runner)
