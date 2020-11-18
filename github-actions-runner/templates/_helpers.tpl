@@ -61,3 +61,18 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Get the number of replicas for the statefulset
+Start the max autoscaling amount at first so all can use
+the seed token to obtain their own credentials, then the PVs
+will contain renewable credentials and pods can be brought up and down
+easily
+*/}}
+{{- define "github-actions-runner.replicas" -}}
+{{- if .Values.autoscaling.enabled }}
+{{- .Values.autoscaling.maxReplicas }}
+{{- else }}
+{{- .Values.replicaCount }}
+{{- end }}
+{{- end }}

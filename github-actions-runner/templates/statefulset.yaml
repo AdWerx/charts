@@ -6,9 +6,8 @@ metadata:
     {{- include "github-actions-runner.labels" . | nindent 4 }}
 spec:
   serviceName: {{ include "github-actions-runner.fullname" . }}
-{{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-{{- end }}
+  replicas: {{ include "github-actions-runner.replicas" . }}
+  podManagementPolicy: {{ .Values.podManagementPolicy }}
   selector:
     matchLabels:
       {{- include "github-actions-runner.selectorLabels" . | nindent 6 }}
@@ -17,9 +16,7 @@ spec:
     {{- with .Values.podAnnotations }}
       annotations:
         {{- toYaml . | nindent 8 }}
-        # does this matter? You would only need new pods to get the new secret
-        # prob don't need it
-        # checksum/token: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        checksum/token: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
     {{- end }}
       labels:
         {{- include "github-actions-runner.selectorLabels" . | nindent 8 }}
@@ -37,9 +34,8 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
-          workingDir: /home/actions/runner-state
           env:
-            - name: RUNNER_URL
+            - name: RUNNER_SCOPE
               value: {{ .Values.runner.url }}
             - name: RUNNER_NAME
               value: {{ .Values.runner.runner_name }}
@@ -59,22 +55,28 @@ spec:
             - |
               set -eEuo pipefail
 
-              cp -r /home/actions/runner/. /home/actions/runner-state
-
-              if [ ! -f .runner ]; then
+              rundir=/home/actions/runner-state
+              cp -r ./. ${rundir}
+              cd ${rundir}
+              hashed_token=$(printf "${RUNNER_TOKEN}" | sha256sum)
+              # when changing the registration token, all
+              # pods will re-register with the new token
+              if [ ! "$(cat .seedhash)" = "${hashed_token}" ]; then
+                ./config.sh remove --token ${RUNNER_TOKEN}
                 ./config.sh \
                     --name "${RUNNER_NAME}" \
                     --token "${RUNNER_TOKEN}" \
-                    --url "${RUNNER_URL}" \
+                    --url "https://github.com/${RUNNER_SCOPE}" \
                     --labels "${RUNNER_LABELS}" \
                     --work _work \
                     --unattended \
                     --replace
+                printf "${hashed_token}" > .seedhash
               fi
       containers:
         - name: runner
           securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+            {{- toYaml .Values.runner.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.debug }}

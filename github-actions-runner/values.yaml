@@ -2,46 +2,61 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+# -- If not using autoscaling, set the desired runner count
 replicaCount: 1
-
-image:
-  repository: adwerx/github-actions-runner
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
 
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 runner:
+  image:
+    repository: adwerx/github-actions-runner
+    # -- Default is the chart appVersion.
+    tag: ""
+    pullPolicy: IfNotPresent
+  # -- Set if you want custom runner names. Defaults to the pod name
   name: ""
-  url: ""
-  token: ""
+  # -- Either `myorg` or `myorg/myrepo` for an organization-scoped runner or repo-scoped runner, respectively.
+  scope: ""
+  # -- The registration token obtained from GitHub's "Add new runner"
+  registrationToken: ""
+  # -- Optional labels for the runner to match against in your workflows
   labels: ""
+  securityContext: {}
+  resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
 
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: false
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
-
-# docker in docker
 dind:
+  # -- If you'd like your runner to be docker-enabled and you understand and accept the security risks associated with a priveleged container running actions, enable here
   enabled: false
   image:
     repository: docker
-    pullPolicy: IfNotPresent
     tag: 19.03.13-dind
+    pullPolicy: IfNotPresent
   securityContext:
     privileged: true
   resources: {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+serviceAccount:
+  create: false
+  annotations: {}
+  # -- If not set and create is true, a name is generated using the fullname template
+  name: ""
 
 persistence:
-  # recommended so runners can stay registered and renew tokens automatically
+  # -- Highly recommended so runners can retain their registration and renew tokens automatically
   enabled: true
   # storageClass: "-"
   # existingClaim: ""
@@ -51,31 +66,15 @@ persistence:
   annotations: {}
 
 podAnnotations: {}
-
+podManagementPolicy: "Parallel"
 podSecurityContext:
   fsGroup: 1000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
-
-resources: {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
 
 autoscaling:
   enabled: false
   minReplicas: 1
-  maxReplicas: 100
-  targetCPUUtilizationPercentage: 80
+  maxReplicas: 4
+  targetCPUUtilizationPercentage: 50
   # targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
