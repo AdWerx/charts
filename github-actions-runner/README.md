@@ -51,6 +51,21 @@ helm install github-actions-runner adwerx/github-actions-runner \
   --set runner.registrationToken=ABCDEF123
 ```
 
+## Docker Actions
+
+Some actions require the use of a docker daemon to run containers. To enable the docker-in-docker daemon sidecar, set `dind.enabled=true` in your values. The docker daemon sidecar runs as a `privileged` container by default. By using this feature you must understand its inherent risk.
+
+### How do I use my own docker remote host?
+
+You can provide a `DOCKER_HOST` env variable to the runner with `runner.extraEnv`:
+
+```yaml
+runner:
+  extraEnv:
+    - name: DOCKER_HOST
+      value: tcp://dind.default.svc.cluster.local
+```
+
 ## Raison d'être (Reason for existence)
 
 There are existing GitHub Action Runner charts and/or images that exist that may be more useful.
@@ -96,6 +111,7 @@ Instead of installing docker inside of the GitHub Actions Runner container itsel
 | podManagementPolicy | string | `"Parallel"` |  |
 | podSecurityContext.fsGroup | int | `1000` |  |
 | replicaCount | int | `1` | If not using autoscaling, set the desired runner count |
+| runner.extraEnv | list | `[]` |  |
 | runner.image.pullPolicy | string | `"IfNotPresent"` |  |
 | runner.image.repository | string | `"adwerx/github-actions-runner"` |  |
 | runner.image.tag | string | `""` | Default is the chart appVersion. |

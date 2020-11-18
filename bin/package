@@ -2,6 +2,8 @@
 
 set -e
 
+helm_cmd="${HELM_COMMAND:-helm}"
+
 chart=$1
 
 if [ -z "$1" ]; then
@@ -19,9 +21,9 @@ bin/test "$chart"
 
 echo "packaging $chart:$version"
 
-helm package -d docs/ $chart
+${helm_cmd} package -d docs/ $chart
 
-helm repo index docs
+${helm_cmd} repo index docs
 
 git add "$chart/Chart.yaml"
 git add "docs/$chart-$version.tgz"
@@ -31,5 +33,5 @@ git commit -m "$chart $version package"
 
 git tag --force "$chart-v$version"
 
-echo ''
-echo 'you can now git push origin master --tags'
+echo '
+you can now git push origin master --tags'

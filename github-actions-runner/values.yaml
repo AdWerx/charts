@@ -24,6 +24,7 @@ runner:
   # -- Optional labels for the runner to match against in your workflows
   labels: ""
   securityContext: {}
+  extraEnv: []
   resources: {}
     # limits:
     #   cpu: 100m

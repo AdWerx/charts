@@ -13,11 +13,11 @@ spec:
       {{- include "github-actions-runner.selectorLabels" . | nindent 6 }}
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
       annotations:
-        {{- toYaml . | nindent 8 }}
         checksum/token: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
-    {{- end }}
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       labels:
         {{- include "github-actions-runner.selectorLabels" . | nindent 8 }}
     spec:
@@ -32,20 +32,20 @@ spec:
         - name: configure
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          image: "{{ .Values.runner.image.repository }}:{{ .Values.runner.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.runner.image.pullPolicy }}
           env:
             - name: RUNNER_SCOPE
-              value: {{ .Values.runner.url }}
+              value: {{ .Values.runner.scope }}
             - name: RUNNER_NAME
-              value: {{ .Values.runner.runner_name }}
+              value: {{ .Values.runner.name }}
             - name: RUNNER_LABELS
-              value: {{ .Values.runner.runner_labels }}
-            - name: RUNNER_TOKEN
+              value: {{ .Values.runner.labels }}
+            - name: RUNNER_REGISTRATION_TOKEN
               valueFrom:
                 secretKeyRef:
                   name: {{ include "github-actions-runner.fullname" . }}
-                  key: runner_token
+                  key: registration_token
           volumeMounts:
             - name: state
               mountPath: /home/actions/runner-state
@@ -58,14 +58,14 @@ spec:
               rundir=/home/actions/runner-state
               cp -r ./. ${rundir}
               cd ${rundir}
-              hashed_token=$(printf "${RUNNER_TOKEN}" | sha256sum)
+              hashed_token=$(printf "${RUNNER_REGISTRATION_TOKEN}" | sha256sum)
               # when changing the registration token, all
               # pods will re-register with the new token
               if [ ! "$(cat .seedhash)" = "${hashed_token}" ]; then
-                ./config.sh remove --token ${RUNNER_TOKEN}
+                ./config.sh remove --token ${RUNNER_REGISTRATION_TOKEN}
                 ./config.sh \
                     --name "${RUNNER_NAME}" \
-                    --token "${RUNNER_TOKEN}" \
+                    --token "${RUNNER_REGISTRATION_TOKEN}" \
                     --url "https://github.com/${RUNNER_SCOPE}" \
                     --labels "${RUNNER_LABELS}" \
                     --work _work \
@@ -77,16 +77,17 @@ spec:
         - name: runner
           securityContext:
             {{- toYaml .Values.runner.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          {{- if .Values.debug }}
-          command: ["dumb-init", "--", "sleep", "10000"]
-          {{- end }}
+          image: "{{ .Values.runner.image.repository }}:{{ .Values.runner.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.runner.image.pullPolicy }}
           workingDir: /home/actions/runner-state
+          # @TODO
           # livenessProbe:
-          #   exec:
-          #     exec: find _diag/ -type f -printf "%T@ %p\n" | sort -nr | head -1 | cut -f2 -d' ' | xargs tail -f
+          #   exec: find _diag/ -type f -printf "%T@ %p\n" | sort -nr | head -1 | cut -f2 -d' ' | xargs tail -f
           env:
+            {{- range .Values.runner.extraEnv }}
+            - name: {{ .name }}
+              value: {{ .value }}
+            {{- end }}
             {{- if .Values.dind.enabled }}
             - name: DOCKER_HOST
               value: tcp://localhost:2375
