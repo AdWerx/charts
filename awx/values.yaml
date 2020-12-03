@@ -1,3 +1,6 @@
+# @TODO
+# 12.0 remove memcached: https://github.com/ansible/awx/pull/7240
+# 10.0 remove rabbitmq https://github.com/ansible/awx/issues/5443
 # Default values for awx
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -5,7 +8,7 @@
 web:
   image:
     repository: ansible/awx_web
-    tag: 8.0.0
+    tag: "9.3.0"
     pullPolicy: IfNotPresent
   replicaCount: 1
   resources: {}
@@ -28,7 +31,7 @@ web:
 task:
   image:
     repository: ansible/awx_task
-    tag: 8.0.0
+    tag: "9.3.0"
     pullPolicy: IfNotPresent
   replicaCount: 1
   resources: {}

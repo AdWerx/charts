@@ -17,7 +17,7 @@ name="task-deployment"
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.template.spec.containers[0].image')
-  [ "$actual" = "ansible/awx_task:8.0.0" ]
+  [ "$actual" = "ansible/awx_task:9.3.0" ]
 }
 
 @test "$name: uses correct command" {

@@ -15,5 +15,5 @@ load _helpers
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.template.spec.containers[0].image')
-  [ "$actual" = "ansible/awx_web:8.0.0" ]
+  [ "$actual" = "ansible/awx_web:9.3.0" ]
 }
