@@ -118,7 +118,7 @@ If your cluster is using Nginx Ingress controller, then you can use [configurati
 ```yaml
 ui:
   ingress:
-    enabled: yes
+    enabled: true
     hosts:
       - host: example.com
         paths:
