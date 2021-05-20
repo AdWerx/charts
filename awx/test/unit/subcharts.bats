@@ -5,7 +5,7 @@ load _helpers
 @test "subcharts: memcached statefulset is apiVersion apps/v1"  {
   cd `chart_dir`
 
-  run_debug helm template -x charts/memcached/templates/statefulset.yaml .
+  run_debug helm template -s charts/memcached/templates/statefulset.yaml .
 
   local actual=$(get '.apiVersion')
 
@@ -15,7 +15,7 @@ load _helpers
 @test "subcharts: postgresql statefulset is apiVersion apps/v1"  {
   cd `chart_dir`
 
-  run_debug helm template -x charts/postgresql/templates/statefulset.yaml .
+  run_debug helm template -s charts/postgresql/templates/statefulset.yaml .
 
   local actual=$(get '.apiVersion')
 
@@ -25,7 +25,7 @@ load _helpers
 @test "subcharts: rabbitmq statefulset is apiVersion apps/v1"  {
   cd `chart_dir`
 
-  run_debug helm template -x charts/rabbitmq/templates/statefulset.yaml .
+  run_debug helm template -s charts/rabbitmq/templates/statefulset.yaml .
 
   local actual=$(get '.apiVersion')
 

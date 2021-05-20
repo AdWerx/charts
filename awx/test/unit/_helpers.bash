@@ -1,6 +1,6 @@
 # chart_dir returns the directory for the chart
 chart_dir() {
-  echo ${BATS_TEST_DIRNAME}/../..
+  echo "${BATS_TEST_DIRNAME}/../.."
 }
 
 valuesPath() {
@@ -8,12 +8,12 @@ valuesPath() {
 }
 
 template() {
-  cd `chart_dir`
+  cd "$(chart_dir)" || exit
 
   local file="$1"
   shift
 
-  run_debug helm template -x "templates/$file.yaml" "$@" .
+  run_debug helm template -s "templates/$file.yaml" "$(chart_dir)" "$@"
 }
 
 run_debug() {
@@ -22,5 +22,5 @@ run_debug() {
 }
 
 get() {
-  echo "$output" | yq -r $@ | tee /dev/stderr
+  echo "$output" | yq -r "$@" | tee /dev/stderr
 }

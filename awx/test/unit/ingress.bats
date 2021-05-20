@@ -7,9 +7,8 @@ name="ingress"
 @test "$name: is disabled by default" {
   template $name
 
-  [ "$status" -eq 0 ]
-  local actual=$(get '.kind')
-  [ "$actual" = "null" ]
+  [ "$status" -eq 1 ]
+  [ "$output" = "Error: could not find template templates/ingress.yaml in chart" ]
 }
 
 @test "$name: can be enabled" {
@@ -25,7 +24,7 @@ name="ingress"
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.backend.serviceName')
-  [ "$actual" = "release-name-awx" ]
+  [ "$actual" = "RELEASE-NAME-awx" ]
   local actual=$(get '.spec.backend.servicePort')
   [ "$actual" = "http" ]
 }
@@ -41,7 +40,7 @@ name="ingress"
   local actual=$(get '.spec.rules[0].http.paths[0].path')
   [ "$actual" = "/" ]
   local actual=$(get '.spec.rules[0].http.paths[0].backend.serviceName')
-  [ "$actual" = "release-name-awx" ]
+  [ "$actual" = "RELEASE-NAME-awx" ]
   local actual=$(get '.spec.rules[0].http.paths[0].backend.servicePort')
   [ "$actual" = "http" ]
 }

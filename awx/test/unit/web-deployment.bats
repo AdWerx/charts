@@ -25,7 +25,7 @@ name="web-deployment"
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.template.spec.volumes[3].configMap.name')
-  [ "$actual" = "release-name-awx-settings" ]
+  [ "$actual" = "RELEASE-NAME-awx-settings" ]
 
   local actual=$(get '.spec.template.spec.volumes[3].name')
   [ "$actual" = "nginx-conf" ]
