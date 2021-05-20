@@ -73,7 +73,7 @@ name="statefulset"
   get '.spec.template.spec.volumes[0].name'
   [ "$got" = "configs" ]
   get '.spec.template.spec.volumes[0].configMap.name'
-  [ "$got" = "release-name-faktory" ]
+  [ "$got" = "RELEASE-NAME-faktory" ]
   get '.spec.template.spec.containers[0].volumeMounts[0].name'
   [ "$got" = "configs" ]
   get '.spec.template.spec.containers[0].volumeMounts[0].mountPath'

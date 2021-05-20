@@ -13,9 +13,7 @@ template() {
   local file="$1"
   shift
 
-  run_debug helm template -x "templates/$file.yaml" "$@" .
-
-  [ "$status" -eq 0 ]
+  run_debug helm template -s "templates/$file.yaml" "$(chart_dir)" "$@"
 }
 
 run_debug() {
