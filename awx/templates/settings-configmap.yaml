@@ -151,10 +151,17 @@ data:
     LOGGING['handlers']['system_tracking_migrations'] = {'class': 'logging.NullHandler'}
     LOGGING['handlers']['management_playbooks'] = {'class': 'logging.NullHandler'}
 
+    DJANGO_REDIS_IGNORE_EXCEPTIONS = True
     CACHES = {
         'default': {
-            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
-            'LOCATION': '{}:{}'.format("{{ .Release.Name }}-memcached", "11211")
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': 'redis://{}:{}/'.format(
+                    {{- if .Values.redis.host }}
+                    "{{ .Values.redis.host }}",
+                    {{ else }}
+                    "{{ .Release.Name }}-redis-headless",
+                    {{ end -}}
+                    "{{ .Values.redis.port }}")
         },
         'ephemeral': {
             'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
@@ -163,5 +170,18 @@ data:
 
     USE_X_FORWARDED_PORT = True
 
-    AWX_CONTAINER_GROUP_DEFAULT_IMAGE = "{{ .Values.task.image.repository }}:{{ .Values.task.image.tag }}"
+    BROADCAST_WEBSOCKETS_PORT = 8052
+    BROADCAST_WEBSOCKETS_PROTOCOL = 'http'
+
+    BROKER_URL = 'redis://{}:{}/'.format(
+                    {{- if .Values.redis.host }}
+                    "{{ .Values.redis.host }}",
+                    {{ else }}
+                    "{{ .Release.Name }}-redis-headless",
+                    {{ end -}}
+                    "{{ .Values.redis.port }}")
+
+    CHANNEL_LAYERS = {
+        "default": {"BACKEND": "channels_redis.core.RedisChannelLayer", "CONFIG": {"hosts": [BROKER_URL], "capacity": 10000, "group_expiry": 157784760}}  # 5 years
+    }
 {{ .Values.extraConfiguration | default "" | nindent 2 }}

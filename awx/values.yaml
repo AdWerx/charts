@@ -8,12 +8,13 @@
 nameOverride: ""
 fullnameOverride: ""
 
+replicaCount: 1
+image:
+  repository: ansible/awx
+  tag: "16.0.0"
+  pullPolicy: IfNotPresent
+
 web:
-  image:
-    repository: ansible/awx_web
-    tag: "9.3.0"
-    pullPolicy: IfNotPresent
-  replicaCount: 1
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
@@ -27,16 +28,8 @@ web:
     #  memory: "1Gi"
   extraVolumes: []
   extraVolumeMounts: []
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
 
 task:
-  image:
-    repository: ansible/awx_task
-    tag: "9.3.0"
-    pullPolicy: IfNotPresent
-  replicaCount: 1
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
@@ -48,10 +41,8 @@ task:
     # requests:
     #  cpu: "1.5"
     #  memory: "2Gi"
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
 
+# ! important ! SET/REPLACE THESE VALUES
 secret_key: awxsecret
 default_admin_user: admin
 default_admin_password: password
@@ -81,22 +72,18 @@ ingress:
     #   hosts:
     #     - chart-example.local
 
-# Chart values https://github.com/helm/charts/blob/master/stable/memcached/values.yaml
-memcached:
-  enabled: true
-
 # Chart values https://github.com/helm/charts/blob/master/stable/rabbitmq/values.yaml
-rabbitmq:
+redis:
+  image:
+    tag: "6.2.4"
+  auth:
+    enabled: false
+  # set to false if using external redis
   enabled: true
-  rabbitmq:
-    username: admin
-    password: amqpassword
-    # loadDefinition:
-    #   enabled: true
-    #   secretName: rabbitmq-load-definition
-    ## Configution file content https://www.rabbitmq.com/configure.html#configuration-files
-    extraConfiguration: |-
-      default_vhost = awx
+  # enter host if using external redis
+  # host:
+  port: 6379
+  architecture: standalone
 
 # Chart values https://github.com/helm/charts/blob/master/stable/postgresql/values.yaml
 postgresql:

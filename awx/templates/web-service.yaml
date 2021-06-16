@@ -15,5 +15,5 @@ spec:
       protocol: TCP
       name: http
   selector:
-    app.kubernetes.io/name: {{ include "awx.name" . }}-web
+    app.kubernetes.io/name: {{ include "awx.name" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
