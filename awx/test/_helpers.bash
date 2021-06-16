@@ -4,7 +4,7 @@ chart_dir() {
 }
 
 valuesPath() {
-  echo "${BATS_TEST_DIRNAME}/values/$1.yaml"
+  echo "$(chart_dir)/test/values/$1.yaml"
 }
 
 template() {
