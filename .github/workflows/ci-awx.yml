@@ -1,0 +1,13 @@
+name: ci-awx
+on:
+  push:
+    paths:
+      - 'awx/**'
+jobs:
+  lint-helm:
+    runs-on: ubuntu-latest
+    container: alpine/helm:3.1.1
+    steps:
+      - uses: actions/checkout@v1
+      - name: Lint
+        run: helm lint
