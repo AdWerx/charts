@@ -4,7 +4,7 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: redis.enabled
   # added manually because of a statefulset api issue
-  # - name: postgresql
-  #   version: "6.3.2"
+  - name: postgresql
+    version: "6.3.2"
   #   repository: https://charts.bitnami.com/bitnami
-  #   condition: postgresql.enabled
+    condition: postgresql.enabled
