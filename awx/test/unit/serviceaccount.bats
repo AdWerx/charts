@@ -5,14 +5,14 @@ load _helpers
 name="serviceaccount"
 
 @test "$name: is not rendered when serviceAccountName is provided" {
-  template $name --set serviceAccountName=myServiceAccount
+  template_with_defaults $name --set serviceAccountName=myServiceAccount
 
   [ "$status" -eq 1 ]
 }
 
 
 @test "$name: name is awx" {
-  template $name
+  template_with_defaults $name
 
   local actual=$(get '.metadata.name')
   [ "$actual" = "awx" ]

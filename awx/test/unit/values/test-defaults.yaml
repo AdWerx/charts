@@ -1,0 +1,9 @@
+# A value must be set here
+secret_key: test
+# A value must be set here
+default_admin_user: test
+# A value must be set here
+default_admin_password: test
+
+postgresql:
+  postgresqlPassword: test

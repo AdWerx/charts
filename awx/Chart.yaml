@@ -8,11 +8,11 @@ keywords:
   - tower
   - devops
   - automation
-home: https://github.com/AdWerx/charts/tree/master/awx
+home: https://github.com/ansible/awx
 maintainers:
   - name: Josh Bielick
     url: https://github.com/jbielick
 sources:
-  - https://github.com/AdWerx/charts
+  - https://github.com/AdWerx/charts/tree/master/awx
 icon: https://adwerx-public.s3.amazonaws.com/awx.png
 appVersion: "16.0.0"

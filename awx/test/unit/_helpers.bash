@@ -16,6 +16,10 @@ template() {
   run_debug helm template -s "templates/$file.yaml" "$(chart_dir)" "$@"
 }
 
+template_with_defaults() {
+  template "$@" -f "$(valuesPath test-defaults)"
+}
+
 run_debug() {
   run "$@"
   echo -e "$output" | tee /dev/stderr
