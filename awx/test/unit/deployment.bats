@@ -62,3 +62,20 @@ name="deployment"
   local actual=$(get -r '.data["nginx.conf"]')
   [ $(echo "$actual" | grep listen | xargs echo) = "listen 8052 default_server;" ]
 }
+
+@test "$name: uses serviceAccountName" {
+  template serviceaccount
+  local real_name=$(get '.metadata.name')
+
+  template $name "$@"
+
+  local actual=$(get '.spec.template.spec.serviceAccountName')
+  [ "$actual" = "$real_name" ]
+}
+
+@test "$name: uses provided serviceAccountName" {
+  template $name "$@" --set serviceAccountName=myServiceAccount
+
+  local actual=$(get '.spec.template.spec.serviceAccountName')
+  [ "$actual" = "myServiceAccount" ]
+}

@@ -7,6 +7,7 @@ RabbitMQ and memcached were removed as depdencies of AWX and redis was introduce
 
 No extra upgrade steps are necessary at this time.
 
+- Service Account added for AWX pod by default
 - Upgraded to AWX 16
 - Removed RabbitMQ
 - Removed Memcached
