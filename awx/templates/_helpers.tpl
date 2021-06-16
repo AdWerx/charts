@@ -68,3 +68,10 @@ Common volume definitions
   secret:
     secretName: {{ include "awx.fullname" . }}-confd
 {{- end -}}
+
+{{/*
+ServiceAccount name for app pods
+*/}}
+{{- define "awx.serviceAccountName" -}}
+{{- default "awx" .Values.serviceAccountName -}}
+{{- end -}}
