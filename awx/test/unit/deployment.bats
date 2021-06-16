@@ -5,7 +5,7 @@ load _helpers
 name="deployment"
 
 @test "$name: replicas is one"  {
-  template $name
+  template_with_defaults $name
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.replicas')
@@ -13,7 +13,7 @@ name="deployment"
 }
 
 @test "$name: web uses correct image tag"  {
-  template $name
+  template_with_defaults $name
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.template.spec.containers[] | select(.name == "web") | .image')
@@ -21,7 +21,7 @@ name="deployment"
 }
 
 @test "$name: task uses correct image tag"  {
-  template $name
+  template_with_defaults $name
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.template.spec.containers[] | select(.name == "task") | .image')
@@ -29,7 +29,7 @@ name="deployment"
 }
 
 @test "$name: task uses correct command" {
-  template $name
+  template_with_defaults $name
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.template.spec.containers[] | select(.name == "task") | .command[0]')
@@ -37,7 +37,7 @@ name="deployment"
 }
 
 @test "$name: mounts nginx.conf"  {
-  template $name
+  template_with_defaults $name
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.template.spec.volumes[3].configMap.name')
@@ -58,23 +58,23 @@ name="deployment"
   local actual=$(get '.spec.template.spec.containers[] | select(.name == "web") | .volumeMounts[0].subPath')
   [ "$actual" = "nginx.conf" ]
 
-  template settings-configmap
+  template_with_defaults settings-configmap
   local actual=$(get -r '.data["nginx.conf"]')
   [ $(echo "$actual" | grep listen | xargs echo) = "listen 8052 default_server;" ]
 }
 
 @test "$name: uses serviceAccountName" {
-  template serviceaccount
+  template_with_defaults serviceaccount
   local real_name=$(get '.metadata.name')
 
-  template $name "$@"
+  template_with_defaults $name "$@"
 
   local actual=$(get '.spec.template.spec.serviceAccountName')
   [ "$actual" = "$real_name" ]
 }
 
 @test "$name: uses provided serviceAccountName" {
-  template $name "$@" --set serviceAccountName=myServiceAccount
+  template_with_defaults $name "$@" --set serviceAccountName=myServiceAccount
 
   local actual=$(get '.spec.template.spec.serviceAccountName')
   [ "$actual" = "myServiceAccount" ]

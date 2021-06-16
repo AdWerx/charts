@@ -1,8 +1,19 @@
+<!--
+STOP! README.md is automatically generated using helm-docs
+Run `helm-docs .` to generate.
+If you're looking at README.md.gotmpl, then you're in the right place.
+-->
 # Ansible AWX
 
-https://github.com/ansible/awx
+
+
+![Version: 3.0.0](https://img.shields.io/badge/Version-3.0.0-informational?style=flat-square) ![AppVersion: 16.0.0](https://img.shields.io/badge/AppVersion-16.0.0-informational?style=flat-square) 
 
 AWX provides a web-based user interface, REST API, and task engine built on top of Ansible. It is the upstream project for Tower, a commercial derivative of AWX.
+
+**Homepage:** <https://github.com/ansible/awx>
+
+## Installation
 
 Add our repo:
 
@@ -15,6 +26,22 @@ Install the chart:
 ```bash
 helm install adwerx/awx
 ```
+
+## Maintainers
+
+| Name | Email | Url |
+| ---- | ------ | --- |
+| Josh Bielick |  | https://github.com/jbielick |
+
+## Source Code
+
+* <https://github.com/AdWerx/charts/tree/master/awx>
+
+## Requirements
+
+| Repository | Name | Version |
+|------------|------|---------|
+| https://charts.bitnami.com/bitnami | redis | 14.4.0 |
 
 ## Job Isolation and Security Context
 
@@ -29,4 +56,34 @@ Per the AWX documentation, if you choose to turn off Job Isolation you can do so
 
 ## Values
 
-[see values.yaml](./values.yaml)
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| default_admin_password | string | `nil` | REQUIRED |
+| default_admin_user | string | `nil` | REQUIRED |
+| extraConfiguration | string | `"# INSIGHTS_URL_BASE = \"https://example.org\""` |  |
+| fullnameOverride | string | `""` |  |
+| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.repository | string | `"ansible/awx"` |  |
+| image.tag | string | `"16.0.0"` |  |
+| ingress.annotations | object | `{}` |  |
+| ingress.defaultBackend | bool | `true` | Whether the default backend for this ingress should route to the awx service |
+| ingress.enabled | bool | `false` |  |
+| ingress.hosts | list | `[]` | Define ingress routing here |
+| ingress.tls | list | `[]` |  |
+| nameOverride | string | `""` |  |
+| postgresql | object | `{"enabled":true,"image":{"registry":"docker.io","repository":"bitnami/postgresql","tag":9.6},"metrics":{"enabled":false},"persistence":{"enabled":true},"postgresqlDatabase":"awx","postgresqlHost":null,"postgresqlPassword":null,"postgresqlUsername":"awx"}` | See bitnami/postgresql chart values for all options |
+| postgresql.enabled | bool | `true` | Set to false if using external postgres |
+| postgresql.postgresqlHost | string | `nil` | Set this if using an external postgresql instance |
+| postgresql.postgresqlPassword | string | `nil` | A value must be set here |
+| redis | object | `{"architecture":"standalone","auth":{"enabled":false},"enabled":true,"host":null,"image":{"tag":"6.2.4"},"port":6379}` | See bitnami/redis chart values for all options |
+| redis.enabled | bool | `true` | Set to false if using external redis |
+| redis.host | string | `nil` | Enter host if using external redis |
+| replicaCount | int | `1` |  |
+| secret_key | string | `nil` | REQUIRED |
+| service.port | int | `8080` |  |
+| service.type | string | `"ClusterIP"` |  |
+| serviceAccountName | string | `nil` | Existing service account name for AWX pods to use (optional) |
+| task.resources | object | `{}` |  |
+| web.extraVolumeMounts | list | `[]` |  |
+| web.extraVolumes | list | `[]` |  |
+| web.resources | object | `{}` |  |

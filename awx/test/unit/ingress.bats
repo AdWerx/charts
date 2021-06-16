@@ -5,14 +5,14 @@ load _helpers
 name="ingress"
 
 @test "$name: is disabled by default" {
-  template $name
+  template_with_defaults $name
 
   [ "$status" -eq 1 ]
   [ "$output" = "Error: could not find template templates/ingress.yaml in chart" ]
 }
 
 @test "$name: can be enabled" {
-  template $name --set="ingress.enabled=true"
+  template_with_defaults $name --set="ingress.enabled=true"
 
   [ "$status" -eq 0 ]
   local actual=$(get '.kind')
@@ -20,7 +20,7 @@ name="ingress"
 }
 
 @test "$name: uses defaultBackend by default" {
-  template $name --set="ingress.enabled=true"
+  template_with_defaults $name --set="ingress.enabled=true"
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.backend.serviceName')
@@ -30,7 +30,7 @@ name="ingress"
 }
 
 @test "$name: allows host rules" {
-  template $name --values `valuesPath ingress-host`
+  template_with_defaults $name --values `valuesPath ingress-host`
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.backend.serviceName')
