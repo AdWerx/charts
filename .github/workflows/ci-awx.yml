@@ -16,6 +16,7 @@ jobs:
     container: alpine/helm:3.1.1
     steps:
       - uses: actions/checkout@v1
+      - uses: engineerd/setup-kind@v0.5.0
       - name: Install packages
         run: apk add bats jq py-pip
       - name: Add helm repos
