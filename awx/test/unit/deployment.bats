@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-load _helpers
+load ../_helpers
 
 name="deployment"
 
@@ -59,8 +59,9 @@ name="deployment"
   [ "$actual" = "nginx.conf" ]
 
   template_with_defaults settings-configmap
-  local actual=$(get -r '.data["nginx.conf"]')
-  [ $(echo "$actual" | grep listen | xargs echo) = "listen 8052 default_server;" ]
+  local conf_data=$(get -r '.data["nginx.conf"]')
+  local actual=$(echo "$conf_data" | grep listen | xargs echo)
+  [ "$actual" = "listen 8052 default_server;" ]
 }
 
 @test "$name: uses serviceAccountName" {

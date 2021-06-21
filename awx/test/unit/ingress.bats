@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-load _helpers
+load ../_helpers
 
 name="ingress"
 

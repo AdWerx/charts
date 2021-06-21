@@ -1,0 +1,29 @@
+name: ci-awx
+on:
+  push:
+    paths:
+      - 'awx/**'
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    container: alpine/helm:3.1.1
+    steps:
+      - uses: actions/checkout@v1
+      - name: Lint
+        run: helm lint awx --set secret_key=test
+  test:
+    runs-on: ubuntu-latest
+    container: alpine/helm:3.1.1
+    steps:
+      - uses: actions/checkout@v1
+      # - uses: engineerd/setup-kind@v0.5.0
+      - name: Install packages
+        run: apk add bats jq py-pip
+      - name: Add helm repos
+        run: helm repo add bitnami https://charts.bitnami.com/bitnami
+      - name: Add dependencies
+        run: helm dep build awx
+      - name: Install yq
+        run: pip install yq
+      - name: Run tests
+        run: bats awx/test/*

@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-load _helpers
+load ../_helpers
 
 @test "subcharts: postgresql statefulset is apiVersion apps/v1"  {
   cd `chart_dir`
