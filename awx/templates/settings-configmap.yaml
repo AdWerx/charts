@@ -173,6 +173,8 @@ data:
     BROADCAST_WEBSOCKETS_PORT = 8052
     BROADCAST_WEBSOCKETS_PROTOCOL = 'http'
 
+    AWX_ANSIBLE_COLLECTIONS_PATHS = '/var/lib/awx/vendor/awx_ansible_collections'
+
     BROKER_URL = 'redis://{}:{}/'.format(
                     {{- if .Values.redis.host }}
                     "{{ .Values.redis.host }}",
