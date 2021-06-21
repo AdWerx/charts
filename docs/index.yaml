@@ -1,39 +1,5 @@
 apiVersion: v1
 entries:
-  Ansible AWX:
-  - apiVersion: v1
-    appVersion: 16.0.0
-    created: "2021-06-21T16:23:46.812722-04:00"
-    dependencies:
-    - condition: redis.enabled
-      name: redis
-      repository: https://charts.bitnami.com/bitnami
-      version: 14.4.0
-    - condition: postgresql.enabled
-      name: postgresql
-      repository: ""
-      version: 6.3.2
-    description: AWX provides a web-based user interface, REST API, and task engine
-      built on top of Ansible. It is the upstream project for Tower, a commercial
-      derivative of AWX.
-    digest: 0333522c3b1c11d49c172a3433bc4080bf525cc3f13bcb3287ce1b07c6bbbf73
-    home: https://github.com/ansible/awx
-    icon: https://adwerx-public.s3.amazonaws.com/awx.png
-    keywords:
-    - ansible
-    - awx
-    - tower
-    - devops
-    - automation
-    maintainers:
-    - name: Josh Bielick
-      url: https://github.com/jbielick
-    name: Ansible AWX
-    sources:
-    - https://github.com/AdWerx/charts/tree/master/awx
-    urls:
-    - Ansible AWX-3.0.0.tgz
-    version: 3.0.0
   awx:
   - apiVersion: v1
     appVersion: 16.0.0
