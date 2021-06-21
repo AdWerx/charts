@@ -2,12 +2,15 @@
 
 set -e
 
-helm_cmd="${HELM_COMMAND:-helm}"
-
 chart="$1"
 
 cd "$chart"
 
-${helm_cmd} lint .
+default_values_path=test/values/test-defaults.yaml
+if [ -f "$default_values_path" ]; then
+  helm lint . -f "$default_values_path"
+else
+  helm lint .
+fi
 [ -d test/unit ] && bats test/unit
 # [ -d test/acceptance ] && bats test/acceptance
