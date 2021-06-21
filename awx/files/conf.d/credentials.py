@@ -13,14 +13,3 @@ DATABASES = {
         'PORT': "{{ .Values.postgresql.service.port }}",
     }
 }
-BROKER_URL = 'amqp://{}:{}@{}:{}/{}'.format(
-    "{{ .Values.rabbitmq.rabbitmq.username }}",
-    "{{ .Values.rabbitmq.rabbitmq.password }}",
-    "{{ .Release.Name }}-rabbitmq",
-    "{{ .Values.rabbitmq.service.port }}",
-    "awx")
-CHANNEL_LAYERS = {
-    'default': {'BACKEND': 'asgi_amqp.AMQPChannelLayer',
-                'ROUTING': 'awx.main.routing.channel_routing',
-                'CONFIG': {'url': BROKER_URL}}
-}

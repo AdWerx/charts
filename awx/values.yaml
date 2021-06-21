@@ -1,6 +1,3 @@
-# @TODO
-# 12.0 remove memcached: https://github.com/ansible/awx/pull/7240
-# 10.0 remove rabbitmq https://github.com/ansible/awx/issues/5443
 # Default values for awx
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
@@ -8,12 +5,13 @@
 nameOverride: ""
 fullnameOverride: ""
 
+replicaCount: 1
+image:
+  repository: ansible/awx
+  tag: "16.0.0"
+  pullPolicy: IfNotPresent
+
 web:
-  image:
-    repository: ansible/awx_web
-    tag: "9.3.0"
-    pullPolicy: IfNotPresent
-  replicaCount: 1
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
@@ -27,16 +25,11 @@ web:
     #  memory: "1Gi"
   extraVolumes: []
   extraVolumeMounts: []
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
+
+# -- Existing service account name for AWX pods to use (optional)
+serviceAccountName:
 
 task:
-  image:
-    repository: ansible/awx_task
-    tag: "9.3.0"
-    pullPolicy: IfNotPresent
-  replicaCount: 1
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
     # choice for the user. This also increases chances charts run on environments with little
@@ -48,13 +41,13 @@ task:
     # requests:
     #  cpu: "1.5"
     #  memory: "2Gi"
-  nodeSelector: {}
-  tolerations: []
-  affinity: {}
 
-secret_key: awxsecret
-default_admin_user: admin
-default_admin_password: password
+# -- REQUIRED
+secret_key:
+# -- REQUIRED
+default_admin_user:
+# -- REQUIRED
+default_admin_password:
 
 extraConfiguration: |-
   # INSIGHTS_URL_BASE = "https://example.org"
@@ -65,9 +58,9 @@ service:
 
 ingress:
   enabled: false
-  # whether the default backend for this ingress should route to the awx service
+  # -- Whether the default backend for this ingress should route to the awx service
   defaultBackend: true
-  # Used to create an Ingress record.
+  # -- Define ingress routing here
   hosts: []
     # - host: chart-example.local
     #   paths:
@@ -76,40 +69,38 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   tls: []
-    # Secrets must be manually created in the namespace.
+    # -- Secrets referenced here must be exist in this namespace
     # - secretName: chart-example-tls
     #   hosts:
     #     - chart-example.local
 
-# Chart values https://github.com/helm/charts/blob/master/stable/memcached/values.yaml
-memcached:
+# -- See bitnami/redis chart values for all options
+redis:
+  image:
+    tag: "6.2.4"
+  auth:
+    enabled: false
+  # -- Set to false if using external redis
   enabled: true
+  # -- Enter host if using external redis
+  host:
+  port: 6379
+  architecture: standalone
 
-# Chart values https://github.com/helm/charts/blob/master/stable/rabbitmq/values.yaml
-rabbitmq:
-  enabled: true
-  rabbitmq:
-    username: admin
-    password: amqpassword
-    # loadDefinition:
-    #   enabled: true
-    #   secretName: rabbitmq-load-definition
-    ## Configution file content https://www.rabbitmq.com/configure.html#configuration-files
-    extraConfiguration: |-
-      default_vhost = awx
-
-# Chart values https://github.com/helm/charts/blob/master/stable/postgresql/values.yaml
+# -- See bitnami/postgresql chart values for all options
 postgresql:
+  # -- Set to false if using external postgres
   enabled: true
   image:
     registry: docker.io
     repository: bitnami/postgresql
     tag: 9.6
   postgresqlUsername: awx
-  postgresqlPassword: pgpassword
+  # -- A value must be set here
+  postgresqlPassword:
   postgresqlDatabase: awx
-  # Uncomment to use a different host for postgresql instance
-  # postgresqlHost:
+  # -- Set this if using an external postgresql instance
+  postgresqlHost:
   persistence:
     enabled: true
     # size: 50Gi

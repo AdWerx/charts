@@ -1,28 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "awx.fullname" . }}-web
+  name: {{ include "awx.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "awx.name" . }}-web
+    app.kubernetes.io/name: {{ include "awx.name" . }}
     helm.sh/chart: {{ include "awx.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
-  replicas: {{ .Values.web.replicaCount }}
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "awx.name" . }}-web
+      app.kubernetes.io/name: {{ include "awx.name" . }}
       app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "awx.name" . }}-web
+        app.kubernetes.io/name: {{ include "awx.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      serviceAccountName: {{ include "awx.serviceAccountName" $ }}
       containers:
-        - name: awx
-          image: "{{ .Values.web.image.repository }}:{{ .Values.web.image.tag }}"
-          imagePullPolicy: {{ .Values.web.image.pullPolicy }}
+        - name: task
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - /usr/bin/launch_awx_task.sh
+          volumeMounts:
+{{ include "awx.volumeMounts" . | indent 12 }}
+{{- if .Values.task.extraVolumeMounts }}
+{{ toYaml .Values.task.extraVolumeMounts | indent 12 }}
+{{- end }}
+          resources:
+{{ toYaml .Values.task.resources | indent 12 }}
+        - name: web
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 8052
               name: http
@@ -47,17 +60,17 @@ spec:
 {{- end }}
           resources:
 {{ toYaml .Values.web.resources | indent 12 }}
-    {{- if .Values.web.nodeSelector }}
+    {{- if .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.web.nodeSelector | indent 8 }}
+{{ toYaml .Values.nodeSelector | indent 8 }}
     {{- end }}
-    {{- if .Values.web.affinity }}
+    {{- if .Values.affinity }}
       affinity:
-{{ toYaml .Values.web.affinity | indent 8 }}
+{{ toYaml .Values.affinity | indent 8 }}
     {{- end }}
-    {{- if .Values.web.tolerations }}
+    {{- if .Values.tolerations }}
       tolerations:
-{{ toYaml .Values.web.tolerations | indent 8 }}
+{{ toYaml .Values.tolerations | indent 8 }}
     {{- end }}
       volumes:
 {{ include "awx.volumes" . | indent 8 }}

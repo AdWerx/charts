@@ -10,7 +10,5 @@ DATABASE_PASSWORD={{ .Values.postgresql.postgresqlPassword }}
 DATABASE_ADMIN_PASSWORD={{ .Values.postgresql.postgresqlPassword }}
 MEMCACHED_HOST={{ .Release.Name }}-memcached
 MEMCACHED_PORT=11211
-RABBITMQ_HOST={{ .Release.Name }}-rabbitmq
-RABBITMQ_PORT={{ .Values.rabbitmq.service.port }}
 AWX_ADMIN_USER={{ .Values.default_admin_user }}
 AWX_ADMIN_PASSWORD={{ .Values.default_admin_password }}
