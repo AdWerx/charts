@@ -17,6 +17,7 @@ pkg/*
 
 # Vscode files
 .vscode
+*.code-workspace
 
 # Emacs save files
 *~
