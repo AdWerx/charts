@@ -97,7 +97,9 @@ data:
     import socket
     ADMINS = ()
 
-    AWX_PROOT_ENABLED = True
+    AWX_PROOT_ENABLED = False
+
+    IS_K8S = True
 
     # Automatically deprovision pods that go offline
     AWX_AUTO_DEPROVISION_INSTANCES = True
@@ -114,10 +116,16 @@ data:
 
     REMOTE_HOST_HEADERS = ['HTTP_X_FORWARDED_FOR']
 
+    def get_secret():
+        if os.environ.get('SECRET_KEY'):
+            return os.environ['SECRET_KEY']
+        else:
+            return open('/etc/tower/SECRET_KEY', 'rb').read().strip()
+
     STATIC_ROOT = '/var/lib/awx/public/static'
     PROJECTS_ROOT = '/var/lib/awx/projects'
     JOBOUTPUT_ROOT = '/var/lib/awx/job_status'
-    SECRET_KEY = open('/etc/tower/SECRET_KEY', 'rb').read().strip()
+    SECRET_KEY = get_secret()
     ALLOWED_HOSTS = ['*']
     INTERNAL_API_URL = 'http://127.0.0.1:8052'
     SERVER_EMAIL = 'root@localhost'
@@ -132,21 +140,19 @@ data:
     LOGGING['handlers']['console'] = {
         '()': 'logging.StreamHandler',
         'level': 'DEBUG',
-        'formatter': 'simple',
+        'formatter': 'simple'
     }
 
     LOGGING['loggers']['django.request']['handlers'] = ['console']
     LOGGING['loggers']['rest_framework.request']['handlers'] = ['console']
-    LOGGING['loggers']['awx']['handlers'] = ['console']
+    LOGGING['loggers']['awx']['handlers'] = ['console', 'external_logger']
     LOGGING['loggers']['awx.main.commands.run_callback_receiver']['handlers'] = ['console']
-    LOGGING['loggers']['awx.main.commands.inventory_import']['handlers'] = ['console']
-    LOGGING['loggers']['awx.main.tasks']['handlers'] = ['console']
-    LOGGING['loggers']['awx.main.scheduler']['handlers'] = ['console']
+    LOGGING['loggers']['awx.main.tasks']['handlers'] = ['console', 'external_logger']
+    LOGGING['loggers']['awx.main.scheduler']['handlers'] = ['console', 'external_logger']
     LOGGING['loggers']['django_auth_ldap']['handlers'] = ['console']
     LOGGING['loggers']['social']['handlers'] = ['console']
     LOGGING['loggers']['system_tracking_migrations']['handlers'] = ['console']
     LOGGING['loggers']['rbac_migrations']['handlers'] = ['console']
-    LOGGING['loggers']['awx.isolated.manager.playbooks']['handlers'] = ['console']
     LOGGING['handlers']['callback_receiver'] = {'class': 'logging.NullHandler'}
     LOGGING['handlers']['task_system'] = {'class': 'logging.NullHandler'}
     LOGGING['handlers']['tower_warnings'] = {'class': 'logging.NullHandler'}
@@ -155,21 +161,6 @@ data:
     LOGGING['handlers']['management_playbooks'] = {'class': 'logging.NullHandler'}
 
     DJANGO_REDIS_IGNORE_EXCEPTIONS = True
-    CACHES = {
-        'default': {
-            'BACKEND': 'django_redis.cache.RedisCache',
-            'LOCATION': 'redis://{}:{}/'.format(
-                    {{- if .Values.redis.host }}
-                    "{{ .Values.redis.host }}",
-                    {{ else }}
-                    "{{ .Release.Name }}-redis-headless",
-                    {{ end -}}
-                    "{{ .Values.redis.port }}")
-        },
-        'ephemeral': {
-            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-        },
-    }
 
     USE_X_FORWARDED_PORT = True
 
@@ -185,6 +176,16 @@ data:
                     "{{ .Release.Name }}-redis-headless",
                     {{ end -}}
                     "{{ .Values.redis.port }}")
+
+    # CACHES = {
+    #     'default': {
+    #         'BACKEND': 'django_redis.cache.RedisCache',
+    #         'LOCATION': BROKER_URL
+    #     },
+    #     'ephemeral': {
+    #         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    #     },
+    # }
 
     CHANNEL_LAYERS = {
         "default": {"BACKEND": "channels_redis.core.RedisChannelLayer", "CONFIG": {"hosts": [BROKER_URL], "capacity": 10000, "group_expiry": 157784760}}  # 5 years
