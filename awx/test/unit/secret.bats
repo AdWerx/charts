@@ -4,6 +4,12 @@ load ../_helpers
 
 name="secret"
 
+@test "$name: is named correctly" {
+  template_with_defaults "$name"
+
+  [ "$(get '.metadata.name')" = "RELEASE-NAME-awx" ]
+}
+
 @test "$name: when defaultAdminUser is provided: value is stored in default secret" {
   template_with_defaults "$name" --set "defaultAdminUser=xyz"
 
