@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Lint
-        run: helm lint awx --set secret_key=test
+        run: helm lint awx -f awx/test/values/test-defaults.yaml
   test:
     runs-on: ubuntu-latest
     container: alpine/helm:3.1.1
