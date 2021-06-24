@@ -1,3 +1,13 @@
+2021-06-21 - 3.1.0
+---
+
+* Allow existing secrets to be used for default admin login, postgres connection details, and the AWX secret key. #22
+
+2021-06-21 - 3.0.1
+---
+
+* Include AWX_ANSIBLE_COLLECTIONS_PATHS variable in settings so dynamic inventory plugins work correctly
+
 2021-06-16 - 3.0.0
 ---
 

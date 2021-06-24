@@ -10,7 +10,10 @@ image:
   repository: ansible/awx
   tag: "16.0.0"
   pullPolicy: IfNotPresent
-
+extraVolumes: []
+nodeSelector:
+affinity:
+tolerations:
 web:
   resources: {}
     # We usually recommend not to specify default resources and to leave this as a conscious
@@ -23,8 +26,8 @@ web:
     # requests:
     #  cpu: "1"
     #  memory: "1Gi"
-  extraVolumes: []
   extraVolumeMounts: []
+  extraVolumes: []
 
 # -- Existing service account name for AWX pods to use (optional)
 serviceAccountName:
@@ -41,13 +44,24 @@ task:
     # requests:
     #  cpu: "1.5"
     #  memory: "2Gi"
+  extraVolumeMounts: []
 
-# -- REQUIRED
+# -- The key used to encrypt secrets in the AWX database. You must set this value or provide secretKeyExistingSecret
+secretKey:
 secret_key:
-# -- REQUIRED
+# -- The name of an existing secret in the same namespace containing a SECRET_KEY key and value
+secretKeyExistingSecret:
+
+# -- The seeded admin user credentials. You must set this value or provide defaultAdminExistingSecret
+defaultAdminUser:
+# for backwards compatibility
 default_admin_user:
-# -- REQUIRED
+# -- The seeded admin user credentials. You must set this value or provide defaultAdminExistingSecret
+defaultAdminPassword:
+# for backwards compatibility
 default_admin_password:
+# -- The name of an existing secret in the same namespace containing `AWX_ADMIN_USER` and `AWX_ADMIN_PASSWORD` keys and values
+defaultAdminExistingSecret:
 
 extraConfiguration: |-
   # INSIGHTS_URL_BASE = "https://example.org"
@@ -89,17 +103,19 @@ redis:
 
 # -- See bitnami/postgresql chart values for all options
 postgresql:
-  # -- Set to false if using external postgres
+  # -- Set to false if using external postgresql
   enabled: true
   image:
     registry: docker.io
     repository: bitnami/postgresql
     tag: 9.6
+  service:
+    port: "5432"
   postgresqlUsername: awx
-  # -- A value must be set here
+  # -- You must set this value or provide postgresqlExistingSecret
   postgresqlPassword:
   postgresqlDatabase: awx
-  # -- Set this if using an external postgresql instance
+  # -- Set this only if using an external postgresql database. Alternatively, you can provide this value through postgresqlExistingSecret.
   postgresqlHost:
   persistence:
     enabled: true
@@ -107,3 +123,6 @@ postgresql:
   # resources: {}
   metrics:
     enabled: false
+
+# -- The name of an existing secret in the same namespace containing DATABASE_USER, DATABASE_NAME, DATABASE_HOST, DATABASE_HOST, DATABASE_PORT, DATABASE_PASSWORD, DATABASE_ADMIN_PASSWORD keys and values
+postgresqlExistingSecret:

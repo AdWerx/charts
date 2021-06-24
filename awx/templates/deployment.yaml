@@ -26,6 +26,8 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - /usr/bin/launch_awx_task.sh
+          env:
+            {{- include "awx.env" . | nindent 12 }}
           volumeMounts:
 {{ include "awx.volumeMounts" . | indent 12 }}
 {{- if .Values.task.extraVolumeMounts }}
@@ -36,6 +38,8 @@ spec:
         - name: web
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            {{- include "awx.env" . | nindent 12 }}
           ports:
             - containerPort: 8052
               name: http
@@ -80,6 +84,9 @@ spec:
             items:
               - key: nginx.conf
                 path: nginx.conf
+{{- if .Values.extraVolumes }}
+{{ toYaml .Values.extraVolumes | indent 8 }}
+{{- end }}
 {{- if .Values.web.extraVolumes }}
 {{ toYaml .Values.web.extraVolumes | indent 8 }}
 {{- end }}

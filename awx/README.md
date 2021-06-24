@@ -7,7 +7,7 @@ If you're looking at README.md.gotmpl, then you're in the right place.
 
 
 
-![Version: 3.0.0](https://img.shields.io/badge/Version-3.0.0-informational?style=flat-square) ![AppVersion: 16.0.0](https://img.shields.io/badge/AppVersion-16.0.0-informational?style=flat-square)
+![Version: 3.0.1](https://img.shields.io/badge/Version-3.0.1-informational?style=flat-square) ![AppVersion: 16.0.0](https://img.shields.io/badge/AppVersion-16.0.0-informational?style=flat-square) 
 
 AWX provides a web-based user interface, REST API, and task engine built on top of Ansible. It is the upstream project for Tower, a commercial derivative of AWX.
 
@@ -59,9 +59,14 @@ Per the AWX documentation, if you choose to turn off Job Isolation you can do so
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| default_admin_password | string | `nil` | REQUIRED |
-| default_admin_user | string | `nil` | REQUIRED |
+| affinity | string | `nil` |  |
+| defaultAdminExistingSecret | string | `nil` | The name of an existing secret in the same namespace containing `AWX_ADMIN_USER` and `AWX_ADMIN_PASSWORD` keys and values |
+| defaultAdminPassword | string | `nil` | The seeded admin user credentials. You must set this value or provide defaultAdminExistingSecret |
+| defaultAdminUser | string | `nil` | The seeded admin user credentials. You must set this value or provide defaultAdminExistingSecret |
+| default_admin_password | string | `nil` |  |
+| default_admin_user | string | `nil` |  |
 | extraConfiguration | string | `"# INSIGHTS_URL_BASE = \"https://example.org\""` |  |
+| extraVolumes | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"ansible/awx"` |  |
@@ -72,19 +77,25 @@ Per the AWX documentation, if you choose to turn off Job Isolation you can do so
 | ingress.hosts | list | `[]` | Define ingress routing here |
 | ingress.tls | list | `[]` |  |
 | nameOverride | string | `""` |  |
-| postgresql | object | `{"enabled":true,"image":{"registry":"docker.io","repository":"bitnami/postgresql","tag":9.6},"metrics":{"enabled":false},"persistence":{"enabled":true},"postgresqlDatabase":"awx","postgresqlHost":null,"postgresqlPassword":null,"postgresqlUsername":"awx"}` | See bitnami/postgresql chart values for all options |
-| postgresql.enabled | bool | `true` | Set to false if using external postgres |
-| postgresql.postgresqlHost | string | `nil` | Set this if using an external postgresql instance |
-| postgresql.postgresqlPassword | string | `nil` | A value must be set here |
+| nodeSelector | string | `nil` |  |
+| postgresql | object | `{"enabled":true,"image":{"registry":"docker.io","repository":"bitnami/postgresql","tag":9.6},"metrics":{"enabled":false},"persistence":{"enabled":true},"postgresqlDatabase":"awx","postgresqlHost":null,"postgresqlPassword":null,"postgresqlUsername":"awx","service":{"port":"5432"}}` | See bitnami/postgresql chart values for all options |
+| postgresql.enabled | bool | `true` | Set to false if using external postgresql |
+| postgresql.postgresqlHost | string | `nil` | Set this only if using an external postgresql database. Alternatively, you can provide this value through postgresqlExistingSecret. |
+| postgresql.postgresqlPassword | string | `nil` | You must set this value or provide postgresqlExistingSecret |
+| postgresqlExistingSecret | string | `nil` | The name of an existing secret in the same namespace containing DATABASE_USER, DATABASE_NAME, DATABASE_HOST, DATABASE_HOST, DATABASE_PORT, DATABASE_PASSWORD, DATABASE_ADMIN_PASSWORD keys and values |
 | redis | object | `{"architecture":"standalone","auth":{"enabled":false},"enabled":true,"host":null,"image":{"tag":"6.2.4"},"port":6379}` | See bitnami/redis chart values for all options |
 | redis.enabled | bool | `true` | Set to false if using external redis |
 | redis.host | string | `nil` | Enter host if using external redis |
 | replicaCount | int | `1` |  |
-| secret_key | string | `nil` | REQUIRED |
+| secretKey | string | `nil` | The key used to encrypt secrets in the AWX database. You must set this value or provide secretKeyExistingSecret |
+| secretKeyExistingSecret | string | `nil` | The name of an existing secret in the same namespace containing a SECRET_KEY key and value |
+| secret_key | string | `nil` |  |
 | service.port | int | `8080` |  |
 | service.type | string | `"ClusterIP"` |  |
 | serviceAccountName | string | `nil` | Existing service account name for AWX pods to use (optional) |
+| task.extraVolumeMounts | list | `[]` |  |
 | task.resources | object | `{}` |  |
+| tolerations | string | `nil` |  |
 | web.extraVolumeMounts | list | `[]` |  |
 | web.extraVolumes | list | `[]` |  |
 | web.resources | object | `{}` |  |

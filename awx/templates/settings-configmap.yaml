@@ -86,6 +86,9 @@ data:
                 include /etc/nginx/uwsgi_params;
                 proxy_set_header X-Forwarded-Port 443;
                 uwsgi_param HTTP_X_FORWARDED_PORT 443;
+                add_header Cache-Control "no-cache, no-store, must-revalidate";
+                add_header Expires "0";
+                add_header Pragma "no-cache";
             }
         }
     }

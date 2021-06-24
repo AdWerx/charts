@@ -42,10 +42,6 @@ Common volume mounts
 - name: confd
   mountPath: "/etc/tower/conf.d/"
   readOnly: true
-- name: secret-key
-  mountPath: "/etc/tower/SECRET_KEY"
-  subPath: SECRET_KEY
-  readOnly: true
 {{- end -}}
 
 {{/*
@@ -58,12 +54,6 @@ Common volume definitions
     items:
       - key: settings.py
         path: settings.py
-- name: secret-key
-  secret:
-    secretName: {{ include "awx.fullname" . }}-secret-key
-    items:
-      - key: SECRET_KEY
-        path: SECRET_KEY
 - name: confd
   secret:
     secretName: {{ include "awx.fullname" . }}-confd
@@ -74,4 +64,79 @@ ServiceAccount name for app pods
 */}}
 {{- define "awx.serviceAccountName" -}}
 {{- default "awx" .Values.serviceAccountName -}}
+{{- end -}}
+
+{{/*
+provides the correct name of the secret where
+the default admin user credentials can be found
+*/}}
+{{- define "awx.defaultAdminSecretName" -}}
+{{- default (include "awx.fullname" .) .Values.defaultAdminExistingSecret -}}
+{{- end -}}
+
+{{/*
+provides the correct name of the secret where
+the postgresql connection details can be found
+*/}}
+{{- define "awx.postgresqlSecretName" -}}
+{{- default (include "awx.fullname" .) .Values.postgresqlExistingSecret -}}
+{{- end -}}
+
+{{/*
+provides the correct name of the secret where
+the AWX SECRET_KEY can be found
+*/}}
+{{- define "awx.secretKeySecretName" -}}
+{{- default (include "awx.fullname" .) .Values.secretKeyExistingSecret -}}
+{{- end -}}
+
+{{/*
+provides the container env definitions
+*/}}
+{{- define "awx.env" -}}
+- name: AWX_ADMIN_USER
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "awx.defaultAdminSecretName" . }}
+      key: AWX_ADMIN_USER
+- name: AWX_ADMIN_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "awx.defaultAdminSecretName" . }}
+      key: AWX_ADMIN_PASSWORD
+- name: DATABASE_NAME
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "awx.postgresqlSecretName" . }}
+      key: DATABASE_NAME
+- name: DATABASE_HOST
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "awx.postgresqlSecretName" . }}
+      key: DATABASE_HOST
+- name: DATABASE_PORT
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "awx.postgresqlSecretName" . }}
+      key: DATABASE_PORT
+- name: DATABASE_USER
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "awx.postgresqlSecretName" . }}
+      key: DATABASE_USER
+- name: DATABASE_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "awx.postgresqlSecretName" . }}
+      key: DATABASE_PASSWORD
+- name: DATABASE_ADMIN_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "awx.postgresqlSecretName" . }}
+      key: DATABASE_ADMIN_PASSWORD
+- name: SECRET_KEY
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "awx.secretKeySecretName" . }}
+      key: SECRET_KEY
 {{- end -}}
