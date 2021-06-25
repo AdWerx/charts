@@ -242,3 +242,21 @@ name="deployment"
   envs="$(get '.spec.template.spec.containers[] | select(.name == "task").env')"
   [ "$(jq -r '.[] | select(.name == "SECRET_KEY").valueFrom.secretKeyRef | "\(.name).\(.key)"' <<< "$envs")" = "my-secret.SECRET_KEY" ]
 }
+
+@test "$name: exposes pod IP via MY_POD_IP" {
+  template_with_defaults "$name"
+  local envs
+  envs="$(get '.spec.template.spec.containers[] | select(.name == "web").env')"
+  [ "$(jq -r '.[] | select(.name == "MY_POD_IP").valueFrom.fieldRef.fieldPath' <<< "$envs")" = "status.podIP" ]
+  envs="$(get '.spec.template.spec.containers[] | select(.name == "task").env')"
+  [ "$(jq -r '.[] | select(.name == "MY_POD_IP").valueFrom.fieldRef.fieldPath' <<< "$envs")" = "status.podIP" ]
+}
+
+@test "$name: exposes pod UID via MY_POD_UID" {
+  template_with_defaults "$name"
+  local envs
+  envs="$(get '.spec.template.spec.containers[] | select(.name == "web").env')"
+  [ "$(jq -r '.[] | select(.name == "MY_POD_UID").valueFrom.fieldRef.fieldPath' <<< "$envs")" = "metadata.uid" ]
+  envs="$(get '.spec.template.spec.containers[] | select(.name == "task").env')"
+  [ "$(jq -r '.[] | select(.name == "MY_POD_UID").valueFrom.fieldRef.fieldPath' <<< "$envs")" = "metadata.uid" ]
+}
