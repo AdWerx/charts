@@ -17,7 +17,7 @@ name="deployment"
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.template.spec.containers[] | select(.name == "web") | .image')
-  [ "$actual" = "ansible/awx:16.0.0" ]
+  [ "$actual" = "ansible/awx:17.1.0" ]
 }
 
 @test "$name: task uses correct image tag"  {
@@ -25,7 +25,7 @@ name="deployment"
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.template.spec.containers[] | select(.name == "task") | .image')
-  [ "$actual" = "ansible/awx:16.0.0" ]
+  [ "$actual" = "ansible/awx:17.1.0" ]
 }
 
 @test "$name: task uses correct command" {

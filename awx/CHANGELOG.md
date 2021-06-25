@@ -1,3 +1,10 @@
+2021-06-25 - 3.2.0
+---
+
+* Resolves issue with instance registration in which instances did not record their IP or Pod UID. This broke websocket broadcasting to instance peers.
+* Redis was moved to a container within the pod since it is assumed to be shared between web and task processes. It does not need to be shared amongst all task processes as it is not the centralized message broker.
+* Readiness probe was added to the web container
+
 2021-06-21 - 3.1.0
 ---
 

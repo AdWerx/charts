@@ -42,21 +42,8 @@ Common volume mounts
 - name: confd
   mountPath: "/etc/tower/conf.d/"
   readOnly: true
-{{- end -}}
-
-{{/*
-Common volume definitions
-*/}}
-{{- define "awx.volumes" -}}
-- name: settings
-  configMap:
-    name: {{ include "awx.fullname" . }}-settings
-    items:
-      - key: settings.py
-        path: settings.py
-- name: confd
-  secret:
-    secretName: {{ include "awx.fullname" . }}-confd
+- name: redis-socket
+  mountPath: /var/run/redis
 {{- end -}}
 
 {{/*
@@ -94,6 +81,14 @@ the AWX SECRET_KEY can be found
 provides the container env definitions
 */}}
 {{- define "awx.env" -}}
+- name: MY_POD_IP
+  valueFrom:
+    fieldRef:
+      fieldPath: status.podIP
+- name: MY_POD_UID
+  valueFrom:
+    fieldRef:
+      fieldPath: metadata.uid
 - name: AWX_ADMIN_USER
   valueFrom:
     secretKeyRef:

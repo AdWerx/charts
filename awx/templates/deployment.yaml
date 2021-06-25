@@ -23,6 +23,7 @@ spec:
     spec:
       serviceAccountName: {{ include "awx.serviceAccountName" $ }}
       containers:
+
         - name: task
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -36,7 +37,8 @@ spec:
 {{ toYaml .Values.task.extraVolumeMounts | indent 12 }}
 {{- end }}
           resources:
-{{ toYaml .Values.task.resources | indent 12 }}
+            {{- toYaml .Values.task.resources | nindent 12 }}
+
         - name: web
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
@@ -50,11 +52,11 @@ spec:
           #   httpGet:
           #     path: /
           #     port: http
-          # readinessProbe:
-          #   initialDelaySeconds: 10
-          #   httpGet:
-          #     path: /
-          #     port: http
+          readinessProbe:
+            initialDelaySeconds: 5
+            httpGet:
+              path: /
+              port: http
           volumeMounts:
             - name: nginx-conf
               mountPath: /etc/nginx/nginx.conf
@@ -65,7 +67,26 @@ spec:
 {{ toYaml .Values.web.extraVolumeMounts | indent 12 }}
 {{- end }}
           resources:
-{{ toYaml .Values.web.resources | indent 12 }}
+            {{- toYaml .Values.web.resources | nindent 12 }}
+
+        - name: redis
+          image: redis:6.2.4
+          args: ["redis-server", "/etc/redis.conf"]
+          ports:
+            - containerPort: 6379
+              name: redis-server
+          volumeMounts:
+            - name: redis-config
+              mountPath: /etc/redis.conf
+              subPath: redis.conf
+              readOnly: true
+            - name: redis-socket
+              mountPath: /var/run/redis
+            - name: redis-data
+              mountPath: /data
+          resources:
+            {{- toYaml .Values.web.resources | nindent 12 }}
+
     {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
@@ -79,13 +100,31 @@ spec:
 {{ toYaml .Values.tolerations | indent 8 }}
     {{- end }}
       volumes:
-{{ include "awx.volumes" . | indent 8 }}
+        - name: settings
+          configMap:
+            name: {{ include "awx.fullname" . }}-settings
+            items:
+              - key: settings.py
+                path: settings.py
         - name: nginx-conf
           configMap:
             name: {{ include "awx.fullname" . }}-settings
             items:
               - key: nginx.conf
                 path: nginx.conf
+        - name: confd
+          secret:
+            secretName: {{ include "awx.fullname" . }}-confd
+        - name: redis-config
+          configMap:
+            name: {{ include "awx.fullname" . }}-settings
+            items:
+              - key: redis.conf
+                path: redis.conf
+        - name: redis-socket
+          emptyDir: {}
+        - name: redis-data
+          emptyDir: {}
 {{- if .Values.extraVolumes }}
 {{ toYaml .Values.extraVolumes | indent 8 }}
 {{- end }}

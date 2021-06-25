@@ -8,6 +8,11 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
 data:
+  redis.conf: |
+    bind 127.0.0.1
+    port 0
+    unixsocket /var/run/redis/redis.sock
+    unixsocketperm 777
   nginx.conf: |
     worker_processes  1;
 
@@ -164,30 +169,9 @@ data:
 
     USE_X_FORWARDED_PORT = True
 
-    BROADCAST_WEBSOCKETS_PORT = 8052
-    BROADCAST_WEBSOCKETS_PROTOCOL = 'http'
+    BROADCAST_WEBSOCKET_PORT = 8052
+    BROADCAST_WEBSOCKET_PROTOCOL = 'http'
 
     AWX_ANSIBLE_COLLECTIONS_PATHS = '/var/lib/awx/vendor/awx_ansible_collections'
 
-    BROKER_URL = 'redis://{}:{}/'.format(
-                    {{- if .Values.redis.host }}
-                    "{{ .Values.redis.host }}",
-                    {{ else }}
-                    "{{ .Release.Name }}-redis-headless",
-                    {{ end -}}
-                    "{{ .Values.redis.port }}")
-
-    # CACHES = {
-    #     'default': {
-    #         'BACKEND': 'django_redis.cache.RedisCache',
-    #         'LOCATION': BROKER_URL
-    #     },
-    #     'ephemeral': {
-    #         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
-    #     },
-    # }
-
-    CHANNEL_LAYERS = {
-        "default": {"BACKEND": "channels_redis.core.RedisChannelLayer", "CONFIG": {"hosts": [BROKER_URL], "capacity": 10000, "group_expiry": 157784760}}  # 5 years
-    }
 {{ .Values.extraConfiguration | default "" | nindent 2 }}

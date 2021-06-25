@@ -8,7 +8,7 @@ fullnameOverride: ""
 replicaCount: 1
 image:
   repository: ansible/awx
-  tag: "16.0.0"
+  tag: "17.1.0"
   pullPolicy: IfNotPresent
 extraVolumes: []
 nodeSelector:
@@ -45,6 +45,9 @@ task:
     #  cpu: "1.5"
     #  memory: "2Gi"
   extraVolumeMounts: []
+
+redis:
+  resources: {}
 
 # -- The key used to encrypt secrets in the AWX database. You must set this value or provide secretKeyExistingSecret
 secretKey:
@@ -87,19 +90,6 @@ ingress:
     # - secretName: chart-example-tls
     #   hosts:
     #     - chart-example.local
-
-# -- See bitnami/redis chart values for all options
-redis:
-  image:
-    tag: "6.2.4"
-  auth:
-    enabled: false
-  # -- Set to false if using external redis
-  enabled: true
-  # -- Enter host if using external redis
-  host:
-  port: 6379
-  architecture: standalone
 
 # -- See bitnami/postgresql chart values for all options
 postgresql:
