@@ -1,15 +1,13 @@
+import os
+
 DATABASES = {
     'default': {
         'ATOMIC_REQUESTS': True,
         'ENGINE': 'awx.main.db.profiled_pg',
-        'NAME': "{{ .Values.postgresql.postgresqlDatabase }}",
-        'USER': "{{ .Values.postgresql.postgresqlUsername }}",
-        'PASSWORD': "{{ .Values.postgresql.postgresqlPassword }}",
-        {{- if .Values.postgresql.postgresqlHost }}
-        'HOST': "{{ .Values.postgresql.postgresqlHost }}",
-        {{ else }}
-        'HOST': "{{ .Release.Name }}-postgresql",
-        {{ end -}}
-        'PORT': "{{ .Values.postgresql.service.port }}",
+        'NAME': os.environ['DATABASE_NAME'],
+        'USER': os.environ['DATABASE_USER'],
+        'PASSWORD': os.environ['DATABASE_PASSWORD'],
+        'HOST': os.environ['DATABASE_HOST'],
+        'PORT': os.environ['DATABASE_PORT'],
     }
 }
