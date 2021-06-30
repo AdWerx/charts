@@ -1,3 +1,8 @@
+2021-06-25 - 3.2.1
+---
+
+* Fix issue with using `postgresqlExistingSecret` in which credentials were not used in `credentials.py` #24
+
 2021-06-25 - 3.2.0
 ---
 
