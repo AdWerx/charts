@@ -1,3 +1,16 @@
+<!--
+STOP! README.md is automatically generated using helm-docs
+Run `helm-docs .` to generate.
+If you're looking at README.md.gotmpl, then you're in the right place.
+-->
+# Ansible AWX
+
+![Version: 0.11.1](https://img.shields.io/badge/Version-0.11.1-informational?style=flat-square) ![AppVersion: 1.4.0](https://img.shields.io/badge/AppVersion-1.4.0-informational?style=flat-square)
+
+A Helm chart for deploying Faktory
+
+**Homepage:** <https://github.com/contribsys/faktory>
+
 # Faktory Helm Chart
 
 At a high level, [Faktory](https://github.com/contribsys/faktory) is a work server. It is the repository for background jobs within your application. Jobs have a type and a set of arguments and are placed into queues for workers to fetch and execute.
@@ -14,90 +27,34 @@ Add the repo named `adwerx` with the command below:
 helm repo add adwerx https://adwerx.github.io/charts
 ```
 
-## TL;DR;
+## Installation
+
+Add our repo:
 
 ```bash
-$ helm install adwerx/faktory
+helm repo add adwerx https://adwerx.github.io/charts
 ```
 
-## Installing the Chart
-
-To install the chart with the release name `faktory`:
+Install the chart:
 
 ```bash
-$ helm install --name faktory adwerx/faktory
+helm install adwerx/awx
 ```
 
-The command above deploys Faktory on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
+## Maintainers
 
-> **Tip**: List all releases using `helm list`
+| Name | Email | Url |
+| ---- | ------ | --- |
+| jbielick |  |  |
 
-## Uninstalling the Chart
+## Source Code
 
-To uninstall/delete the `faktory` deployment:
+* <https://github.com/contribsys/faktory>
+* <https://github.com/AdWerx/charts/tree/master/faktory>
 
-```bash
-$ helm delete faktory
-```
+## Requirements
 
-The command above removes all the Kubernetes components associated with the chart and deletes the release.
-
-## Configuration
-
-The following table lists the configurable parameters of the Faktory chart and their default values.
-
-Parameter | Description | Default
---------- | ----------- | -------
-`image.registry` | Faktory image registry | `docker.io`
-`image.repository` | Faktory image repository | `contribsys/faktory`
-`image.tag` | Faktory image tag | `1.0.1`
-`image.pullPolicy` | Faktory image pullPolicy | `IfNotPresent`
-`image.pullSecrets` | Image pull secret names for pulling private images | `[]`
-`password` | Faktory server password (required in environment=production) | `(random)`
-`passwordExistingSecret.name` | (optional) Name of an existing secret to use for the Faktory password | `nil`
-`passwordExistingSecret.key` | (optional) Name of a key within an existing secret to use for the Faktory password | `nil`
-`license` | Faktory Pro/Enterprise license | `nil`
-`licenseExistingSecret.name` | (optional) Name of an existing secret to use for the Faktory license | `nil`
-`licenseExistingSecret.key` | (optional) Name of a key within an existing secret to use for the Faktory license | `nil`
-`ui.enabled` | Expose the Faktory UI in the service | `true`
-`ui.service.type` | Faktory server service type | `ClusterIP`
-`ui.service.port` | UI service port for Faktory WebUI | `7420`
-`ui.ingress.enabled` | If true, an ingress will be created for the Faktory UI | `false`
-`ui.ingress.annotations` | Ingress annotations | `{}`
-`ui.ingress.hosts` | Ingress hostnames and paths. E.g. `[{ host: "example.com", path: "/faktory" }]` | `[]`
-`ui.ingress.tls` | Ingress TLS configuration | `[]`
-`extraEnv` | Key-value map of additional ENV variables to set on the Faktory container | `{}`
-`resources` | Resource requests and limits | `{}`
-`nodeSelector` | Node selector labels for pod assignment | `{}`
-`tolerations` | Toleration for pod assignment | `[]`
-`affinity` | Affinity for pod assignment | `{}`
-`persistence.enabled` | Enable persistent storage via PVC | `true`
-`persistence.existingClaim` | (optional) Name of an existing PVC to use for persistence | ``
-`persistence.size` | Size of persistent volume to allocate | `8Gi`
-`persistence.accessModes` | Persistent Volume access modes | `["ReadWriteOnce"]`
-`persistence.annotations` | Annotations for Persistent Volume Claim | `{}`
-`metrics.enabled` | Enable export of Prometheus metrics about Faktory instance state | `false`
-`metrics.image.repository` | Prometheus exporter sidecar image name | `envek/faktory_exporter`
-`metrics.image.tag` | Prometheus exporter sidecar image tag | `0.4.0`
-`metrics.image.pullPolicy` | Prometheus exporter sidecar image pull policy | `IfNotPresent`
-`metrics.serviceMonitor.enabled` | Enable creation of ServiceMonitor resource for automatic metrics discovery by Prometheus operator | `false`
-`metrics.serviceMonitor.namespace` | Namespace to create Service Monitor in (if differs from chart's namespace) | _chart's namespace_
-`metrics.serviceMonitor.interval` | Metrics scrape interval | _Prometheus default_
-`metrics.serviceMonitor.labels` | Labels that should be present in service monitor to be discovered | `{}`
-
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
-
-```bash
-$ helm install adwerx/faktory --name faktory --set password=mysecurepassword
-```
-
-A YAML file that defines values for the above parameters can be provided while installing the chart. For example,
-
-```bash
-$ helm install adwerx/faktory --name faktory -f my_values.yaml
-```
-
-> **Tip**: You can use the default [values.yaml](values.yaml)
+Kubernetes: `>= 1.9.0-0`
 
 ## Faktory Configuration Changes
 
@@ -108,6 +65,53 @@ Config changes are hot-reloaded by Faktory with a `SIGHUP` signal.
 Why not `inotify` watch for config changes?
 
 https://github.com/kubernetes/kubernetes/issues/24215
+
+## Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| affinity | object | `{}` |  |
+| config | string | `nil` | A ConfigMap structure of config file names (keys) and config file contents (values). |
+| environment | string | `"production"` | The Faktory server environment |
+| extraEnv | object | `{}` | key-value map of variables to define |
+| global.faktory | object | `{}` |  |
+| image.pullPolicy | string | `"IfNotPresent"` |  |
+| image.registry | string | `"docker.io"` |  |
+| image.repository | string | `"contribsys/faktory"` |  |
+| image.tag | string | `"1.5.1"` |  |
+| livenessProbe.enabled | bool | `true` |  |
+| livenessProbe.failureThreshold | int | `6` |  |
+| livenessProbe.initialDelaySeconds | int | `30` |  |
+| livenessProbe.periodSeconds | int | `10` |  |
+| livenessProbe.successThreshold | int | `1` |  |
+| livenessProbe.timeoutSeconds | int | `5` |  |
+| metrics | object | `{"enabled":false,"image":{"pullPolicy":"IfNotPresent","repository":"envek/faktory_exporter","tag":"0.4.1"},"serviceMonitor":{"enabled":false,"labels":{}}}` | Whether to enable third-party prometheus exporter for faktory metrics |
+| metrics.serviceMonitor.labels | object | `{}` | Specify a namespace if needed namespace: monitoring fallback to the prometheus default unless specified interval: 10s labels:   release: prometheus-operator |
+| nodeSelector | object | `{}` |  |
+| password | string | `nil` | Set a password for faktory using this variable or passwordExistingSecret |
+| persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
+| persistence.annotations | object | `{}` |  |
+| persistence.enabled | bool | `true` |  |
+| persistence.size | string | `"8Gi"` |  |
+| readinessProbe.enabled | bool | `true` |  |
+| readinessProbe.failureThreshold | int | `6` |  |
+| readinessProbe.initialDelaySeconds | int | `10` |  |
+| readinessProbe.periodSeconds | int | `10` |  |
+| readinessProbe.successThreshold | int | `1` |  |
+| readinessProbe.timeoutSeconds | int | `5` |  |
+| replicaCount | int | `1` |  |
+| resources | object | `{}` |  |
+| securityContext | object | `{"capabilities":{"add":["SYS_PTRACE"]}}` | You may need the following settings to be able to write to the persistent disk your cloud provider attaches for the PVC. If Faktory fails to start with a permission error writing to disk in environments such as GKE, this may solve the issue. |
+| server | object | `{}` | Use a key from an existing secret for the faktory password passwordExistingSecret:   name:   key: -- Use this variable for your faktory license or use licenseExistingSecret license: "" -- Use a key from an existing secret for the faktory pro license licenseExistingSecret:   name:   key: |
+| tolerations | list | `[]` |  |
+| ui.enabled | bool | `true` | Whether to run the Faktory web UI or not |
+| ui.ingress.annotations | object | `{}` |  |
+| ui.ingress.enabled | bool | `false` |  |
+| ui.ingress.hosts | list | `[]` |  |
+| ui.ingress.tls | list | `[]` |  |
+| ui.service.port | int | `7420` |  |
+| ui.service.type | string | `"ClusterIP"` |  |
+| updateStrategy | string | `"OnDelete"` | NOTE! In order to avoid unexpected downtime, pods **will not** be automatically rolled out when the spec changes, you must delete the faktory pod for it to be recreated. Choose `RollingUpdate` if you'd prefer for kubernetes to replace the pod for you automatically--this will incur some downtime and thus is not automated. If you're only changing the faktory configs, you need not delete the pod—Faktory will hot reload the changes. |
 
 ## Examples
 

@@ -1,0 +1,81 @@
+<!--
+STOP! README.md is automatically generated using helm-docs
+Run `helm-docs .` to generate.
+If you're looking at README.md.gotmpl, then you're in the right place.
+-->
+# Ansible AWX
+
+{{ template "chart.deprecationWarning" . }}
+
+{{ template "chart.versionBadge" . }}{{ template "chart.typeBadge" . }}{{ template "chart.appVersionBadge" . }}
+
+{{ template "chart.description" . }}
+
+{{ template "chart.homepageLine" . }}
+
+# Faktory Helm Chart
+
+At a high level, [Faktory](https://github.com/contribsys/faktory) is a work server. It is the repository for background jobs within your application. Jobs have a type and a set of arguments and are placed into queues for workers to fetch and execute.
+
+You can use this server to distribute jobs to one or hundreds of machines. Jobs can be executed with any language by clients using the Faktory API to fetch a job from a queue.
+
+## Installing charts from this repo
+
+In order to install charts from this repository, you'll first need to add this repository.
+
+Add the repo named `adwerx` with the command below:
+
+```bash
+helm repo add adwerx https://adwerx.github.io/charts
+```
+
+## Installation
+
+Add our repo:
+
+```bash
+helm repo add adwerx https://adwerx.github.io/charts
+```
+
+Install the chart:
+
+```bash
+helm install adwerx/awx
+```
+
+{{ template "chart.maintainersSection" . }}
+
+{{ template "chart.sourcesSection" . }}
+
+{{ template "chart.requirementsSection" . }}
+
+## Faktory Configuration Changes
+
+You can add Faktory configuration to the `config` value. Each key will become the file name and the value should be a heredoc of file contents. See examples in the values.yaml for more info. Ensure that they end in `.toml` and Faktory will read all of these files from a `ConfigMap`. Changes to these files are typically propogated to Faktory in less than a minute.
+
+Config changes are hot-reloaded by Faktory with a `SIGHUP` signal.
+
+Why not `inotify` watch for config changes?
+
+https://github.com/kubernetes/kubernetes/issues/24215
+
+{{ template "chart.valuesSection" . }}
+
+## Examples
+
+### Expose Faktory Web UI on subpath
+
+If your cluster is using Nginx Ingress controller, then you can use [configuration snippet](https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/annotations/#configuration-snippet) to specify `X-Script-Name` header.
+
+```yaml
+ui:
+  ingress:
+    enabled: true
+    hosts:
+      - host: example.com
+        paths:
+          - /faktory
+    annotations:
+      nginx.ingress.kubernetes.io/configuration-snippet: |
+        proxy_set_header X-Script-Name /faktory;
+```

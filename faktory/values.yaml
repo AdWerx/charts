@@ -3,41 +3,28 @@
 
 global:
   faktory: {}
-## Optionally specify an array of imagePullSecrets.
-## Secrets must be manually created in the namespace.
-## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-##
-#   imagePullSecrets:
-#     - myRegistryKeySecretName
 
 image:
   registry: docker.io
   repository: contribsys/faktory
-  tag: "1.4.0"
+  tag: "1.5.1"
   pullPolicy: IfNotPresent
-  ## Optionally specify an array of imagePullSecrets.
-  ## Secrets must already exist in the namespace.
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  ##
+  # -- Optionally specify an array of imagePullSecrets. Secrets must already exist in the namespace.
   # pullSecrets:
   #   - myRegistryKeySecretName
 
-## Set a password for faktory using this variable or passwordExistingSecret
-##
-# password:
+# -- Set a password for faktory using this variable or passwordExistingSecret
+password:
 
-## Use a key from an existing secret for the faktory password
-##
+# -- Use a key from an existing secret for the faktory password
 # passwordExistingSecret:
 #   name:
 #   key:
 
-## Use this variable for your faktory license or use licenseExistingSecret
-##
+# -- Use this variable for your faktory license or use licenseExistingSecret
 # license: ""
 
-## Use a key from an existing secret for the faktory pro license
-##
+# -- Use a key from an existing secret for the faktory pro license
 # licenseExistingSecret:
 #   name:
 #   key:
@@ -52,7 +39,11 @@ server: {}
     ## or socat listener configuration
     # listener: TCP-LISTEN:16379,fork,bind=someiface,pf=ipv4,reuseaddr
 
+# -- The Faktory server environment
+environment: production
+
 ui:
+  # -- Whether to run the Faktory web UI or not
   enabled: true
   service:
     type: ClusterIP
@@ -81,15 +72,15 @@ persistence:
   size: 8Gi
   annotations: {}
 
-## ! Please note that pods **will not** be automatically rolled out
-## upon deployment changes, you must delete the faktory pod for it to
-## be recreated. Choose `RollingUpdate` if you'd prefer for kubernetes
-## to replace the pod for you automatically--this will incur some downtime and
-## thus is not automated. If you're only changing the faktory configs, you need
-## not delete the pod—Faktory will hot reload the changes.
-##
+# -- NOTE! In order to avoid unexpected downtime, pods **will not** be
+# automatically rolled out when the spec changes, you must delete the faktory
+# pod for it to be recreated. Choose `RollingUpdate` if you'd prefer for kubernetes
+# to replace the pod for you automatically--this will incur some downtime and
+# thus is not automated. If you're only changing the faktory configs, you need
+# not delete the pod—Faktory will hot reload the changes.
 updateStrategy: OnDelete
 
+# -- A ConfigMap structure of config file names (keys) and config file contents (values).
 config:
   ## For Faktory Pro cron jobs
   ## ref: https://github.com/contribsys/faktory/wiki/Pro-Cron
@@ -160,13 +151,11 @@ readinessProbe:
   failureThreshold: 6
   successThreshold: 1
 
-## key-value map of variables to define
-##
+# -- key-value map of variables to define
 extraEnv: {}
 
 resources: {}
   ## Setting resource requests is highly recommended.
-  ##
   # limits:
   #   cpu: 500m
   #   memory: 4Gi
@@ -180,12 +169,11 @@ tolerations: []
 
 affinity: {}
 
+# -- You may need the following settings to be able to write to the persistent
+# disk your cloud provider attaches for the PVC. If Faktory fails to start
+# with a permission error writing to disk in environments such as GKE,
+# this may solve the issue.
 securityContext:
-  ## You may need the following settings to be able to write to the persistent
-  ## disk your cloud provider attaches for the PVC. If Faktory fails to start
-  ## with a permission error writing to disk in environments such as GKE,
-  ## this may solve the issue.
-  ##
   # enabled: true
   # fsGroup: 1001
   # runAsUser: 1001
@@ -197,6 +185,7 @@ securityContext:
     add:
       - SYS_PTRACE
 
+# -- Whether to enable third-party prometheus exporter for faktory metrics
 metrics:
   enabled: false
   image:
@@ -205,7 +194,7 @@ metrics:
     pullPolicy: IfNotPresent
   serviceMonitor:
     enabled: false
-    ## Specify a namespace if needed
+    # -- Specify a namespace if needed
     # namespace: monitoring
     # fallback to the prometheus default unless specified
     # interval: 10s

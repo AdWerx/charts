@@ -103,3 +103,17 @@ name="statefulset"
   get '.apiVersion'
   [ "$got" = "apps/v1" ]
 }
+
+@test "$name: Default environment is production" {
+  template $name
+
+  get '.spec.template.spec.containers[] | select(.name == "server") | .command | join(" ") | contains("-e production")'
+  [ "$got" = "true" ]
+}
+
+@test "$name: Allows setting the faktory environment" {
+  template $name --set environment=staging
+
+  get '.spec.template.spec.containers[] | select(.name == "server") | .command | join(" ") | contains("-e staging")'
+  [ "$got" = "true" ]
+}

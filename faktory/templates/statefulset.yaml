@@ -64,7 +64,7 @@ spec:
             - :7420
 {{- end }}
             - -e
-            - production
+            - {{ .Values.environment }}
           env:
             - name: FAKTORY_PASSWORD
               valueFrom:
