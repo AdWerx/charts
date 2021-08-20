@@ -12,12 +12,20 @@ name="deployment"
   [ "$actual" = 1 ]
 }
 
-@test "$name: web uses correct image tag"  {
+@test "$name: uses correct image tag"  {
   template_with_defaults $name
 
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.template.spec.containers[] | select(.name == "web") | .image')
   [ "$actual" = "ansible/awx:17.1.0" ]
+}
+
+@test "$name: uses custom image tag"  {
+  template_with_defaults $name --set image.tag=16.0.0
+
+  [ "$status" -eq 0 ]
+  local actual=$(get '.spec.template.spec.containers[] | select(.name == "web") | .image')
+  [ "$actual" = "ansible/awx:16.0.0" ]
 }
 
 @test "$name: task uses correct image tag"  {
@@ -26,6 +34,14 @@ name="deployment"
   [ "$status" -eq 0 ]
   local actual=$(get '.spec.template.spec.containers[] | select(.name == "task") | .image')
   [ "$actual" = "ansible/awx:17.1.0" ]
+}
+
+@test "$name: task uses custom image tag"  {
+  template_with_defaults $name --set image.tag=16.0.0
+
+  [ "$status" -eq 0 ]
+  local actual=$(get '.spec.template.spec.containers[] | select(.name == "task") | .image')
+  [ "$actual" = "ansible/awx:16.0.0" ]
 }
 
 @test "$name: task uses correct command" {
