@@ -73,6 +73,9 @@ spec:
                     --replace
                 printf "${hashed_token}" > .seedhash
               fi
+      {{- if .Values.hostNetwork.enabled }}
+      hostNetwork: true
+      {{- end }}
       containers:
         - name: runner
           securityContext:

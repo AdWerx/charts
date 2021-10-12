@@ -32,6 +32,8 @@ runner:
     # requests:
     #   cpu: 100m
     #   memory: 128Mi
+hostNetwork: 
+  enabled: false
 
 dind:
   # -- If you'd like your runner to be docker-enabled and you understand and accept the security risks associated with a priveleged container running actions, enable here

@@ -111,6 +111,7 @@ So where does the runner store credentials? ./.runner, ./.credentials, etc, loca
 | dind.image.tag | string | `"19.03.13-dind"` |  |
 | dind.resources | object | `{}` |  |
 | dind.securityContext.privileged | bool | `true` |  |
+| hostNetwork.enabled | bool | `false` |  |
 | fullnameOverride | string | `""` |  |
 | imagePullSecrets | list | `[]` |  |
 | nameOverride | string | `""` |  |
