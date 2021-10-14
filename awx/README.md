@@ -86,6 +86,9 @@ Per the AWX documentation, if you choose to turn off Job Isolation you can do so
 | redis | object | `{"architecture":"standalone","auth":{"enabled":false},"enabled":true,"host":null,"image":{"tag":"6.2.4"},"port":6379}` | See bitnami/redis chart values for all options |
 | redis.enabled | bool | `true` | Set to false if using external redis |
 | redis.host | string | `nil` | Enter host if using external redis |
+| redis.image.pullPolicy | string | `"IfNotPresent"` |  |
+| redis.image.repository | string | `"redis"` |  |
+| redis.image.tag | string | `"6.2.4"` |  |
 | replicaCount | int | `1` |  |
 | secretKey | string | `nil` | The key used to encrypt secrets in the AWX database. You must set this value or provide secretKeyExistingSecret |
 | secretKeyExistingSecret | string | `nil` | The name of an existing secret in the same namespace containing a SECRET_KEY key and value |

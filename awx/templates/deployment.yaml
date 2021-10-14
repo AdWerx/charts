@@ -70,7 +70,8 @@ spec:
             {{- toYaml .Values.web.resources | nindent 12 }}
 
         - name: redis
-          image: redis:6.2.4
+          image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}"
+          imagePullPolicy: {{ .Values.redis.image.pullPolicy }}
           args: ["redis-server", "/etc/redis.conf"]
           ports:
             - containerPort: 6379

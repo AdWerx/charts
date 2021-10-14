@@ -47,6 +47,10 @@ task:
   extraVolumeMounts: []
 
 redis:
+  image:
+    repository: redis
+    tag: "6.2.4"
+    pullPolicy: IfNotPresent
   resources: {}
 
 # -- The key used to encrypt secrets in the AWX database. You must set this value or provide secretKeyExistingSecret
