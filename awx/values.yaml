@@ -114,9 +114,17 @@ postgresql:
   persistence:
     enabled: true
     # size: 50Gi
+    # if pv enabled you should enable volumePermissions as well
+    pv:
+      enabled: false
+      size: 8Gi
+      path: "/mnt/data"
   # resources: {}
   metrics:
     enabled: false
+  volumePermissions:
+    enabled: false
+
 
 # -- The name of an existing secret in the same namespace containing DATABASE_USER, DATABASE_NAME, DATABASE_HOST, DATABASE_HOST, DATABASE_PORT, DATABASE_PASSWORD, DATABASE_ADMIN_PASSWORD keys and values
 postgresqlExistingSecret:
