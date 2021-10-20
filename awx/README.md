@@ -85,6 +85,7 @@ Per the AWX documentation, if you choose to turn off Job Isolation you can do so
 | postgresql.pv.enabled | bool | `false` | Set to true if you want to create local pv |
 | postgresql.pv.size | string | `8Gi` | Size of the local pv to create postgres default is 8Gi |
 | postgresql.pv.path | string | `"/mnt/data"` | path of where to mount the pv |
+| postgresql.persistence.selector | {} | `{"matchLabels": {"type": "awx-local"}` | Selector to match an existing Persistent Volume   |
 | postgresql.volumePermissions.enabled | bool | `false` | Set to true if you want to create local pv with non root permissions |
 | postgresqlExistingSecret | string | `nil` | The name of an existing secret in the same namespace containing DATABASE_USER, DATABASE_NAME, DATABASE_HOST, DATABASE_HOST, DATABASE_PORT, DATABASE_PASSWORD, DATABASE_ADMIN_PASSWORD keys and values |
 | redis | object | `{"architecture":"standalone","auth":{"enabled":false},"enabled":true,"host":null,"image":{"tag":"6.2.4"},"port":6379}` | See bitnami/redis chart values for all options |

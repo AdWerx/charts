@@ -119,9 +119,9 @@ postgresql:
       enabled: false
       size: 8Gi
       path: "/mnt/data"
-      selector:
-        matchLabels:
-          type: awx-local
+    selector:
+      matchLabels:
+        type: awx-local
   # resources: {}
   metrics:
     enabled: false
