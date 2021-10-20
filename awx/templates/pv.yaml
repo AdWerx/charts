@@ -4,7 +4,7 @@ kind: PersistentVolume
 metadata:
   name: {{ include "awx.fullname" . }}-volume
   labels:
-    type: local
+    type: awx-local
     app.kubernetes.io/name: {{ include "awx.name" . }}
     helm.sh/chart: {{ include "awx.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
