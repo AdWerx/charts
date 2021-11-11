@@ -5,5 +5,5 @@ description: |
   allowing you to run your [GitHub Actions](https://github.com/features/actions) workflows on your
   own infrastructure.
 type: application
-version: "0.10.2"
+version: "0.10.3"
 appVersion: "2.276.1-20.04-1"
