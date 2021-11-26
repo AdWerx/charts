@@ -17,7 +17,7 @@ spec:
       protocol: TCP
 {{- if .Values.metrics.enabled }}
     - port: 9386
-      name: tcp-metrics
+      name: http-metrics
       targetPort: metrics
 {{- end }}
   selector:
