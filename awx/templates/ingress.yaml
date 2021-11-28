@@ -1,6 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "awx.fullname" . -}}
-apiVersion: extensions/v1beta1
+apiVersion: {{ include "awx.ingress.apiVersion" . }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}
