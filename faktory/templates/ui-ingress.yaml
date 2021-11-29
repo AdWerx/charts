@@ -35,7 +35,7 @@ spec:
           - path: {{ . }}
             backend:
               serviceName: {{ $fullName }}-ui
-              servicePort: ui
+              servicePort: http-ui
         {{- end }}
   {{- end }}
 {{- end }}

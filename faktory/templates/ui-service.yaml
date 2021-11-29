@@ -12,7 +12,7 @@ spec:
   type: {{ .Values.ui.service.type }}
   ports:
     - port: {{ .Values.ui.service.port }}
-      name: ui
+      name: http-ui
       targetPort: ui
   selector:
     app.kubernetes.io/name: {{ include "faktory.name" . }}

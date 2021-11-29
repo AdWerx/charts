@@ -12,12 +12,12 @@ spec:
   clusterIP: None
   ports:
     - port: 7419
-      name: server
+      name: tcp-server
       targetPort: server
       protocol: TCP
 {{- if .Values.metrics.enabled }}
     - port: 9386
-      name: metrics
+      name: http-metrics
       targetPort: metrics
 {{- end }}
   selector:
