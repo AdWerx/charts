@@ -60,6 +60,7 @@ Per the AWX documentation, if you choose to turn off Job Isolation you can do so
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | string | `nil` |  |
+| apiVersionOverrides.ingress | string | `nil` | If fixed API Version Ingress |
 | defaultAdminExistingSecret | string | `nil` | The name of an existing secret in the same namespace containing `AWX_ADMIN_USER` and `AWX_ADMIN_PASSWORD` keys and values |
 | defaultAdminPassword | string | `nil` | The seeded admin user credentials. You must set this value or provide defaultAdminExistingSecret |
 | defaultAdminUser | string | `nil` | The seeded admin user credentials. You must set this value or provide defaultAdminExistingSecret |
