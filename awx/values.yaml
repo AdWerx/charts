@@ -5,10 +5,6 @@
 nameOverride: ""
 fullnameOverride: ""
 
-# apiVersionOverrides:
-# -- Optional override API version for Ingress
-#   ingress:
-
 replicaCount: 1
 image:
   repository: ansible/awx

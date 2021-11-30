@@ -7,7 +7,7 @@ If you're looking at README.md.gotmpl, then you're in the right place.
 
 
 
-![Version: 3.0.1](https://img.shields.io/badge/Version-3.0.1-informational?style=flat-square) ![AppVersion: 16.0.0](https://img.shields.io/badge/AppVersion-16.0.0-informational?style=flat-square) 
+![Version: 3.4.0](https://img.shields.io/badge/Version-3.4.0-informational?style=flat-square) ![AppVersion: 17.1.0](https://img.shields.io/badge/AppVersion-17.1.0-informational?style=flat-square) 
 
 AWX provides a web-based user interface, REST API, and task engine built on top of Ansible. It is the upstream project for Tower, a commercial derivative of AWX.
 
@@ -41,8 +41,7 @@ helm install adwerx/awx
 
 | Repository | Name | Version |
 |------------|------|---------|
-|  | postgresql | 6.3.2 |
-| https://charts.bitnami.com/bitnami | redis | 14.4.0 |
+| https://charts.bitnami.com/bitnami | postgresql | 10.5.0 |
 
 ## Job Isolation and Security Context
 
@@ -60,7 +59,6 @@ Per the AWX documentation, if you choose to turn off Job Isolation you can do so
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | affinity | string | `nil` |  |
-| apiVersionOverrides.ingress | string | `nil` | If fixed API Version Ingress |
 | defaultAdminExistingSecret | string | `nil` | The name of an existing secret in the same namespace containing `AWX_ADMIN_USER` and `AWX_ADMIN_PASSWORD` keys and values |
 | defaultAdminPassword | string | `nil` | The seeded admin user credentials. You must set this value or provide defaultAdminExistingSecret |
 | defaultAdminUser | string | `nil` | The seeded admin user credentials. You must set this value or provide defaultAdminExistingSecret |
@@ -71,7 +69,7 @@ Per the AWX documentation, if you choose to turn off Job Isolation you can do so
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"ansible/awx"` |  |
-| image.tag | string | `"16.0.0"` |  |
+| image.tag | string | `"17.1.0"` |  |
 | ingress.annotations | object | `{}` |  |
 | ingress.defaultBackend | bool | `true` | Whether the default backend for this ingress should route to the awx service |
 | ingress.enabled | bool | `false` |  |
@@ -84,12 +82,10 @@ Per the AWX documentation, if you choose to turn off Job Isolation you can do so
 | postgresql.postgresqlHost | string | `nil` | Set this only if using an external postgresql database. Alternatively, you can provide this value through postgresqlExistingSecret. |
 | postgresql.postgresqlPassword | string | `nil` | You must set this value or provide postgresqlExistingSecret |
 | postgresqlExistingSecret | string | `nil` | The name of an existing secret in the same namespace containing DATABASE_USER, DATABASE_NAME, DATABASE_HOST, DATABASE_HOST, DATABASE_PORT, DATABASE_PASSWORD, DATABASE_ADMIN_PASSWORD keys and values |
-| redis | object | `{"architecture":"standalone","auth":{"enabled":false},"enabled":true,"host":null,"image":{"tag":"6.2.4"},"port":6379}` | See bitnami/redis chart values for all options |
-| redis.enabled | bool | `true` | Set to false if using external redis |
-| redis.host | string | `nil` | Enter host if using external redis |
 | redis.image.pullPolicy | string | `"IfNotPresent"` |  |
 | redis.image.repository | string | `"redis"` |  |
 | redis.image.tag | string | `"6.2.4"` |  |
+| redis.resources | object | `{}` |  |
 | replicaCount | int | `1` |  |
 | secretKey | string | `nil` | The key used to encrypt secrets in the AWX database. You must set this value or provide secretKeyExistingSecret |
 | secretKeyExistingSecret | string | `nil` | The name of an existing secret in the same namespace containing a SECRET_KEY key and value |

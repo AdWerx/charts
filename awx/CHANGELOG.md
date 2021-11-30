@@ -1,3 +1,8 @@
+2021-11-30 - 3.4.0
+---
+
+* Support stable networking API for ingress and APIs for older kube versions
+
 2021-06-25 - 3.2.1
 ---
 

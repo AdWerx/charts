@@ -73,6 +73,9 @@ spec:
           image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}"
           imagePullPolicy: {{ .Values.redis.image.pullPolicy }}
           args: ["redis-server", "/etc/redis.conf"]
+          securityContext:
+            runAsUser: 999
+            runAsGroup: 999
           ports:
             - containerPort: 6379
               name: redis-server

@@ -22,7 +22,7 @@ template_with_defaults() {
 
 run_debug() {
   run "$@"
-  echo -e "$output" | tee /dev/stderr
+  echo -e "$output" > /dev/stderr
 }
 
 get() {
