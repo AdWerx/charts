@@ -13,7 +13,7 @@ jobs:
         run: helm lint awx -f awx/test/values/test-defaults.yaml
   test:
     runs-on: ubuntu-latest
-    container: alpine/helm:3.1.1
+    container: alpine/helm:3.7.1
     steps:
       - uses: actions/checkout@v1
       # - uses: engineerd/setup-kind@v0.5.0
