@@ -7,6 +7,10 @@ metadata:
     helm.sh/chart: {{ include "awx.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- if .Values.service.serviceAnnotations }}
+  annotations:
+{{ toYaml .Values.service.serviceAnnotations | indent 4 }}
+{{- end }}
 spec:
   type: {{ .Values.service.type }}
   ports:
