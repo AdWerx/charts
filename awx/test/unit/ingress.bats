@@ -23,19 +23,19 @@ name="ingress"
   template_with_defaults $name --set="ingress.enabled=true"
 
   [ "$status" -eq 0 ]
-  [ "$(get '.spec.backend.service.name')" = "RELEASE-NAME-awx" ]
-  [ "$(get '.spec.backend.service.port.name')" = "http" ]
+  [ "$(get '.spec.defaultBackend.service.name')" = "RELEASE-NAME-awx" ]
+  [ "$(get '.spec.defaultBackend.service.port.name')" = "http" ]
 }
 
 @test "$name: (kube >=1.19.0) uses defaultBackend by default" {
   template_with_defaults $name --set="ingress.enabled=true" --kube-version 1.19.1
 
   [ "$status" -eq 0 ]
-  [ "$(get '.spec.backend.service.name')" = "RELEASE-NAME-awx" ]
-  [ "$(get '.spec.backend.service.port.name')" = "http" ]
+  [ "$(get '.spec.defaultBackend.service.name')" = "RELEASE-NAME-awx" ]
+  [ "$(get '.spec.defaultBackend.service.port.name')" = "http" ]
 }
 
-@test "$name: (kube >1.19.0) uses defaultBackend by default" {
+@test "$name: (kube <1.19.0) uses backend by default" {
   template_with_defaults $name --set="ingress.enabled=true" --kube-version 1.18.3
 
   [ "$status" -eq 0 ]

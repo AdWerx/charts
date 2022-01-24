@@ -64,7 +64,7 @@ name="secret"
   [ "$(get '.data.DATABASE_PASSWORD' | base64 -d)" = "xyz" ]
 }
 
-@test "$name: when postgresql.postgresqlPassword is provided: value is stored in default secret" {
+@test "$name: when postgresql.postgresqlPassword is provided: value is stored in default secret for admin" {
   template_with_defaults "$name" --set "postgresql.postgresqlPassword=xyz"
 
   [ "$(get '.data.DATABASE_ADMIN_PASSWORD' | base64 -d)" = "xyz" ]

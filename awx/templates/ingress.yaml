@@ -32,7 +32,11 @@ spec:
   {{- end }}
 {{- end }}
 {{- if .Values.ingress.defaultBackend }}
+{{- if semverCompare ">= 1.19.0-0" $kubeVersion }}
+  defaultBackend:
+{{- else }}
   backend:
+{{- end }}
     {{- if semverCompare ">= 1.19.0-0" $kubeVersion }}
     service:
       name: {{ $fullName }}
