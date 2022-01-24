@@ -54,6 +54,9 @@ spec:
         paths:
         {{- range .paths }}
           - path: {{ . }}
+            {{- if semverCompare ">= 1.19.0-0" $kubeVersion }}
+            pathType: ImplementationSpecific
+            {{- end }}
             backend:
               {{- if semverCompare ">= 1.19.0-0" $kubeVersion }}
               service:
