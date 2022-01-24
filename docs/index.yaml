@@ -3,7 +3,36 @@ entries:
   awx:
   - apiVersion: v1
     appVersion: 17.1.0
-    created: "2022-01-24T16:54:50.933882-05:00"
+    created: "2022-01-24T17:02:20.560461-05:00"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.5.0
+    description: AWX provides a web-based user interface, REST API, and task engine
+      built on top of Ansible. It is the upstream project for Tower, a commercial
+      derivative of AWX.
+    digest: b5045987ceb539e90fcf3a00a366f071eb53922714b2f26481bc9ff65993dd24
+    home: https://github.com/ansible/awx
+    icon: https://adwerx-public.s3.amazonaws.com/awx.png
+    keywords:
+    - ansible
+    - awx
+    - tower
+    - devops
+    - automation
+    maintainers:
+    - name: Josh Bielick
+      url: https://github.com/jbielick
+    name: awx
+    sources:
+    - https://github.com/AdWerx/charts/tree/master/awx
+    urls:
+    - awx-3.4.2.tgz
+    version: 3.4.2
+  - apiVersion: v1
+    appVersion: 17.1.0
+    created: "2022-01-24T17:02:20.557072-05:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -32,7 +61,7 @@ entries:
     version: 3.4.1
   - apiVersion: v1
     appVersion: 17.1.0
-    created: "2022-01-24T16:54:50.930722-05:00"
+    created: "2022-01-24T17:02:20.554019-05:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -61,7 +90,7 @@ entries:
     version: 3.4.0
   - apiVersion: v1
     appVersion: 17.1.0
-    created: "2022-01-24T16:54:50.927599-05:00"
+    created: "2022-01-24T17:02:20.550939-05:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -90,7 +119,7 @@ entries:
     version: 3.3.1
   - apiVersion: v1
     appVersion: 17.1.0
-    created: "2022-01-24T16:54:50.924362-05:00"
+    created: "2022-01-24T17:02:20.548186-05:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -119,7 +148,7 @@ entries:
     version: 3.2.1
   - apiVersion: v1
     appVersion: 17.1.0
-    created: "2022-01-24T16:54:50.921391-05:00"
+    created: "2022-01-24T17:02:20.545089-05:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -148,7 +177,7 @@ entries:
     version: 3.2.0
   - apiVersion: v1
     appVersion: 16.0.0
-    created: "2022-01-24T16:54:50.918634-05:00"
+    created: "2022-01-24T17:02:20.542312-05:00"
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -181,7 +210,7 @@ entries:
     version: 3.1.0
   - apiVersion: v1
     appVersion: 16.0.0
-    created: "2022-01-24T16:54:50.913414-05:00"
+    created: "2022-01-24T17:02:20.537004-05:00"
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -214,7 +243,7 @@ entries:
     version: 3.0.1
   - apiVersion: v1
     appVersion: 16.0.0
-    created: "2022-01-24T16:54:50.908498-05:00"
+    created: "2022-01-24T17:02:20.532046-05:00"
     dependencies:
     - condition: redis.enabled
       name: redis
@@ -247,7 +276,7 @@ entries:
     version: 3.0.0
   - apiVersion: v1
     appVersion: 9.3.0
-    created: "2022-01-24T16:54:50.903424-05:00"
+    created: "2022-01-24T17:02:20.52699-05:00"
     description: AWX provides a web-based user interface, REST API, and task engine
       built on top of Ansible. It is the upstream project for Tower, a commercial
       derivative of AWX.
@@ -271,7 +300,7 @@ entries:
     version: 2.3.1
   - apiVersion: v1
     appVersion: 9.3.0
-    created: "2022-01-24T16:54:50.900753-05:00"
+    created: "2022-01-24T17:02:20.524284-05:00"
     description: AWX provides a web-based user interface, REST API, and task engine
       built on top of Ansible. It is the upstream project for Tower, a commercial
       derivative of AWX.
@@ -295,7 +324,7 @@ entries:
     version: 2.3.0
   - apiVersion: v1
     appVersion: 8.0.0
-    created: "2022-01-24T16:54:50.897753-05:00"
+    created: "2022-01-24T17:02:20.521136-05:00"
     description: AWX provides a web-based user interface, REST API, and task engine
       built on top of Ansible. It is the upstream project for Tower, a commercial
       derivative of AWX.
@@ -319,7 +348,7 @@ entries:
     version: 2.2.3
   - apiVersion: v1
     appVersion: 8.0.0
-    created: "2022-01-24T16:54:50.894585-05:00"
+    created: "2022-01-24T17:02:20.518242-05:00"
     description: AWX provides a web-based user interface, REST API, and task engine
       built on top of Ansible. It is the upstream project for Tower, a commercial
       derivative of AWX.
@@ -343,7 +372,7 @@ entries:
     version: 2.2.2
   - apiVersion: v1
     appVersion: 8.0.0
-    created: "2022-01-24T16:54:50.891514-05:00"
+    created: "2022-01-24T17:02:20.51511-05:00"
     description: AWX provides a web-based user interface, REST API, and task engine
       built on top of Ansible. It is the upstream project for Tower, a commercial
       derivative of AWX.
@@ -367,7 +396,7 @@ entries:
     version: 2.2.1
   - apiVersion: v1
     appVersion: 8.0.0
-    created: "2022-01-24T16:54:50.888681-05:00"
+    created: "2022-01-24T17:02:20.51216-05:00"
     description: AWX provides a web-based user interface, REST API, and task engine
       built on top of Ansible. It is the upstream project for Tower, a commercial
       derivative of AWX.
@@ -391,7 +420,7 @@ entries:
     version: 2.2.0
   - apiVersion: v1
     appVersion: 8.0.0
-    created: "2022-01-24T16:54:50.886134-05:00"
+    created: "2022-01-24T17:02:20.509565-05:00"
     description: AWX provides a web-based user interface, REST API, and task engine
       built on top of Ansible. It is the upstream project for Tower, a commercial
       derivative of AWX.
@@ -415,7 +444,7 @@ entries:
     version: 2.1.0
   - apiVersion: v1
     appVersion: 8.0.0
-    created: "2022-01-24T16:54:50.8835-05:00"
+    created: "2022-01-24T17:02:20.506733-05:00"
     description: Helm chart for deploying Ansible AWX
     digest: c4d1685e5d6adfa2020906ecb9e71432eb7f4cee4d05d6807c51f29fd4e93cac
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -437,7 +466,7 @@ entries:
     version: 2.0.3
   - apiVersion: v1
     appVersion: 8.0.0
-    created: "2022-01-24T16:54:50.88028-05:00"
+    created: "2022-01-24T17:02:20.503814-05:00"
     description: Helm chart for deploying Ansible AWX
     digest: 4b17fc577d6cfd39c95732d763e4d294246b5839ea8d4151c70e6d8f4da1d2f6
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -459,7 +488,7 @@ entries:
     version: 2.0.2
   - apiVersion: v1
     appVersion: 8.0.0
-    created: "2022-01-24T16:54:50.877321-05:00"
+    created: "2022-01-24T17:02:20.50096-05:00"
     description: Helm chart for deploying Ansible AWX
     digest: 6e70b257c52c18edaa9ec457b696d10a8f35ca700c8543c56aa3d6d353456002
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -481,7 +510,7 @@ entries:
     version: 2.0.1
   - apiVersion: v1
     appVersion: 8.0.0
-    created: "2022-01-24T16:54:50.873948-05:00"
+    created: "2022-01-24T17:02:20.49771-05:00"
     description: Helm chart for deploying Ansible AWX
     digest: 66c8e54c3b7750b04c0cd910401f0fd5fb9cafbd1fef947cffb3272151a8618b
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -503,7 +532,7 @@ entries:
     version: 2.0.0
   - apiVersion: v1
     appVersion: 7.0.0
-    created: "2022-01-24T16:54:50.871411-05:00"
+    created: "2022-01-24T17:02:20.495115-05:00"
     description: Helm chart for deploying Ansible AWX
     digest: 712916a97bc19e9eef06cfa7df018dffcf6c9a75fd29a6f76329a42554c5b746
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -525,7 +554,7 @@ entries:
     version: 2.0.0-rc1
   - apiVersion: v1
     appVersion: 7.0.0
-    created: "2022-01-24T16:54:50.868214-05:00"
+    created: "2022-01-24T17:02:20.491777-05:00"
     description: Helm chart for deploying Ansible AWX
     digest: 2e3a5c35aad64d9906867d92da5f773e101063043df7089c3fa6b44f7c9944b1
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -547,7 +576,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: 7.0.0
-    created: "2022-01-24T16:54:50.865368-05:00"
+    created: "2022-01-24T17:02:20.489003-05:00"
     description: Helm chart for deploying Ansible AWX
     digest: c890978b3e4a349c71b9a3036e751cf2eca8e9f6394aa14bd810a6007e034afc
     home: https://github.com/AdWerx/charts/tree/master/awx
@@ -569,7 +598,7 @@ entries:
     version: 1.0.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-01-24T16:54:50.862378-05:00"
+    created: "2022-01-24T17:02:20.486172-05:00"
     dependencies:
     - condition: rabbitmq.enabled
       name: rabbitmq
@@ -594,7 +623,7 @@ entries:
     version: 0.2.0
   - apiVersion: v1
     appVersion: "1.0"
-    created: "2022-01-24T16:54:50.858866-05:00"
+    created: "2022-01-24T17:02:20.482877-05:00"
     dependencies:
     - condition: rabbitmq.enabled
       name: rabbitmq
@@ -617,7 +646,7 @@ entries:
   faktory:
   - apiVersion: v1
     appVersion: 1.6.0
-    created: "2022-01-24T16:54:50.93862-05:00"
+    created: "2022-01-24T17:02:20.565439-05:00"
     description: A Helm chart for deploying Faktory
     digest: 8520b794570316a2952da78a49d521e4039d1c422a9e1e392f360136afe0fa31
     home: https://github.com/contribsys/faktory
@@ -634,7 +663,7 @@ entries:
     version: 0.12.1
   - apiVersion: v1
     appVersion: 1.5.1
-    created: "2022-01-24T16:54:50.938057-05:00"
+    created: "2022-01-24T17:02:20.564867-05:00"
     description: A Helm chart for deploying Faktory
     digest: a9788dd28bf49139e7a6f97d790b46ede7edc5bbd2838e1d263fe9e1cffeeead
     home: https://github.com/contribsys/faktory
@@ -651,7 +680,7 @@ entries:
     version: 0.12.0
   - apiVersion: v1
     appVersion: 1.4.0
-    created: "2022-01-24T16:54:50.937499-05:00"
+    created: "2022-01-24T17:02:20.564302-05:00"
     description: A Helm chart for deploying Faktory
     digest: 7158e8d852568dc460b27ab6dc2a886833329fb194f19c8a69747de71baffea0
     home: https://github.com/contribsys/faktory
@@ -668,7 +697,7 @@ entries:
     version: 0.11.1
   - apiVersion: v1
     appVersion: 1.4.0
-    created: "2022-01-24T16:54:50.936961-05:00"
+    created: "2022-01-24T17:02:20.563714-05:00"
     description: A Helm chart for deploying Faktory
     digest: 6ee05f0a7fe47e5a7e94d066559d4a5948dfbdf694191d3222ce4220c3c46dcd
     home: https://github.com/contribsys/faktory
@@ -685,7 +714,7 @@ entries:
     version: 0.11.0
   - apiVersion: v1
     appVersion: 1.1.0
-    created: "2022-01-24T16:54:50.936429-05:00"
+    created: "2022-01-24T17:02:20.563111-05:00"
     description: A Helm chart for deploying Faktory
     digest: e6ba3ea16c024aa1ec1a5cbabf0f213d2edf76983f0f8dbae5a223632c62a278
     home: https://github.com/contribsys/faktory
@@ -702,7 +731,7 @@ entries:
     version: 0.10.4
   - apiVersion: v1
     appVersion: 1.1.0
-    created: "2022-01-24T16:54:50.935928-05:00"
+    created: "2022-01-24T17:02:20.562605-05:00"
     description: A Helm chart for deploying Faktory
     digest: 81b8d1f10d669ba7b173c891124bd761861340bcfa76934e1503bbb84030fab5
     home: https://github.com/contribsys/faktory
@@ -719,7 +748,7 @@ entries:
     version: 0.10.3
   - apiVersion: v1
     appVersion: 1.1.0
-    created: "2022-01-24T16:54:50.935449-05:00"
+    created: "2022-01-24T17:02:20.562118-05:00"
     description: A Helm chart for deploying Faktory
     digest: cf0000c6ac57023ef700ce4a054ec73a09614af9279e4b10b40c16da6bc8f85e
     home: https://github.com/contribsys/faktory
@@ -735,7 +764,7 @@ entries:
     version: 0.10.2
   - apiVersion: v1
     appVersion: 1.1.0
-    created: "2022-01-24T16:54:50.934855-05:00"
+    created: "2022-01-24T17:02:20.561491-05:00"
     description: A Helm chart for deploying Faktory
     digest: 2bf5a8c5db66c14f0fd309e796d86ae4cc7519db78ac3461c48d460ba0258f60
     home: https://github.com/contribsys/faktory
@@ -751,7 +780,7 @@ entries:
     version: 0.10.1
   - apiVersion: v1
     appVersion: 1.1.0
-    created: "2022-01-24T16:54:50.93437-05:00"
+    created: "2022-01-24T17:02:20.560969-05:00"
     description: A Helm chart for deploying Faktory
     digest: e473b013b4992270f93e7649bbc678a503b6811b0fe79fbf1241156d44fb4458
     home: https://github.com/contribsys/faktory
@@ -767,7 +796,7 @@ entries:
   github-actions-runner:
   - apiVersion: v2
     appVersion: 2.276.1-20.04-1
-    created: "2022-01-24T16:54:50.940605-05:00"
+    created: "2022-01-24T17:02:20.567405-05:00"
     description: 'Deploys a StatefulSet of [GitHub Actions self-hosted runners](https://github.com/actions/runner)—
       allowing you to run your [GitHub Actions](https://github.com/features/actions)
       workflows on your own infrastructure. '
@@ -779,7 +808,7 @@ entries:
     version: 0.10.3
   - apiVersion: v2
     appVersion: 2.276.1-20.04-1
-    created: "2022-01-24T16:54:50.940131-05:00"
+    created: "2022-01-24T17:02:20.566924-05:00"
     description: 'Deploys a StatefulSet of [GitHub Actions self-hosted runners](https://github.com/actions/runner)—
       allowing you to run your [GitHub Actions](https://github.com/features/actions)
       workflows on your own infrastructure. '
@@ -791,7 +820,7 @@ entries:
     version: 0.10.2
   - apiVersion: v2
     appVersion: 2.276.1-20.04-1
-    created: "2022-01-24T16:54:50.939446-05:00"
+    created: "2022-01-24T17:02:20.565994-05:00"
     description: 'Deploys a StatefulSet of [GitHub Actions self-hosted runners](https://github.com/actions/runner)—
       allowing you to run your [GitHub Actions](https://github.com/features/actions)
       workflows on your own infrastructure. '
@@ -803,7 +832,7 @@ entries:
     version: 0.10.1
   - apiVersion: v2
     appVersion: 2.274.2-20.04-4
-    created: "2022-01-24T16:54:50.941054-05:00"
+    created: "2022-01-24T17:02:20.567845-05:00"
     description: 'Deploys a StatefulSet of [GitHub Actions self-hosted runners](https://github.com/actions/runner)—
       allowing you to run your [GitHub Actions](https://github.com/features/actions)
       workflows on your own infrastructure. '
@@ -813,4 +842,4 @@ entries:
     urls:
     - github-actions-runner-0.9.1.tgz
     version: 0.9.1
-generated: "2022-01-24T16:54:50.855158-05:00"
+generated: "2022-01-24T17:02:20.47933-05:00"
