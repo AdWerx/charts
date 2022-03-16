@@ -1,0 +1,3 @@
+extraConfiguration: |-
+  SOCIAL_AUTH_SAML_SP_ENTITY_ID = 'https://awx.example.org'
+  OTHER_VAR = 'test'

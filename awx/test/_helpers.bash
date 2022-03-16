@@ -1,3 +1,6 @@
+load '../../../test/bats-support/load'
+load '../../../test/bats-assert/load'
+
 # chart_dir returns the directory for the chart
 chart_dir() {
   echo "${BATS_TEST_DIRNAME}/../.."
@@ -13,7 +16,7 @@ template() {
   local file="$1"
   shift
 
-  run_debug helm template -s "templates/$file.yaml" "$(chart_dir)" "$@"
+  run helm template -s "templates/$file.yaml" "$(chart_dir)" "$@"
 }
 
 template_with_defaults() {

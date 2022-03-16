@@ -174,4 +174,4 @@ data:
 
     AWX_ANSIBLE_COLLECTIONS_PATHS = '/var/lib/awx/vendor/awx_ansible_collections'
 
-{{ .Values.extraConfiguration | default "" | nindent 2 }}
+{{ .Values.extraConfiguration | default "" | indent 4 }}
