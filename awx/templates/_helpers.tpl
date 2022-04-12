@@ -134,4 +134,7 @@ provides the container env definitions
     secretKeyRef:
       name: {{ include "awx.secretKeySecretName" . }}
       key: SECRET_KEY
+{{- if .Values.extraEnv }}
+{{ toYaml .Values.extraEnv}}
+{{- end }}
 {{- end -}}

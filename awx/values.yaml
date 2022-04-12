@@ -11,6 +11,7 @@ image:
   tag: "17.1.0"
   pullPolicy: IfNotPresent
 extraVolumes: []
+extraEnv: []
 nodeSelector:
 affinity:
 tolerations:

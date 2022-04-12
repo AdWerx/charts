@@ -66,6 +66,7 @@ Per the AWX documentation, if you choose to turn off Job Isolation you can do so
 | default_admin_user | string | `nil` |  |
 | extraConfiguration | string | `"# INSIGHTS_URL_BASE = \"https://example.org\""` |  |
 | extraVolumes | list | `[]` |  |
+| extraEnv | list | `[]` |  |
 | fullnameOverride | string | `""` |  |
 | image.pullPolicy | string | `"IfNotPresent"` |  |
 | image.repository | string | `"ansible/awx"` |  |

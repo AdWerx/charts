@@ -1,3 +1,8 @@
+2022-04-12 - 3.4.4
+---
+
+* Addind extraEnv var to add env var to all awx containers
+
 2021-11-30 - 3.4.0
 ---
 
