@@ -1,8 +1,18 @@
-# remove this
-# use port-forward or create own ingress
 {{- if .Values.ui.ingress.enabled -}}
 {{- $fullName := include "faktory.fullname" . }}
+{{- $svcPort := .Values.ui.service.port -}}
+{{- if and .Values.ui.ingress.className (not (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion)) }}
+  {{- if not (hasKey .Values.ui.ingress.annotations "kubernetes.io/ingress.class") }}
+  {{- $_ := set .Values.ui.ingress.annotations "kubernetes.io/ingress.class" .Values.ui.ingress.className}}
+  {{- end }}
+{{- end }}
+{{- if semverCompare ">=1.19-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1
+{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+apiVersion: networking.k8s.io/v1beta1
+{{- else -}}
 apiVersion: extensions/v1beta1
+{{- end }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}
@@ -16,7 +26,10 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
-{{- if .Values.ui.ingress.tls }}
+  {{- if and .Values.ui.ingress.className (semverCompare ">=1.18-0" .Capabilities.KubeVersion.GitVersion) }}
+  ingressClassName: {{ .Values.ui.ingress.className }}
+  {{- end }}
+  {{- if .Values.ui.ingress.tls }}
   tls:
   {{- range .Values.ui.ingress.tls }}
     - hosts:
@@ -32,10 +45,20 @@ spec:
       http:
         paths:
         {{- range .paths }}
-          - path: {{ . }}
+          - path: {{ .path }}
+            {{- if and .pathType (semverCompare ">=1.18-0" $.Capabilities.KubeVersion.GitVersion) }}
+            pathType: {{ .pathType }}
+            {{- end }}
             backend:
+              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
+              service:
+                name: {{ $fullName }}-ui
+                port:
+                  number: {{ $svcPort }}
+              {{- else }}
               serviceName: {{ $fullName }}-ui
-              servicePort: http-ui
+              servicePort: {{ $svcPort }}
+              {{- end }}
         {{- end }}
   {{- end }}
 {{- end }}
