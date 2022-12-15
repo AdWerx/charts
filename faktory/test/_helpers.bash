@@ -22,7 +22,7 @@ run_debug() {
 }
 
 get() {
-  got=$(echo "$output" | yq -r $@)
+  got=$(echo "$output" | yq -r "$@")
   $(echo "GET: $@ -> $got" >> /dev/stderr)
   echo "$got"
 }

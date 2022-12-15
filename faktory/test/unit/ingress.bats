@@ -13,19 +13,19 @@ name="ui-ingress"
   [ "$got" = "/subpath" ]
 }
 
-@test "$name: serviceName and servicePort match UI service"  {
+@test "$name: service.name and service.port match UI service"  {
   template "ui-service"
 
   get ".metadata.name"
   service_name="$got"
 
-  get ".spec.ports[0].name"
+  get ".spec.ports[0].port"
   service_port="$got"
 
   template $name -f $(valuesPath ingress)
 
-  get '.spec.rules[0].http.paths[0].backend.serviceName'
+  get '.spec.rules[0].http.paths[0].backend.service.name'
   [ "$got" = "$service_name" ]
-  get '.spec.rules[0].http.paths[0].backend.servicePort'
+  get '.spec.rules[0].http.paths[0].backend.service.port.number'
   [ "$got" = "$service_port" ]
 }
