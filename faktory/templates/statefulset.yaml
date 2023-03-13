@@ -89,7 +89,7 @@ spec:
 {{- end }}
 {{- end }}
 {{- range $key, $value := .Values.extraEnv }}
-            — name: {{ $key }}
+            - name: {{ $key }}
               value: {{ $value }}
 {{- end }}
           ports:
