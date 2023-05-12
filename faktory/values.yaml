@@ -17,17 +17,17 @@ image:
 password:
 
 # -- Use a key from an existing secret for the faktory password
-# passwordExistingSecret:
-#   name:
-#   key:
+passwordExistingSecret:
+  name:
+  key:
 
 # -- Use this variable for your faktory license or use licenseExistingSecret
 # license: ""
 
 # -- Use a key from an existing secret for the faktory pro license
-# licenseExistingSecret:
-#   name:
-#   key:
+licenseExistingSecret:
+  name:
+  key:
 
 server: {}
   ## Not implemented, please open an issue in adwerx/charts to request this feature
@@ -188,8 +188,8 @@ securityContext:
     add:
       - SYS_PTRACE
 
-# -- Whether to enable third-party prometheus exporter for faktory metrics
 metrics:
+  # -- Whether to enable third-party prometheus exporter for faktory metrics
   enabled: false
   image:
     repository: envek/faktory_exporter
@@ -198,13 +198,13 @@ metrics:
   serviceMonitor:
     enabled: false
     # -- Specify a namespace if needed
-    # namespace: monitoring
-    # fallback to the prometheus default unless specified
-    # interval: 10s
-    ## Set of labels that need to be present in ServiceMonitor to be discovered by Prometheus:
-    ## [Prometheus Selector Label](https://github.com/bitnami/charts/tree/master/bitnami/prometheus-operator#prometheus-operator-1)
-    ## [Kube Prometheus Selector Label](https://github.com/bitnami/charts/tree/master/bitnami/prometheus-operator#exporters)
-    ## E.g. if you use prometheus-operator:
+    # and fallback to the prometheus default unless specified
+    namespace: 
+    interval: 
+    # Set of labels that need to be present in ServiceMonitor to be discovered by Prometheus:
+    # [Prometheus Selector Label](https://github.com/bitnami/charts/tree/master/bitnami/prometheus-operator#prometheus-operator-1)
+    # [Kube Prometheus Selector Label](https://github.com/bitnami/charts/tree/master/bitnami/prometheus-operator#exporters)
+    # E.g. if you use prometheus-operator:
     # labels:
     #   release: prometheus-operator
     labels: {}

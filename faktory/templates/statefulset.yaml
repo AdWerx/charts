@@ -69,18 +69,18 @@ spec:
             - name: FAKTORY_PASSWORD
               valueFrom:
                 secretKeyRef:
-{{- if .Values.passwordExistingSecret }}
+{{- if .Values.passwordExistingSecret.name }}
                   name: {{ .Values.passwordExistingSecret.name }}
                   key: {{ .Values.passwordExistingSecret.key }}
 {{- else }}
                   name: {{ include "faktory.fullname" . }}
                   key: password
 {{- end }}
-{{- if or .Values.license .Values.licenseExistingSecret }}
+{{- if or .Values.license .Values.licenseExistingSecret.name }}
             - name: FAKTORY_LICENSE
               valueFrom:
                 secretKeyRef:
-{{- if .Values.licenseExistingSecret }}
+{{- if .Values.licenseExistingSecret.name }}
                   name: {{ .Values.licenseExistingSecret.name }}
                   key: {{ .Values.licenseExistingSecret.key }}
 {{- else }}
@@ -138,7 +138,7 @@ spec:
             - name: FAKTORY_PASSWORD
               valueFrom:
                 secretKeyRef:
-{{- if .Values.passwordExistingSecret }}
+{{- if .Values.passwordExistingSecret.name }}
                   name: {{ .Values.passwordExistingSecret.name }}
                   key: {{ .Values.passwordExistingSecret.key }}
 {{- else }}

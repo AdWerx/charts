@@ -74,7 +74,8 @@ ui:
     hosts:
       - host: example.com
         paths:
-          - /faktory
+          - path: /faktory
+            pathType: ImplementationSpecific
     annotations:
       nginx.ingress.kubernetes.io/configuration-snippet: |
         proxy_set_header X-Script-Name /faktory;

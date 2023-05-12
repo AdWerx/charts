@@ -3,9 +3,9 @@ STOP! README.md is automatically generated using helm-docs
 Run `helm-docs .` to generate.
 If you're looking at README.md.gotmpl, then you're in the right place.
 -->
-# Ansible AWX
+# Contribsys Faktory
 
-![Version: 0.11.1](https://img.shields.io/badge/Version-0.11.1-informational?style=flat-square) ![AppVersion: 1.4.0](https://img.shields.io/badge/AppVersion-1.4.0-informational?style=flat-square)
+![Version: 0.12.3](https://img.shields.io/badge/Version-0.12.3-informational?style=flat-square) ![AppVersion: 1.6.0](https://img.shields.io/badge/AppVersion-1.6.0-informational?style=flat-square)
 
 A Helm chart for deploying Faktory
 
@@ -38,7 +38,7 @@ helm repo add adwerx https://adwerx.github.io/charts
 Install the chart:
 
 ```bash
-helm install adwerx/awx
+helm install adwerx/faktory
 ```
 
 ## Maintainers
@@ -79,16 +79,24 @@ https://github.com/kubernetes/kubernetes/issues/24215
 | image.registry | string | `"docker.io"` |  |
 | image.repository | string | `"contribsys/faktory"` |  |
 | image.tag | string | `"1.5.1"` |  |
+| licenseExistingSecret | object | `{"key":null,"name":null}` | Use a key from an existing secret for the faktory pro license |
 | livenessProbe.enabled | bool | `true` |  |
 | livenessProbe.failureThreshold | int | `6` |  |
 | livenessProbe.initialDelaySeconds | int | `30` |  |
 | livenessProbe.periodSeconds | int | `10` |  |
 | livenessProbe.successThreshold | int | `1` |  |
 | livenessProbe.timeoutSeconds | int | `5` |  |
-| metrics | object | `{"enabled":false,"image":{"pullPolicy":"IfNotPresent","repository":"envek/faktory_exporter","tag":"0.4.1"},"serviceMonitor":{"enabled":false,"labels":{}}}` | Whether to enable third-party prometheus exporter for faktory metrics |
-| metrics.serviceMonitor.labels | object | `{}` | Specify a namespace if needed namespace: monitoring fallback to the prometheus default unless specified interval: 10s labels:   release: prometheus-operator |
+| metrics.enabled | bool | `false` | Whether to enable third-party prometheus exporter for faktory metrics |
+| metrics.image.pullPolicy | string | `"IfNotPresent"` |  |
+| metrics.image.repository | string | `"envek/faktory_exporter"` |  |
+| metrics.image.tag | string | `"0.4.1"` |  |
+| metrics.serviceMonitor.enabled | bool | `false` |  |
+| metrics.serviceMonitor.interval | string | `nil` |  |
+| metrics.serviceMonitor.labels | object | `{}` |  |
+| metrics.serviceMonitor.namespace | string | `nil` | Specify a namespace if needed and fallback to the prometheus default unless specified |
 | nodeSelector | object | `{}` |  |
 | password | string | `nil` | Set a password for faktory using this variable or passwordExistingSecret |
+| passwordExistingSecret | object | `{"key":null,"name":null}` | Use a key from an existing secret for the faktory password |
 | persistence.accessModes[0] | string | `"ReadWriteOnce"` |  |
 | persistence.annotations | object | `{}` |  |
 | persistence.enabled | bool | `true` |  |
@@ -102,7 +110,7 @@ https://github.com/kubernetes/kubernetes/issues/24215
 | replicaCount | int | `1` |  |
 | resources | object | `{}` |  |
 | securityContext | object | `{"capabilities":{"add":["SYS_PTRACE"]}}` | You may need the following settings to be able to write to the persistent disk your cloud provider attaches for the PVC. If Faktory fails to start with a permission error writing to disk in environments such as GKE, this may solve the issue. |
-| server | object | `{}` | Use a key from an existing secret for the faktory password passwordExistingSecret:   name:   key: -- Use this variable for your faktory license or use licenseExistingSecret license: "" -- Use a key from an existing secret for the faktory pro license licenseExistingSecret:   name:   key: |
+| server | object | `{}` |  |
 | tolerations | list | `[]` |  |
 | ui.enabled | bool | `true` | Whether to run the Faktory web UI or not |
 | ui.ingress.annotations | object | `{}` |  |
