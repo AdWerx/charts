@@ -81,6 +81,11 @@ Per the AWX documentation, if you choose to turn off Job Isolation you can do so
 | postgresql.enabled | bool | `true` | Set to false if using external postgresql |
 | postgresql.postgresqlHost | string | `nil` | Set this only if using an external postgresql database. Alternatively, you can provide this value through postgresqlExistingSecret. |
 | postgresql.postgresqlPassword | string | `nil` | You must set this value or provide postgresqlExistingSecret |
+| postgresql.pv.enabled | bool | `false` | Set to true if you want to create local pv |
+| postgresql.pv.size | string | `8Gi` | Size of the local pv to create postgres default is 8Gi |
+| postgresql.pv.path | string | `"/mnt/data"` | path of where to mount the pv |
+| postgresql.persistence.selector | {} | `{"matchLabels": {"type": "awx-local"}` | Selector to match an existing Persistent Volume   |
+| postgresql.volumePermissions.enabled | bool | `false` | Set to true if you want to create local pv with non root permissions |
 | postgresqlExistingSecret | string | `nil` | The name of an existing secret in the same namespace containing DATABASE_USER, DATABASE_NAME, DATABASE_HOST, DATABASE_HOST, DATABASE_PORT, DATABASE_PASSWORD, DATABASE_ADMIN_PASSWORD keys and values |
 | redis.image.pullPolicy | string | `"IfNotPresent"` |  |
 | redis.image.repository | string | `"redis"` |  |

@@ -1,0 +1,19 @@
+{{- if and ( .Values.postgresql.persistence.enabled ) ( .Values.postgresql.persistence.pv.enabled ) }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ include "awx.fullname" . }}-volume
+  labels:
+    type: {{ .Values.postgresql.persistence.pv.selector.matchLabels.type }}
+    app.kubernetes.io/name: {{ include "awx.name" . }}
+    helm.sh/chart: {{ include "awx.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  capacity:
+    storage: {{ .Values.postgresql.persistence.pv.size }}
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: {{ .Values.postgresql.persistence.pv.path }}
+{{- end }}
