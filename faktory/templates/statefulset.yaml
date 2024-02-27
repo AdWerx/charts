@@ -27,7 +27,8 @@ spec:
       {{- include "faktory.imagePullSecrets" . | indent 6 }}
       containers:
         - name: config-watcher
-          image: busybox
+          image: "{{ template "faktory.image" dict "image" .Values.configWatcher.image "global" .Values.global }}"
+          imagePullPolicy: {{ .Values.configWatcher.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           command:
@@ -53,7 +54,7 @@ spec:
             - name: configs
               mountPath: /conf
         - name: server
-          image: "{{ include "faktory.image" . }}"
+          image: "{{ template "faktory.image" dict "image" .Values.image "global" .Values.global }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - /faktory
@@ -129,7 +130,7 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
 {{- if .Values.metrics.enabled }}
         - name: metrics-exporter
-          image: "{{ .Values.metrics.image.repository }}:{{ .Values.metrics.image.tag }}"
+          image: "{{ template "faktory.image" dict "image" .Values.metrics.image "global" .Values.global }}"
           imagePullPolicy: {{ .Values.metrics.image.pullPolicy }}
           ports:
             - containerPort: 9386

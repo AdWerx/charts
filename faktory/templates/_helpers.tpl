@@ -35,15 +35,8 @@ Create chart name and version as used by the chart label.
 Returns Faktory image name
 */}}
 {{- define "faktory.image" -}}
-{{- if .Values.global }}
-    {{- if .Values.global.imageRegistry }}
-        {{- printf "%s/%s:%s" .Values.global.imageRegistry .Values.image.repository .Values.image.tag -}}
-    {{- else -}}
-        {{- printf "%s/%s:%s" .Values.image.registry .Values.image.repository .Values.image.tag -}}
-    {{- end -}}
-{{- else -}}
-    {{- printf "%s/%s:%s" .Values.image.registry .Values.image.repository .Values.image.tag -}}
-{{- end -}}
+{{ $imageRegistry := coalesce .global.imageRegistry .image.registry }}
+{{- printf "%s/%s:%s" $imageRegistry .image.repository .image.tag -}}
 {{- end -}}
 
 {{/*

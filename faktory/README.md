@@ -72,6 +72,10 @@ https://github.com/kubernetes/kubernetes/issues/24215
 |-----|------|---------|-------------|
 | affinity | object | `{}` |  |
 | config | string | `nil` | A ConfigMap structure of config file names (keys) and config file contents (values). |
+| configWatcher.image.registry | string | `"docker.io"` |  |
+| configWatcher.image.pullPolicy | string | `"IfNotPresent"` |  |
+| configWatcher.image.repository | string | `"library/busybox"` |  |
+| configWatcher.image.tag | string | `"latest"` |  |
 | environment | string | `"production"` | The Faktory server environment |
 | extraEnv | object | `{}` | key-value map of variables to define |
 | global.faktory | object | `{}` |  |
@@ -87,6 +91,7 @@ https://github.com/kubernetes/kubernetes/issues/24215
 | livenessProbe.successThreshold | int | `1` |  |
 | livenessProbe.timeoutSeconds | int | `5` |  |
 | metrics.enabled | bool | `false` | Whether to enable third-party prometheus exporter for faktory metrics |
+| metrics.image.registry | string | `"docker.io"` |  |
 | metrics.image.pullPolicy | string | `"IfNotPresent"` |  |
 | metrics.image.repository | string | `"envek/faktory_exporter"` |  |
 | metrics.image.tag | string | `"0.4.1"` |  |
