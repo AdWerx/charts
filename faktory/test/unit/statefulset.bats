@@ -18,6 +18,22 @@ name="statefulset"
   [ "$got" = "docker.io/contribsys/faktory:1.5.1" ]
 }
 
+@test "$name: uses correct image registry"  {
+  template $name --set image.registry=user.quay.io
+
+  get '.spec.template.spec.containers[1].image'
+  [ "$got" = "user.quay.io/contribsys/faktory:1.5.1" ]
+}
+
+@test "$name: configWater uses correct image registry and repository"  {
+  template $name \
+    --set configWatcher.image.registry=us-east1.pkg.dev \
+    --set configWatcher.image.repository=prod/busybox
+
+  get '.spec.template.spec.containers[] | select(.name == "config-watcher") | .image'
+  [ "$got" = "us-east1.pkg.dev/prod/busybox:latest" ]
+}
+
 @test "$name: uses correct command" {
   template $name
 
