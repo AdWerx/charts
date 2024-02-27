@@ -188,10 +188,18 @@ securityContext:
     add:
       - SYS_PTRACE
 
+configWatcher:
+  image:
+    registry: docker.io
+    repository: library/busybox
+    tag: "latest"
+    pullPolicy: IfNotPresent
+
 metrics:
   # -- Whether to enable third-party prometheus exporter for faktory metrics
   enabled: false
   image:
+    registry: docker.io
     repository: envek/faktory_exporter
     tag: 0.4.1
     pullPolicy: IfNotPresent
